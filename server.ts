@@ -337,7 +337,7 @@ const DATASET_KNOWLEDGE_BASE = [
 ];
 
 // Crop Disease Analysis Endpoint using Gemini 3.6 Flash Vision with Grounded Dataset Memory
-app.post('/api/analyze', async (req, res) => {
+app.post(['/api/analyze', '/api/index', '/analyze'], async (req, res) => {
   try {
     const { image, crop } = req.body;
 
