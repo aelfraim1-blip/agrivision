@@ -1,5 +1,5 @@
 {
-  "name": "AgriVision - Rice & Corn Disease Detector",
+  "name": "PALA-IS - Rice & Corn Disease Detector",
   "description": "Smartphone camera-based disease detection pipeline for rice and corn using CLAHE enhancement, UNet segmentation, ResNet50 + EfficientNetB3 hybrid classification, and Grad-CAM attention heatmaps.",
   "requestFramePermissions": ["camera"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

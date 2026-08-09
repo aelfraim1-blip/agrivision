@@ -20,7 +20,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, savedLo
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="font-extrabold text-lg text-white tracking-tight">CROPSIGHT<span className="text-emerald-400"> AI</span></span>
+                <span className="font-extrabold text-lg text-white tracking-tight">PALA-IS<span className="text-emerald-400"> AI</span></span>
                 <div className="hidden lg:flex items-center space-x-1.5 text-[10px] font-mono py-1 px-2.5 bg-slate-950 border border-slate-800 rounded-full text-slate-300">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                   <span>SYSTEM READY: HYBRID PIPELINE V2.4</span>
