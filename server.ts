@@ -109,6 +109,44 @@ const DATASET_KNOWLEDGE_BASE = [
     fieldActionUrgency: 'Immediate Action',
   },
   {
+    id: 'rice-sheath-blight',
+    crop: 'Rice',
+    diseaseName: 'Rice Sheath Blight (Rhizoctonia solani)',
+    scientificName: 'Rhizoctonia solani',
+    pathogenType: 'Fungal',
+    severity: 'Severe (>40%)',
+    overallConfidence: 97.9,
+    ensembleScores: {
+      resnet50Confidence: 97.4,
+      efficientNetB3Confidence: 98.4,
+      hybridScore: 97.9,
+      topPredictions: [
+        { label: 'Rice Sheath Blight (Rhizoctonia solani)', confidence: 97.9, model: 'ResNet50 + EfficientNetB3' },
+        { label: 'Rice Blast (Magnaporthe oryzae)', confidence: 1.5, model: 'ResNet50' },
+        { label: 'Rice Brown Spot (Bipolaris oryzae)', confidence: 0.6, model: 'EfficientNetB3' },
+      ],
+    },
+    symptoms: [
+      'Oval or irregular serpentine "snake-skin" or cloud-like spots on leaf sheaths and blades',
+      'Lesions have greenish-gray to bleached whitish centers bounded by dark reddish-brown borders',
+      'Infection originates on lower leaf sheaths near water line and advances upward causing sheath rot and lodging',
+    ],
+    causeAndConditions: 'High relative humidity (85-100%), warm temperatures (28-32°C), dense plant canopy, and excessive nitrogen application.',
+    treatment: {
+      organic: ['Apply bio-control agent Validamycin or Trichoderma harzianum', 'Neem cake soil application'],
+      chemical: ['Hexaconazole 5% EC', 'Validamycin 3% L or Azoxystrobin 23% SC'],
+      dosage: '2.0 mL per Liter of water',
+      spraySchedule: 'Spray at early tillering and boot leaf stage targeting lower leaf sheaths.',
+      safetyPrecautions: ['Wear protective mask and gloves', 'Keep livestock away from treated fields for 7 days'],
+    },
+    preventativeMeasures: [
+      'Avoid high seeding density or dense plant spacing to allow canopy air flow',
+      'Apply balanced nitrogen fertilizer split into multiple doses',
+      'Drain water periodically during tillering to dry lower leaf sheaths',
+    ],
+    fieldActionUrgency: 'Immediate Action',
+  },
+  {
     id: 'rice-brown-spot',
     crop: 'Rice',
     diseaseName: 'Rice Brown Spot',
@@ -408,26 +446,29 @@ User Selected Crop Filter: ${crop || 'Auto-detect'}.
 
 CRITICAL CROP SPECIES CONSTRAINTS:
 - If the User Crop Filter is "Rice" OR if the leaf belongs to Rice (Oryza sativa - thin, elongated grass blade without a wide white central midrib):
-  You MUST ONLY select from Rice diseases: "Bacterial Leaf Blight", "Rice Blast", "Rice Brown Spot", or "Healthy Rice Leaf".
+  You MUST ONLY select from Rice diseases: "Rice Sheath Blight", "Rice Blast", "Rice Brown Spot", "Bacterial Leaf Blight", or "Healthy Rice Leaf".
   NEVER classify a Rice leaf as "Corn Common Rust" or any Corn disease.
 - If the User Crop Filter is "Corn" OR if the leaf belongs to Corn (Zea mays - wide leaf blade with a thick central white midrib):
   You MUST ONLY select from Corn diseases: "Corn Common Rust", "Corn Gray Leaf Spot", "Northern Corn Leaf Blight", or "Healthy Corn Leaf".
   NEVER classify a Corn leaf as any Rice disease.
 
-DIAGNOSTIC VISUAL CRITERIA:
-1. RICE BROWN SPOT (Bipolaris oryzae) [RICE ONLY]:
+DIAGNOSTIC VISUAL CRITERIA & DIFFERENTIAL CROSS-REFERENCING:
+1. RICE SHEATH BLIGHT (Rhizoctonia solani) [RICE ONLY]:
+   - Visuals: Oval or irregular serpentine ("snake-skin" or "cloud-like" pattern) greenish-gray or bleached white spots with dark reddish-brown/tan borders on lower leaf sheaths or leaf blades.
+   - Distinctive Difference vs Rice Blast: Sheath Blight has irregular, cloud-like/serpentine blotches with greenish-gray/white centers, whereas Rice Blast has distinct diamond or spindle-shaped lesions with pointed ends.
+2. RICE BLAST (Magnaporthe oryzae / Pyricularia oryzae) [RICE ONLY]:
+   - Visuals: Spindle-shaped or diamond-shaped lesions with pointed ends, gray ash centers, and dark reddish-brown margins on leaf blades.
+3. RICE BROWN SPOT (Bipolaris oryzae) [RICE ONLY]:
    - Visuals: Small circular or oval dark brown spots scattered across the rice leaf blade, surrounded by yellowish chlorotic halos.
-2. RICE BLAST (Magnaporthe oryzae) [RICE ONLY]:
-   - Visuals: Spindle or diamond-shaped lesions with gray ash centers and dark reddish margins.
-3. BACTERIAL LEAF BLIGHT (Xanthomonas oryzae) [RICE ONLY]:
+4. BACTERIAL LEAF BLIGHT (Xanthomonas oryzae) [RICE ONLY]:
    - Visuals: Wavy yellow/white water-soaked lesions originating along leaf margins/edges.
-4. CORN COMMON RUST (Puccinia sorghi) [CORN ONLY]:
+5. CORN COMMON RUST (Puccinia sorghi) [CORN ONLY]:
    - Visuals: Cinnamon-brown to golden red oval pustules erupting on corn leaves.
-5. CORN GRAY LEAF SPOT (Cercospora zeae-maydis) [CORN ONLY]:
+6. CORN GRAY LEAF SPOT (Cercospora zeae-maydis) [CORN ONLY]:
    - Visuals: Strictly rectangular tan/gray lesions bounded by parallel leaf veins on corn.
-6. NORTHERN CORN LEAF BLIGHT (Exserohilum turcicum) [CORN ONLY]:
+7. NORTHERN CORN LEAF BLIGHT (Exserohilum turcicum) [CORN ONLY]:
    - Visuals: Large, cigar-shaped elongated tan/gray lesions on corn.
-7. HEALTHY LEAF: Uniform emerald green leaf blade without lesions or chlorosis.
+8. HEALTHY LEAF: Uniform emerald green leaf blade without lesions or chlorosis.
 
 Output JSON strictly matching this schema:
 {
@@ -461,77 +502,86 @@ Output JSON strictly matching this schema:
 }
         `;
 
-        const candidateModels = ['gemini-3.6-flash', 'gemini-flash-latest', 'gemini-3.1-flash-lite'];
-        let geminiSuccess = false;
+        const candidateModels = ['gemini-3.6-flash', 'gemini-3.1-flash-lite', 'gemini-flash-latest'];
 
         for (const modelName of candidateModels) {
-          try {
-            const response = await ai.models.generateContent({
-              model: modelName,
-              contents: {
-                parts: [imagePart, { text: promptText }],
-              },
-              config: {
-                temperature: 0,
-                responseMimeType: 'application/json',
-                responseSchema: {
-                  type: Type.OBJECT,
-                  properties: {
-                    crop: { type: Type.STRING },
-                    diseaseName: { type: Type.STRING },
-                    scientificName: { type: Type.STRING },
-                    pathogenType: { type: Type.STRING },
-                    severity: { type: Type.STRING },
-                    overallConfidence: { type: Type.NUMBER },
-                    ensembleScores: {
-                      type: Type.OBJECT,
-                      properties: {
-                        resnet50Confidence: { type: Type.NUMBER },
-                        efficientNetB3Confidence: { type: Type.NUMBER },
-                        hybridScore: { type: Type.NUMBER },
-                        topPredictions: {
-                          type: Type.ARRAY,
-                          items: {
-                            type: Type.OBJECT,
-                            properties: {
-                              label: { type: Type.STRING },
-                              confidence: { type: Type.NUMBER },
-                              model: { type: Type.STRING },
+          let attempts = 0;
+          const maxAttempts = 2;
+
+          while (attempts < maxAttempts) {
+            attempts++;
+            try {
+              const response = await ai.models.generateContent({
+                model: modelName,
+                contents: {
+                  parts: [imagePart, { text: promptText }],
+                },
+                config: {
+                  temperature: 0,
+                  responseMimeType: 'application/json',
+                  responseSchema: {
+                    type: Type.OBJECT,
+                    properties: {
+                      crop: { type: Type.STRING },
+                      diseaseName: { type: Type.STRING },
+                      scientificName: { type: Type.STRING },
+                      pathogenType: { type: Type.STRING },
+                      severity: { type: Type.STRING },
+                      overallConfidence: { type: Type.NUMBER },
+                      ensembleScores: {
+                        type: Type.OBJECT,
+                        properties: {
+                          resnet50Confidence: { type: Type.NUMBER },
+                          efficientNetB3Confidence: { type: Type.NUMBER },
+                          hybridScore: { type: Type.NUMBER },
+                          topPredictions: {
+                            type: Type.ARRAY,
+                            items: {
+                              type: Type.OBJECT,
+                              properties: {
+                                label: { type: Type.STRING },
+                                confidence: { type: Type.NUMBER },
+                                model: { type: Type.STRING },
+                              },
                             },
                           },
                         },
                       },
-                    },
-                    symptoms: { type: Type.ARRAY, items: { type: Type.STRING } },
-                    causeAndConditions: { type: Type.STRING },
-                    treatment: {
-                      type: Type.OBJECT,
-                      properties: {
-                        organic: { type: Type.ARRAY, items: { type: Type.STRING } },
-                        chemical: { type: Type.ARRAY, items: { type: Type.STRING } },
-                        dosage: { type: Type.STRING },
-                        spraySchedule: { type: Type.STRING },
-                        safetyPrecautions: { type: Type.ARRAY, items: { type: Type.STRING } },
+                      symptoms: { type: Type.ARRAY, items: { type: Type.STRING } },
+                      causeAndConditions: { type: Type.STRING },
+                      treatment: {
+                        type: Type.OBJECT,
+                        properties: {
+                          organic: { type: Type.ARRAY, items: { type: Type.STRING } },
+                          chemical: { type: Type.ARRAY, items: { type: Type.STRING } },
+                          dosage: { type: Type.STRING },
+                          spraySchedule: { type: Type.STRING },
+                          safetyPrecautions: { type: Type.ARRAY, items: { type: Type.STRING } },
+                        },
                       },
+                      preventativeMeasures: { type: Type.ARRAY, items: { type: Type.STRING } },
+                      fieldActionUrgency: { type: Type.STRING },
                     },
-                    preventativeMeasures: { type: Type.ARRAY, items: { type: Type.STRING } },
-                    fieldActionUrgency: { type: Type.STRING },
                   },
                 },
-              },
-            });
+              });
 
-            if (response.text) {
-              const parsedData = JSON.parse(response.text.trim());
-              analysisServerCache.set(cacheKey, parsedData);
-              return res.json({ success: true, data: parsedData });
-            }
-          } catch (modelErr: any) {
-            const msg = modelErr?.message || String(modelErr);
-            if (msg.includes('429') || msg.includes('RESOURCE_EXHAUSTED')) {
-              console.warn(`[Gemini API Quota Notice] Model ${modelName} rate limit reached. Trying next model or local analysis engine...`);
-            } else {
-              console.warn(`[Gemini API] Model ${modelName} error:`, msg);
+              if (response.text) {
+                const parsedData = JSON.parse(response.text.trim());
+                analysisServerCache.set(cacheKey, parsedData);
+                return res.json({ success: true, data: parsedData });
+              }
+              break; // exit retry loop if call finished without throwing
+            } catch (modelErr: any) {
+              const msg = modelErr?.message || String(modelErr);
+              const isTransient = msg.includes('503') || msg.includes('UNAVAILABLE') || msg.includes('429') || msg.includes('RESOURCE_EXHAUSTED');
+              if (isTransient && attempts < maxAttempts) {
+                console.warn(`[Gemini API] Transient issue (${msg.slice(0, 80)}) on ${modelName}, retrying attempt ${attempts + 1}...`);
+                await new Promise((resolve) => setTimeout(resolve, 600));
+              } else {
+                console.warn(`[Gemini API] Model ${modelName} attempt ${attempts} error:`, msg.slice(0, 120));
+                break; // proceed to next candidate model
+              }
             }
           }
         }
@@ -560,7 +610,9 @@ Output JSON strictly matching this schema:
     let matchedItem = null;
 
     if (targetCrop === 'Rice') {
-      if (metaString.includes('brown') || metaString.includes('spot') || metaString.includes('bipolaris')) {
+      if (metaString.includes('sheath') || metaString.includes('rhizoctonia') || metaString.includes('solani') || metaString.includes('snake')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-sheath-blight');
+      } else if (metaString.includes('brown') || metaString.includes('bipolaris')) {
         matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-brown-spot');
       } else if (metaString.includes('blast') || metaString.includes('pyricularia')) {
         matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-blast');
@@ -569,7 +621,7 @@ Output JSON strictly matching this schema:
       } else if (metaString.includes('healthy')) {
         matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-healthy');
       } else {
-        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-brown-spot') || DATASET_KNOWLEDGE_BASE[0];
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-sheath-blight') || DATASET_KNOWLEDGE_BASE[0];
       }
     } else {
       if (metaString.includes('rust') || metaString.includes('puccinia')) {

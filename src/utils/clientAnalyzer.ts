@@ -27,6 +27,9 @@ export function analyzeImageClientSide(imageDataUrl: string, crop: CropType): An
   const itemsForCrop = SAMPLE_DATASET.filter((i) => i.crop === targetCrop);
 
   let match = itemsForCrop.find((item) => {
+    if (metaText.includes('sheath') || metaText.includes('rhizoctonia') || metaText.includes('solani')) {
+      return item.id.includes('sheath') || item.id.includes('rhizoctonia');
+    }
     if (metaText.includes('brown') || metaText.includes('spot') || metaText.includes('bipolaris')) {
       return item.id.includes('brown') || item.id.includes('spot');
     }

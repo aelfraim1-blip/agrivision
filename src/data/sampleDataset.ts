@@ -9,7 +9,7 @@ function createLeafSVG(
   bgColor: string,
   leafColor: string,
   spotColor: string,
-  spotsType: 'rust' | 'blight' | 'blast' | 'spots' | 'streaks' | 'healthy'
+  spotsType: 'rust' | 'blight' | 'blast' | 'spots' | 'streaks' | 'sheath-blight' | 'healthy'
 ): string {
   const isRice = crop === 'Rice';
   const width = 400;
@@ -56,6 +56,15 @@ function createLeafSVG(
     spotsSVG = `
       <path d="M 215,60 Q 235,150 220,250 T 210,360 L 228,350 Q 248,240 230,140 Z" fill="${spotColor}" opacity="0.85"/>
       <path d="M 185,120 Q 165,200 175,290 L 165,285 Q 155,200 175,115 Z" fill="#fde047" opacity="0.8"/>
+    `;
+  } else if (spotsType === 'sheath-blight') {
+    // Snake-skin / cloud-like irregular oval lesions with grayish-white centers and reddish brown borders
+    spotsSVG = `
+      <g stroke="#78350f" stroke-width="2.5" fill="#e5e7eb" opacity="0.9">
+        <path d="M 185,150 Q 210,140 220,165 Q 215,195 185,190 Q 170,170 185,150 Z" />
+        <path d="M 175,230 Q 205,215 225,245 Q 210,280 180,270 Q 165,250 175,230 Z" />
+        <path d="M 190,300 Q 215,290 220,320 Q 200,345 185,335 Q 175,315 190,300 Z" />
+      </g>
     `;
   } else if (spotsType === 'streaks') {
     // Rectangular, narrow grayish-brown lesions confined between leaf veins (Gray Leaf Spot)
@@ -150,6 +159,22 @@ export const SAMPLE_DATASET: SampleDatasetItem[] = [
     description: 'Water-soaked translucent yellow streaks along leaf margins that rapidly turn brown and dry.',
     keySymptoms: ['Yellow to white wavy stripes along margins', 'Milky bacterial ooze drops in early morning', 'Drying up of leaf tip'],
     sampleImageUrl: createLeafSVG('Rice', 'Bacterial Blight', '#0f172a', '#16a34a', '#eab308', 'blight'),
+  },
+  {
+    id: 'rice-sheath-blight-01',
+    crop: 'Rice',
+    diseaseName: 'Rice Sheath Blight',
+    scientificName: 'Rhizoctonia solani',
+    category: 'Fungal',
+    severity: 'Severe',
+    description: 'Oval to irregular snake-skin or cloud-like greenish-gray to white lesions with brown borders starting on lower leaf sheaths.',
+    keySymptoms: [
+      'Irregular oval snake-skin or cloud-like spots',
+      'Greenish-gray or bleached white centers with dark brown borders',
+      'Starts on lower leaf sheaths near water line and spreads upward',
+      'Lesions enlarge and merge causing sheath rot and lodging',
+    ],
+    sampleImageUrl: createLeafSVG('Rice', 'Rice Sheath Blight', '#0f172a', '#16a34a', '#78350f', 'sheath-blight'),
   },
   {
     id: 'rice-brown-spot-01',
