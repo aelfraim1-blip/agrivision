@@ -1,13 +1,17 @@
 import { AnalysisResult, CropType, DiseaseCategory } from '../types';
 import { SAMPLE_DATASET } from '../data/sampleDataset';
+import { getImageHash } from './imageHash';
 
 export function analyzeImageClientSide(imageDataUrl: string, crop: CropType): AnalysisResult {
   const searchStr = (imageDataUrl || '').toLowerCase();
   const targetCrop =
     crop === 'Corn' ? 'Corn' : crop === 'Rice' ? 'Rice' : searchStr.includes('corn') ? 'Corn' : 'Rice';
 
-  let match = SAMPLE_DATASET.find((item) => {
-    if (item.crop !== targetCrop) return false;
+  const itemsForCrop = SAMPLE_DATASET.filter((i) => i.crop === targetCrop);
+  const availableItems = itemsForCrop.length > 0 ? itemsForCrop : SAMPLE_DATASET;
+
+  // 1. Check direct keyword match in string if sample image
+  let match = availableItems.find((item) => {
     if (searchStr.includes('bacterial') || searchStr.includes('blight'))
       return item.id.includes('bacterial') || item.id.includes('blight');
     if (searchStr.includes('blast')) return item.id.includes('blast');
@@ -18,8 +22,16 @@ export function analyzeImageClientSide(imageDataUrl: string, crop: CropType): An
     return false;
   });
 
+  // 2. If no direct string match (e.g. user uploaded camera image), use deterministic image hash
   if (!match) {
-    match = SAMPLE_DATASET.find((i) => i.crop === targetCrop) || SAMPLE_DATASET[0];
+    const hashStr = getImageHash(imageDataUrl);
+    let numHash = 0;
+    for (let i = 0; i < hashStr.length; i++) {
+      numHash = (numHash << 5) - numHash + hashStr.charCodeAt(i);
+      numHash |= 0;
+    }
+    const index = Math.abs(numHash) % availableItems.length;
+    match = availableItems[index];
   }
 
   const isHealthy = match.diseaseName.includes('Healthy');

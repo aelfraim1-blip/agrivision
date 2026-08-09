@@ -336,6 +336,9 @@ const DATASET_KNOWLEDGE_BASE = [
   },
 ];
 
+// Server-side in-memory cache map to guarantee identical, deterministic results for repeated image uploads
+const analysisServerCache = new Map<string, any>();
+
 // Crop Disease Analysis Endpoint using Gemini 3.6 Flash Vision with Grounded Dataset Memory
 app.post(['/api/analyze', '/api/index', '/analyze'], async (req, res) => {
   try {
@@ -343,6 +346,13 @@ app.post(['/api/analyze', '/api/index', '/analyze'], async (req, res) => {
 
     if (!image) {
       return res.status(400).json({ error: 'Image data URL is required' });
+    }
+
+    // Check server-side cache first
+    const cacheKey = `${image.slice(0, 200)}_${image.length}_${crop || 'auto'}`;
+    if (analysisServerCache.has(cacheKey)) {
+      console.log('[Analysis Cache] Returning cached diagnosis for image signature:', cacheKey.slice(0, 40));
+      return res.json({ success: true, data: analysisServerCache.get(cacheKey) });
     }
 
     const ai = getGeminiAI();
@@ -473,6 +483,7 @@ INSTRUCTIONS:
                 parts: [imagePart, { text: promptText }],
               },
               config: {
+                temperature: 0,
                 responseMimeType: 'application/json',
                 responseSchema: {
                   type: Type.OBJECT,
@@ -523,6 +534,7 @@ INSTRUCTIONS:
 
             if (response.text) {
               const parsedData = JSON.parse(response.text.trim());
+              analysisServerCache.set(cacheKey, parsedData);
               return res.json({ success: true, data: parsedData });
             }
           } catch (modelErr: any) {

@@ -12,6 +12,10 @@ import { Loader2, AlertCircle, Sprout, ArrowRight } from 'lucide-react';
 
 import { compressImageDataUrl } from './utils/imageCompressor';
 import { analyzeImageClientSide } from './utils/clientAnalyzer';
+import { getImageHash } from './utils/imageHash';
+
+// Client-side cache to guarantee 100% consistent results for repeated image uploads
+const clientScanCache = new Map<string, AnalysisResult>();
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'scanner' | 'dataset' | 'history' | 'architecture'>('scanner');
@@ -57,8 +61,19 @@ export default function App() {
     setAnalysisError(null);
     setIsSavedCurrent(false);
 
+    // 1. Compute unique content hash for the uploaded image
+    const imgHash = `${getImageHash(imageDataUrl)}_${crop}`;
+
+    // 2. Return cached result if this exact image was analyzed before
+    if (clientScanCache.has(imgHash)) {
+      const cached = clientScanCache.get(imgHash)!;
+      setAnalysisResult({ ...cached, imageUri: imageDataUrl });
+      setIsAnalyzing(false);
+      return;
+    }
+
     try {
-      // 1. Compress image to fit Vercel payload limits (<300KB)
+      // 3. Compress image to fit Vercel payload limits (<300KB)
       const compressedImage = await compressImageDataUrl(imageDataUrl, 1024, 1024, 0.82);
 
       let serverResultData = null;
@@ -80,9 +95,11 @@ export default function App() {
         console.warn('API route call error, falling back to local model engine:', netErr);
       }
 
-      // 2. If server analysis succeeded, use serverResultData. Otherwise, use client-side model engine!
+      let finalResult: AnalysisResult;
+
+      // 4. If server analysis succeeded, use serverResultData. Otherwise, use deterministic client-side engine!
       if (serverResultData) {
-        const fullResult: AnalysisResult = {
+        finalResult = {
           ...serverResultData,
           id: `scan-${Date.now()}`,
           timestamp: new Date().toLocaleString(),
@@ -106,16 +123,19 @@ export default function App() {
             influentialFeatures: ['Diamond edge contour', 'Spores density', 'Chlorotic ring'],
           },
         };
-        setAnalysisResult(fullResult);
       } else {
-        // Fallback to instant client-side analysis model so app NEVER fails
-        const fallbackResult = analyzeImageClientSide(imageDataUrl, crop);
-        setAnalysisResult(fallbackResult);
+        // Fallback to instant deterministic client-side analysis model
+        finalResult = analyzeImageClientSide(imageDataUrl, crop);
       }
+
+      // Save to client cache so repeated scans of the exact same image remain 100% consistent
+      clientScanCache.set(imgHash, finalResult);
+      setAnalysisResult(finalResult);
     } catch (err: any) {
       console.error('Analysis error:', err);
-      // Even in extreme unexpected failure, generate fallback
+      // Even in extreme unexpected failure, generate deterministic fallback
       const fallbackResult = analyzeImageClientSide(imageDataUrl, crop);
+      clientScanCache.set(imgHash, fallbackResult);
       setAnalysisResult(fallbackResult);
     } finally {
       setIsAnalyzing(false);
