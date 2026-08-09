@@ -404,46 +404,35 @@ You have the full AgriVision Rice & Corn Dataset Ground Truth STORED IN MEMORY:
 
 ${datasetSummary}
 
-User Crop Hint: ${crop || 'Auto-detect'}.
+User Selected Crop Filter: ${crop || 'Auto-detect'}.
 
-AUTONOMOUS DIAGNOSTIC CRITERIA (Examine leaf morphology and lesion distribution in the image):
+CRITICAL CROP SPECIES CONSTRAINTS:
+- If the User Crop Filter is "Rice" OR if the leaf belongs to Rice (Oryza sativa - thin, elongated grass blade without a wide white central midrib):
+  You MUST ONLY select from Rice diseases: "Bacterial Leaf Blight", "Rice Blast", "Rice Brown Spot", or "Healthy Rice Leaf".
+  NEVER classify a Rice leaf as "Corn Common Rust" or any Corn disease.
+- If the User Crop Filter is "Corn" OR if the leaf belongs to Corn (Zea mays - wide leaf blade with a thick central white midrib):
+  You MUST ONLY select from Corn diseases: "Corn Common Rust", "Corn Gray Leaf Spot", "Northern Corn Leaf Blight", or "Healthy Corn Leaf".
+  NEVER classify a Corn leaf as any Rice disease.
 
-1. BACTERIAL LEAF BLIGHT (Xanthomonas oryzae pv. oryzae):
-   - Visual Signs: Yellowing, wavy water-soaked lesions, or desiccated blighted strips along the LEAF MARGINS (edges) or leaf tip.
-   - Key Distinguishability: Symptoms originate at the leaf edges and extend along the margin rather than isolated spots in the middle.
-   - Pathogen: Bacterial.
+DIAGNOSTIC VISUAL CRITERIA:
+1. RICE BROWN SPOT (Bipolaris oryzae) [RICE ONLY]:
+   - Visuals: Small circular or oval dark brown spots scattered across the rice leaf blade, surrounded by yellowish chlorotic halos.
+2. RICE BLAST (Magnaporthe oryzae) [RICE ONLY]:
+   - Visuals: Spindle or diamond-shaped lesions with gray ash centers and dark reddish margins.
+3. BACTERIAL LEAF BLIGHT (Xanthomonas oryzae) [RICE ONLY]:
+   - Visuals: Wavy yellow/white water-soaked lesions originating along leaf margins/edges.
+4. CORN COMMON RUST (Puccinia sorghi) [CORN ONLY]:
+   - Visuals: Cinnamon-brown to golden red oval pustules erupting on corn leaves.
+5. CORN GRAY LEAF SPOT (Cercospora zeae-maydis) [CORN ONLY]:
+   - Visuals: Strictly rectangular tan/gray lesions bounded by parallel leaf veins on corn.
+6. NORTHERN CORN LEAF BLIGHT (Exserohilum turcicum) [CORN ONLY]:
+   - Visuals: Large, cigar-shaped elongated tan/gray lesions on corn.
+7. HEALTHY LEAF: Uniform emerald green leaf blade without lesions or chlorosis.
 
-2. RICE BLAST (Magnaporthe oryzae / Pyricularia oryzae):
-   - Visual Signs: Spindle-shaped or diamond-shaped lesions in the interior of the leaf blade, with gray ash centers and brown/red borders.
-   - Pathogen: Fungal.
-
-3. RICE BROWN SPOT (Bipolaris oryzae):
-   - Visual Signs: Small circular or oval brown spots scattered across the blade with distinct yellow chlorotic halos.
-   - Pathogen: Fungal.
-
-4. CORN COMMON RUST (Puccinia sorghi):
-   - Visual Signs: Small, golden-brown to cinnamon red powdery oval pustules on corn leaves.
-   - Pathogen: Fungal.
-
-5. CORN GRAY LEAF SPOT (Cercospora zeae-maydis):
-   - Visual Signs: Strictly rectangular tan/gray lesions bounded by parallel leaf veins on corn.
-   - Pathogen: Fungal.
-
-6. NORTHERN CORN LEAF BLIGHT (Exserohilum turcicum):
-   - Visual Signs: Large, elongated cigar-shaped grayish-green to tan lesions on corn.
-   - Pathogen: Fungal.
-
-7. HEALTHY LEAF:
-   - Visual Signs: Uniform green blade, intact structure, no lesions or chlorosis.
-
-INSTRUCTIONS:
-1. Autonomously analyze the input leaf image.
-2. Determine whether the leaf belongs to Rice or Corn.
-3. Accurately identify the exact disease based purely on the visual symptoms in the image.
-4. Output JSON strictly matching this schema:
+Output JSON strictly matching this schema:
 {
   "crop": "Rice" or "Corn",
-  "diseaseName": "Name of disease e.g. Bacterial Leaf Blight or Rice Blast or Rice Brown Spot or Corn Common Rust or Corn Gray Leaf Spot or Northern Corn Leaf Blight or Healthy Rice Leaf",
+  "diseaseName": "Exact Disease Name",
   "scientificName": "Scientific pathogen name",
   "pathogenType": "Bacterial" or "Fungal" or "Healthy",
   "severity": "Healthy" or "Low (1-15%)" or "Moderate (16-40%)" or "Severe (>40%)",
@@ -453,13 +442,13 @@ INSTRUCTIONS:
     "efficientNetB3Confidence": number e.g. 98.2,
     "hybridScore": number e.g. 97.5,
     "topPredictions": [
-      {"label": "Detected Primary Disease Name", "confidence": 97.5, "model": "ResNet50 + EfficientNetB3"},
-      {"label": "Secondary Differential Name", "confidence": 1.8, "model": "ResNet50"},
-      {"label": "Tertiary Differential Name", "confidence": 0.7, "model": "EfficientNetB3"}
+      {"label": "Primary Disease Name", "confidence": 97.5, "model": "ResNet50 + EfficientNetB3"},
+      {"label": "Secondary Differential", "confidence": 1.8, "model": "ResNet50"},
+      {"label": "Tertiary Differential", "confidence": 0.7, "model": "EfficientNetB3"}
     ]
   },
-  "symptoms": ["Detailed visual symptom 1", "Detailed visual symptom 2", "Detailed visual symptom 3"],
-  "causeAndConditions": "Detailed trigger conditions",
+  "symptoms": ["Symptom 1", "Symptom 2", "Symptom 3"],
+  "causeAndConditions": "Trigger conditions",
   "treatment": {
     "organic": ["Organic solution 1", "Organic solution 2"],
     "chemical": ["Chemical spray 1", "Chemical spray 2"],
@@ -467,7 +456,7 @@ INSTRUCTIONS:
     "spraySchedule": "Application schedule",
     "safetyPrecautions": ["Safety measure 1", "Safety measure 2"]
   },
-  "preventativeMeasures": ["Preventative measure 1", "Preventative measure 2", "Preventative measure 3"],
+  "preventativeMeasures": ["Measure 1", "Measure 2"],
   "fieldActionUrgency": "Immediate Action" or "Monitor Weekly" or "Routine Maintenance" or "No Action Needed"
 }
         `;
@@ -552,40 +541,48 @@ INSTRUCTIONS:
     }
 
     // Intelligent Feature Matching Fallback Engine
-    const searchString = (image + ' ' + decodedText).toLowerCase();
-    const selectedCrop = crop === 'Corn' ? 'Corn' : 'Rice';
+    // Parse non-base64 header and decoded SVG text only (never match keywords against raw base64 data)
+    const headerOnly = image.substring(0, 400).toLowerCase();
+    const isSvg = image.includes('data:image/svg+xml');
+    const svgText = isSvg ? decodeURIComponent(image).toLowerCase() : '';
+    const metaString = `${headerOnly} ${svgText} ${decodedText.slice(0, 500)}`.toLowerCase();
+
+    // Determine target crop species strictly
+    let targetCrop: 'Rice' | 'Corn' = 'Rice';
+    if (crop === 'Corn') {
+      targetCrop = 'Corn';
+    } else if (crop === 'Rice') {
+      targetCrop = 'Rice';
+    } else {
+      targetCrop = metaString.includes('corn') || metaString.includes('zeae') || metaString.includes('sorghi') ? 'Corn' : 'Rice';
+    }
 
     let matchedItem = null;
 
-    if (
-      searchString.includes('bacterial') ||
-      searchString.includes('blight') && selectedCrop === 'Rice' ||
-      searchString.includes('xanthomonas') ||
-      searchString.includes('yellow') ||
-      searchString.includes('margin') ||
-      searchString.includes('streak')
-    ) {
-      matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-bacterial-blight');
-    } else if (searchString.includes('rust') || searchString.includes('puccinia')) {
-      matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-rust');
-    } else if (searchString.includes('gray-spot') || searchString.includes('cercospora') || searchString.includes('rectangular')) {
-      matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-gray-spot');
-    } else if (searchString.includes('blight') && selectedCrop === 'Corn') {
-      matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-northern-blight');
-    } else if (searchString.includes('blast') || searchString.includes('pyricularia') || searchString.includes('spindle')) {
-      matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-blast');
-    } else if (searchString.includes('brown-spot') || searchString.includes('bipolaris') || searchString.includes('spot')) {
-      matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-brown-spot');
-    } else if (searchString.includes('healthy')) {
-      matchedItem = DATASET_KNOWLEDGE_BASE.find(
-        (k) => k.id === (selectedCrop === 'Corn' ? 'corn-healthy' : 'rice-healthy')
-      );
-    }
-
-    if (!matchedItem) {
-      matchedItem = DATASET_KNOWLEDGE_BASE.find(
-        (k) => k.id === (selectedCrop === 'Corn' ? 'corn-rust' : 'rice-bacterial-blight')
-      ) || DATASET_KNOWLEDGE_BASE[0];
+    if (targetCrop === 'Rice') {
+      if (metaString.includes('brown') || metaString.includes('spot') || metaString.includes('bipolaris')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-brown-spot');
+      } else if (metaString.includes('blast') || metaString.includes('pyricularia')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-blast');
+      } else if (metaString.includes('bacterial') || metaString.includes('blight') || metaString.includes('xanthomonas')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-bacterial-blight');
+      } else if (metaString.includes('healthy')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-healthy');
+      } else {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-brown-spot') || DATASET_KNOWLEDGE_BASE[0];
+      }
+    } else {
+      if (metaString.includes('rust') || metaString.includes('puccinia')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-rust');
+      } else if (metaString.includes('gray') || metaString.includes('cercospora')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-gray-spot');
+      } else if (metaString.includes('blight') || metaString.includes('exserohilum')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-northern-blight');
+      } else if (metaString.includes('healthy')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-healthy');
+      } else {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-rust') || DATASET_KNOWLEDGE_BASE[0];
+      }
     }
 
     return res.json({ success: true, data: matchedItem });

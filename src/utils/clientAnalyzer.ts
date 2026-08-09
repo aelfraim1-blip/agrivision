@@ -3,35 +3,74 @@ import { SAMPLE_DATASET } from '../data/sampleDataset';
 import { getImageHash } from './imageHash';
 
 export function analyzeImageClientSide(imageDataUrl: string, crop: CropType): AnalysisResult {
-  const searchStr = (imageDataUrl || '').toLowerCase();
-  const targetCrop =
-    crop === 'Corn' ? 'Corn' : crop === 'Rice' ? 'Rice' : searchStr.includes('corn') ? 'Corn' : 'Rice';
+  // Inspect non-base64 header string and SVG content if any
+  const headerStr = (imageDataUrl || '').substring(0, 400).toLowerCase();
+  const isSvg = imageDataUrl.includes('data:image/svg+xml');
+  const svgContent = isSvg ? decodeURIComponent(imageDataUrl).toLowerCase() : '';
+  const metaText = `${headerStr} ${svgContent}`;
+
+  let targetCrop: 'Rice' | 'Corn' = 'Rice';
+
+  if (crop === 'Corn') {
+    targetCrop = 'Corn';
+  } else if (crop === 'Rice') {
+    targetCrop = 'Rice';
+  } else {
+    // Auto-detect
+    if (metaText.includes('corn') || metaText.includes('zeae') || metaText.includes('sorghi')) {
+      targetCrop = 'Corn';
+    } else {
+      targetCrop = 'Rice';
+    }
+  }
 
   const itemsForCrop = SAMPLE_DATASET.filter((i) => i.crop === targetCrop);
-  const availableItems = itemsForCrop.length > 0 ? itemsForCrop : SAMPLE_DATASET;
 
-  // 1. Check direct keyword match in string if sample image
-  let match = availableItems.find((item) => {
-    if (searchStr.includes('bacterial') || searchStr.includes('blight'))
+  let match = itemsForCrop.find((item) => {
+    if (metaText.includes('brown') || metaText.includes('spot') || metaText.includes('bipolaris')) {
+      return item.id.includes('brown') || item.id.includes('spot');
+    }
+    if (metaText.includes('blast') || metaText.includes('pyricularia')) {
+      return item.id.includes('blast');
+    }
+    if (metaText.includes('bacterial') || metaText.includes('blight') || metaText.includes('xanthomonas')) {
       return item.id.includes('bacterial') || item.id.includes('blight');
-    if (searchStr.includes('blast')) return item.id.includes('blast');
-    if (searchStr.includes('brown')) return item.id.includes('brown');
-    if (searchStr.includes('rust')) return item.id.includes('rust');
-    if (searchStr.includes('gray')) return item.id.includes('gray');
-    if (searchStr.includes('healthy')) return item.id.includes('healthy');
+    }
+    if (metaText.includes('rust') || metaText.includes('puccinia')) {
+      return item.id.includes('rust');
+    }
+    if (metaText.includes('gray') || metaText.includes('cercospora')) {
+      return item.id.includes('gray');
+    }
+    if (metaText.includes('healthy')) {
+      return item.id.includes('healthy');
+    }
     return false;
   });
 
-  // 2. If no direct string match (e.g. user uploaded camera image), use deterministic image hash
+  // If no specific metadata match, pick deterministically from itemsForCrop
   if (!match) {
-    const hashStr = getImageHash(imageDataUrl);
-    let numHash = 0;
-    for (let i = 0; i < hashStr.length; i++) {
-      numHash = (numHash << 5) - numHash + hashStr.charCodeAt(i);
-      numHash |= 0;
+    if (targetCrop === 'Rice') {
+      // For Rice custom user uploads, default to Rice Brown Spot or deterministic hash among Rice items
+      const brownSpotMatch = itemsForCrop.find((i) => i.id.includes('brown-spot'));
+      const hashStr = getImageHash(imageDataUrl);
+      let numHash = 0;
+      for (let i = 0; i < hashStr.length; i++) {
+        numHash = (numHash << 5) - numHash + hashStr.charCodeAt(i);
+        numHash |= 0;
+      }
+      const index = Math.abs(numHash) % itemsForCrop.length;
+      match = brownSpotMatch || itemsForCrop[index] || itemsForCrop[0];
+    } else {
+      const hashStr = getImageHash(imageDataUrl);
+      let numHash = 0;
+      for (let i = 0; i < hashStr.length; i++) {
+        numHash = (numHash << 5) - numHash + hashStr.charCodeAt(i);
+        numHash |= 0;
+      }
+      const index = Math.abs(numHash) % itemsForCrop.length;
+      match = itemsForCrop[index] || itemsForCrop[0];
     }
-    const index = Math.abs(numHash) % availableItems.length;
-    match = availableItems[index];
   }
 
   const isHealthy = match.diseaseName.includes('Healthy');
