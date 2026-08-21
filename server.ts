@@ -437,51 +437,55 @@ app.post(['/api/analyze', '/api/index', '/analyze'], async (req, res) => {
         );
 
         const promptText = `
-You are an autonomous expert Agronomist and Plant Pathologist AI engine specializing in Rice (Oryza sativa) and Corn (Zea mays) crop pathology.
-You have the full AgriVision Rice & Corn Dataset Ground Truth STORED IN MEMORY:
+You are an autonomous expert Agronomist and Senior Plant Pathologist AI engine specializing in Rice (Oryza sativa) and Corn (Zea mays) crop pathology.
+You have the full AgriVision & Field Benchmark Dataset Ground Truth (incorporating standard agricultural image repositories for Rice and Corn foliar diseases) STORED IN MEMORY:
 
 ${datasetSummary}
 
 User Selected Target Crop (Manual): ${crop === 'Corn' ? 'Corn (Zea mays)' : 'Rice (Oryza sativa)'}.
 
-CRITICAL CROP SPECIES CONSTRAINTS:
-- If the User Crop Filter is "Rice" OR if the leaf belongs to Rice (Oryza sativa - thin, elongated grass blade without a wide white central midrib):
-  You MUST ONLY select from Rice diseases: "Rice Sheath Blight", "Rice Blast", "Rice Brown Spot", "Bacterial Leaf Blight", or "Healthy Rice Leaf".
-  NEVER classify a Rice leaf as "Corn Common Rust" or any Corn disease.
-- If the User Crop Filter is "Corn" OR if the leaf belongs to Corn (Zea mays - wide leaf blade with a thick central white midrib):
-  You MUST ONLY select from Corn diseases: "Corn Common Rust", "Corn Gray Leaf Spot", "Northern Corn Leaf Blight", or "Healthy Corn Leaf".
-  NEVER classify a Corn leaf as any Rice disease.
+REFERENCE BENCHMARK DATASET GROUND TRUTH & CLASSIFICATION RULES:
+You MUST cross-reference every leaf image against the reference agricultural pathological dataset standards:
 
-DIAGNOSTIC VISUAL CRITERIA & DIFFERENTIAL CROSS-REFERENCING:
 1. RICE SHEATH BLIGHT (Rhizoctonia solani) [RICE ONLY]:
-   - Visuals: Large, elongated, irregular cloud-like or serpentine ("snake-skin" or banded water-soaked patch) lesions extending vertically along the leaf sheath, stem base, or along the lower/mid leaf blade.
-   - Lesion interior: Bleached straw-white, grayish-white, or greenish-gray central necrotic zone.
-   - Lesion border: Distinct, prominent dark reddish-brown / chocolate-brown wavy band or margin framing the bleached patch.
-   - Distinctive Difference vs Rice Brown Spot: Sheath Blight produces LARGE, CONTINUOUS, ELONGATED/BANDED BLEACHED PATCHES with dark borders (as seen in Image 17540). It does NOT produce scattered small circular spots.
-   - Distinctive Difference vs Rice Blast: Sheath Blight has irregular serpentine/cloud-like patches, whereas Rice Blast has sharp diamond/spindle-shaped lesions with acute pointed ends.
+   - Visual Morphology in Reference Dataset:
+     * Begins on lower leaf sheaths or lower-to-mid leaf blades as water-soaked spots.
+     * Develops into LARGE, CONTINUOUS, ELONGATED serpentine/banded or "cloud-like / snake-skin" necrotic patches.
+     * Central Area: Bleached straw-colored, grayish-white, or greenish-tan necrotic patch.
+     * Margin: Framed by an unmistakable, distinct wavy dark reddish-brown / chocolate-brown margin band.
+     * Macro View: Wide contiguous tissue destruction along the sheath/stem or blade. NEVER presents as small discrete pinhead/sesame specks.
+   - Ground-truth reference rule: If the image shows wide, continuous bleached bands with dark chocolate wavy borders, it is 100% RICE SHEATH BLIGHT.
 
-2. RICE BROWN SPOT (Bipolaris oryzae / Helminthosporium oryzae) [RICE ONLY]:
-   - Visuals: NUMEROUS SMALL, DISCRETE, CIRCULAR TO OVAL/ELLIPTICAL SPOTS (sesame-seed to small coin size, 1-5 mm) scattered across the rice leaf blade.
-   - Lesion interior & border: Dark brown to reddish-brown centers, frequently surrounded by a prominent yellowish chlorotic halo.
-   - Leaf condition: The entire leaf blade often exhibits diffuse chlorosis/yellowing or dried tip with dozens of distinct brown spots (as seen in Image 10368).
-   - Distinctive Difference vs Rice Sheath Blight: Brown Spot consists of MANY SMALL SCATTERED INDIVIDUAL SPOTS/SPECKS with yellow halos. It NEVER forms wide, continuous, bleached snake-skin / banded patches.
+2. RICE BROWN SPOT (Bipolaris oryzae / Helminthosporium oryzae / Cochliobolus miyabeanus) [RICE ONLY]:
+   - Visual Morphology in Reference Dataset:
+     * NUMEROUS SMALL, DISCRETE, ROUND TO OVAL SPOTS (1 mm to 5 mm, sesame-seed or pinhead sized) scattered across the green leaf blade.
+     * Spot Center: Dark brown, reddish-brown, or grayish-brown center.
+     * Spot Perimeter: Surrounded by a characteristic, visible bright yellow chlorotic halo around each individual spot.
+     * Foliage Status: The entire rice leaf often turns yellowish/chlorotic with dozens of discrete, non-connecting brown specks.
+     * Macro View: NEVER forms large continuous bleached snake-skin / banded patches or wide sheath rots.
+   - Ground-truth reference rule: If the image shows multiple scattered small circular/oval spots with yellow halos across the leaf blade, it is 100% RICE BROWN SPOT.
 
 3. RICE BLAST (Magnaporthe oryzae / Pyricularia oryzae) [RICE ONLY]:
-   - Visuals: Discrete spindle-shaped or diamond-shaped lesions with sharp, pointed ends, gray ash centers, and dark reddish-brown margins on leaf blades.
+   - Visual Morphology: Spindle-shaped or diamond-shaped lesions with acute, sharp pointed ends, gray/ash centers, and dark reddish-brown margins on leaf blades.
 
-4. BACTERIAL LEAF BLIGHT (Xanthomonas oryzae) [RICE ONLY]:
-   - Visuals: Marginal, wavy, water-soaked yellow-to-white stripes progressing longitudinally from the leaf tip or leaf edge down along the blade.
+4. BACTERIAL LEAF BLIGHT (Xanthomonas oryzae pv. oryzae) [RICE ONLY]:
+   - Visual Morphology: Marginal, wavy, water-soaked yellow-to-white stripes progressing longitudinally from leaf tips down along leaf edges.
 
 5. CORN COMMON RUST (Puccinia sorghi) [CORN ONLY]:
-   - Visuals: Cinnamon-brown to golden red oval powdery pustules erupting on corn leaves.
+   - Visual Morphology: Golden-brown to cinnamon-red oval powdery pustules erupting on corn leaves.
 
 6. CORN GRAY LEAF SPOT (Cercospora zeae-maydis) [CORN ONLY]:
-   - Visuals: Strictly rectangular tan/gray lesions bounded by parallel leaf veins on corn.
+   - Visual Morphology: Strictly rectangular tan/gray lesions bounded by parallel leaf veins on corn.
 
 7. NORTHERN CORN LEAF BLIGHT (Exserohilum turcicum) [CORN ONLY]:
-   - Visuals: Large, cigar-shaped elongated tan/gray lesions on corn.
+   - Visual Morphology: Large, cigar-shaped elongated tan/gray lesions on corn.
 
 8. HEALTHY LEAF: Uniform emerald green leaf blade without lesions, necrotic patches, or chlorosis.
+
+CRITICAL DISAMBIGUATION CHECKLIST (MANDATORY FOR RICE SCANS):
+- Question 1: Are there multiple small (1-5mm) scattered round/oval spots with yellow halos? -> CLASSIFY AS RICE BROWN SPOT.
+- Question 2: Is there a large, continuous, elongated/banded bleached patch with dark wavy chocolate-brown margins? -> CLASSIFY AS RICE SHEATH BLIGHT.
+- Do NOT confuse these two: Sheath Blight has wide continuous banded lesions; Brown Spot has scattered individual circular/oval spots.
 
 Output JSON strictly matching this schema:
 {
