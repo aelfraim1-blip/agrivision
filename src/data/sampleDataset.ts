@@ -58,13 +58,24 @@ function createLeafSVG(
       <path d="M 185,120 Q 165,200 175,290 L 165,285 Q 155,200 175,115 Z" fill="#fde047" opacity="0.8"/>
     `;
   } else if (spotsType === 'sheath-blight') {
-    // Snake-skin / cloud-like irregular oval lesions with grayish-white centers and reddish brown borders
+    // Elongated banded streaks / snake-skin irregular vertical lesions with grayish-white centers and dark reddish-brown borders
     spotsSVG = `
-      <g stroke="#78350f" stroke-width="2.5" fill="#e5e7eb" opacity="0.9">
-        <path d="M 185,150 Q 210,140 220,165 Q 215,195 185,190 Q 170,170 185,150 Z" />
-        <path d="M 175,230 Q 205,215 225,245 Q 210,280 180,270 Q 165,250 175,230 Z" />
-        <path d="M 190,300 Q 215,290 220,320 Q 200,345 185,335 Q 175,315 190,300 Z" />
+      <g stroke="#78350f" stroke-width="2" fill="#e2e8f0" opacity="0.95">
+        <!-- Elongated vertical sheath streak 1 -->
+        <path d="M 182,120 Q 212,110 218,145 Q 224,190 205,210 Q 180,200 178,160 Z" />
+        <!-- Elongated vertical sheath streak 2 (large banded patch) -->
+        <path d="M 172,215 Q 218,195 226,240 Q 220,290 195,305 Q 170,285 170,250 Z" />
+        <!-- Lower sheath vertical banded streak -->
+        <path d="M 180,300 Q 216,290 222,330 Q 206,365 186,355 Q 172,335 180,300 Z" />
       </g>
+      <!-- Bleached straw-white inner streak center -->
+      <g fill="#f8fafc" opacity="0.75">
+        <path d="M 188,135 Q 206,130 210,152 Q 212,180 198,192 Q 185,185 186,160 Z" />
+        <path d="M 180,230 Q 210,215 215,248 Q 210,278 190,288 Q 178,272 178,252 Z" />
+      </g>
+      <!-- Dark necrotic wavy streak borders -->
+      <path d="M 182,120 Q 212,110 218,145 M 224,190 Q 205,210 178,160" stroke="#451a03" stroke-width="3" fill="none" opacity="0.8"/>
+      <path d="M 172,215 Q 218,195 226,240 M 220,290 Q 195,305 170,250" stroke="#451a03" stroke-width="3.5" fill="none" opacity="0.85"/>
     `;
   } else if (spotsType === 'streaks') {
     // Rectangular, narrow grayish-brown lesions confined between leaf veins (Gray Leaf Spot)
@@ -78,21 +89,31 @@ function createLeafSVG(
       </g>
     `;
   } else if (spotsType === 'spots') {
-    // Round dark brown spots with yellow halos (Brown Spot)
+    // Discrete circular dark brown spots with prominent yellow chlorotic halos (Rice Brown Spot)
     spotsSVG = `
-      <g fill="#fef08a" opacity="0.8">
-        <circle cx="200" cy="110" r="14"/>
-        <circle cx="218" cy="180" r="16"/>
-        <circle cx="180" cy="220" r="12"/>
-        <circle cx="205" cy="280" r="18"/>
-        <circle cx="190" cy="340" r="10"/>
+      <!-- Bright yellow circular halos for individual spots -->
+      <g fill="#fef08a" opacity="0.9">
+        <circle cx="195" cy="95" r="9"/>
+        <circle cx="212" cy="140" r="11"/>
+        <circle cx="182" cy="180" r="10"/>
+        <circle cx="218" cy="225" r="12"/>
+        <circle cx="185" cy="265" r="9"/>
+        <circle cx="208" cy="305" r="11"/>
+        <circle cx="192" cy="345" r="8"/>
+        <circle cx="178" cy="135" r="7"/>
+        <circle cx="215" cy="185" r="8"/>
       </g>
+      <!-- Dark brown circular spot centers -->
       <g fill="${spotColor}">
-        <circle cx="200" cy="110" r="7"/>
-        <circle cx="218" cy="180" r="8"/>
-        <circle cx="180" cy="220" r="6"/>
-        <circle cx="205" cy="280" r="9"/>
-        <circle cx="190" cy="340" r="5"/>
+        <circle cx="195" cy="95" r="4.5"/>
+        <circle cx="212" cy="140" r="5.5"/>
+        <circle cx="182" cy="180" r="5"/>
+        <circle cx="218" cy="225" r="6"/>
+        <circle cx="185" cy="265" r="4.5"/>
+        <circle cx="208" cy="305" r="5.5"/>
+        <circle cx="192" cy="345" r="4"/>
+        <circle cx="178" cy="135" r="3.5"/>
+        <circle cx="215" cy="185" r="4"/>
       </g>
     `;
   }
@@ -167,12 +188,12 @@ export const SAMPLE_DATASET: SampleDatasetItem[] = [
     scientificName: 'Rhizoctonia solani',
     category: 'Fungal',
     severity: 'Severe',
-    description: 'Oval to irregular snake-skin or cloud-like greenish-gray to white lesions with brown borders starting on lower leaf sheaths.',
+    description: 'Elongated banded streaks and irregular snake-skin or cloud-like lesions with bleached grayish-white centers and dark chocolate borders along leaf sheaths and blades.',
     keySymptoms: [
-      'Irregular oval snake-skin or cloud-like spots',
-      'Greenish-gray or bleached white centers with dark brown borders',
-      'Starts on lower leaf sheaths near water line and spreads upward',
-      'Lesions enlarge and merge causing sheath rot and lodging',
+      'Elongated vertical banded streaks and cloud-like patches',
+      'Bleached grayish-white centers framed by dark chocolate-brown margins',
+      'Starts on lower leaf sheaths and spreads vertically up the stem and blade',
+      'Continuous banded necrotic streaks causing lodging',
     ],
     sampleImageUrl: createLeafSVG('Rice', 'Rice Sheath Blight', '#0f172a', '#16a34a', '#78350f', 'sheath-blight'),
   },
@@ -183,8 +204,13 @@ export const SAMPLE_DATASET: SampleDatasetItem[] = [
     scientificName: 'Bipolaris oryzae',
     category: 'Fungal',
     severity: 'Moderate',
-    description: 'Oval or circular brown lesions with distinct yellow halos, heavily impacting poor soil crops.',
-    keySymptoms: ['Circular to oval dark brown spots', 'Yellow halo surrounding lesions', 'Reduced grain filling'],
+    description: 'Multiple small, discrete, isolated circular-to-oval brown spots (1-5 mm, sesame-seed size) with bright yellow halos across the leaf blade.',
+    keySymptoms: [
+      'Numerous small discrete circular-to-oval spots',
+      'Prominent bright yellow chlorotic halo framing each individual spot',
+      'Uniformly peppered across leaf blade (never forms continuous elongated streaks)',
+      'Premature leaf yellowing and reduced grain filling',
+    ],
     sampleImageUrl: createLeafSVG('Rice', 'Brown Spot', '#0f172a', '#15803d', '#78350f', 'spots'),
   },
   {

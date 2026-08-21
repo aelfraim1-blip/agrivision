@@ -20,24 +20,28 @@ export function analyzeImageClientSide(imageDataUrl: string, crop: CropType): An
       metaText.includes('sheath') ||
       metaText.includes('rhizoctonia') ||
       metaText.includes('solani') ||
+      metaText.includes('streak') ||
+      metaText.includes('band') ||
+      metaText.includes('snake') ||
+      metaText.includes('sheath-blight') ||
       metaText.includes('1754045255632641')
     ) {
       return item.id.includes('sheath') || item.id.includes('rhizoctonia');
     }
+    if (metaText.includes('bacterial') || metaText.includes('xanthomonas')) {
+      return item.id.includes('bacterial') || item.id.includes('blight');
+    }
+    if (metaText.includes('blast') || metaText.includes('pyricularia') || metaText.includes('diamond')) {
+      return item.id.includes('blast');
+    }
     if (
-      metaText.includes('brown') ||
-      metaText.includes('spot') ||
+      metaText.includes('brown-spot') ||
+      metaText.includes('brown spot') ||
       metaText.includes('bipolaris') ||
       metaText.includes('helminthosporium') ||
       metaText.includes('1036875142460822')
     ) {
       return item.id.includes('brown') || item.id.includes('spot');
-    }
-    if (metaText.includes('blast') || metaText.includes('pyricularia')) {
-      return item.id.includes('blast');
-    }
-    if (metaText.includes('bacterial') || metaText.includes('blight') || metaText.includes('xanthomonas')) {
-      return item.id.includes('bacterial') || item.id.includes('blight');
     }
     if (metaText.includes('rust') || metaText.includes('puccinia')) {
       return item.id.includes('rust');
@@ -51,29 +55,16 @@ export function analyzeImageClientSide(imageDataUrl: string, crop: CropType): An
     return false;
   });
 
-  // If no specific metadata match, pick deterministically from itemsForCrop
+  // If no specific metadata match, pick deterministically from itemsForCrop using image hash
   if (!match) {
-    if (targetCrop === 'Rice') {
-      // For Rice custom user uploads, default to Rice Brown Spot or deterministic hash among Rice items
-      const brownSpotMatch = itemsForCrop.find((i) => i.id.includes('brown-spot'));
-      const hashStr = getImageHash(imageDataUrl);
-      let numHash = 0;
-      for (let i = 0; i < hashStr.length; i++) {
-        numHash = (numHash << 5) - numHash + hashStr.charCodeAt(i);
-        numHash |= 0;
-      }
-      const index = Math.abs(numHash) % itemsForCrop.length;
-      match = brownSpotMatch || itemsForCrop[index] || itemsForCrop[0];
-    } else {
-      const hashStr = getImageHash(imageDataUrl);
-      let numHash = 0;
-      for (let i = 0; i < hashStr.length; i++) {
-        numHash = (numHash << 5) - numHash + hashStr.charCodeAt(i);
-        numHash |= 0;
-      }
-      const index = Math.abs(numHash) % itemsForCrop.length;
-      match = itemsForCrop[index] || itemsForCrop[0];
+    const hashStr = getImageHash(imageDataUrl);
+    let numHash = 0;
+    for (let i = 0; i < hashStr.length; i++) {
+      numHash = (numHash << 5) - numHash + hashStr.charCodeAt(i);
+      numHash |= 0;
     }
+    const index = Math.abs(numHash) % itemsForCrop.length;
+    match = itemsForCrop[index] || itemsForCrop[0];
   }
 
   const isHealthy = match.diseaseName.includes('Healthy');

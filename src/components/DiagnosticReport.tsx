@@ -65,12 +65,14 @@ export const DiagnosticReport: React.FC<DiagnosticReportProps> = ({
   // Plain language summary generator if not explicitly attached
   const laymanSummary =
     analysis.laymanSummary ||
-    (analysis.diseaseName.includes('Bacterial Leaf Blight')
+    (analysis.diseaseName.includes('Sheath Blight')
+      ? 'This is a serious fungal disease that creates elongated banded streaks and snake-skin patches with bleached grayish-white centers and dark brown borders along the lower leaf sheaths and stems.'
+      : analysis.diseaseName.includes('Bacterial Leaf Blight')
       ? 'This is a bacterial disease that enters rice leaves through edges and cuts. It causes yellow, wavy drying along the leaf borders and spreads quickly in wet, windy weather.'
       : analysis.diseaseName.includes('Blast')
       ? 'This is a common fungal disease that creates diamond-shaped spots with gray centers on rice leaves. If left untreated, it can weaken the plant and reduce crop yield.'
       : analysis.diseaseName.includes('Brown Spot')
-      ? 'This is a fungal infection causing small, round brown spots with yellow halos across the leaf. It often signals that the crop needs better soil nutrients or balanced watering.'
+      ? 'This is a fungal infection causing small, isolated round brown spots with yellow halos scattered across the leaf. It often signals that the crop needs better soil nutrients or balanced watering.'
       : analysis.diseaseName.includes('Rust')
       ? 'This is a fungal disease that leaves reddish-brown powdery spots on corn leaves. The powdery spores spread easily in warm breeze.'
       : analysis.diseaseName.includes('Gray Leaf Spot')
@@ -82,7 +84,13 @@ export const DiagnosticReport: React.FC<DiagnosticReportProps> = ({
   // Plain language 3-step action plan for farmers
   const simpleActionPlan =
     analysis.simpleActionPlan ||
-    (analysis.diseaseName.includes('Bacterial')
+    (analysis.diseaseName.includes('Sheath Blight')
+      ? [
+          'Drain excess standing water to allow air circulation around lower leaf sheaths.',
+          'Avoid excess nitrogen fertilizer to prevent dense, susceptible lower canopy growth.',
+          'Apply targeted fungicide (e.g. Hexaconazole or Validamycin) aimed at lower stem sheaths.',
+        ]
+      : analysis.diseaseName.includes('Bacterial')
       ? [
           'Drain excess standing water from field flooded areas to limit bacterial spread.',
           'Pause excess Nitrogen fertilizer application for 7-10 days to strengthen leaf cell walls.',
