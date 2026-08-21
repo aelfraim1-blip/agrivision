@@ -6,6 +6,29 @@ export type PipelineStage = 'raw' | 'clahe' | 'unet' | 'classification' | 'gradc
 
 export type ColormapMode = 'jet' | 'viridis' | 'inferno' | 'turbo';
 
+export interface AccuracyMetric {
+  // Classification Metrics
+  top1Accuracy: number; // e.g. 98.2% (Exact primary diagnosis match)
+  top3Accuracy: number; // e.g. 99.8% (Ground truth in top-3 candidates)
+  macroPrecision: number; // e.g. 97.9% (Positive Predictive Value: TP / [TP + FP])
+  macroRecall: number; // e.g. 98.5% (Sensitivity / True Positive Rate: TP / [TP + FN])
+  specificityTNR: number; // e.g. 99.1% (True Negative Rate: TN / [TN + FP])
+  macroF1Score: number; // e.g. 98.2% (Harmonic Mean: 2*(P*R)/(P+R))
+  rocAucScore: number; // e.g. 99.4% (Multi-Class Area Under ROC Curve)
+
+  // Spatial & Lesion Segmentation Metrics (U-Net)
+  iouSegmentation: number; // e.g. 91.6% (Intersection over Union / Jaccard Index)
+  diceCoefficient: number; // e.g. 94.8% (Dice Similarity Coefficient / F1 pixel mask)
+
+  // Loss & Uncertainty Metrics
+  crossEntropyLoss: number; // e.g. 0.038 (Categorical Log Loss)
+  errorMargin: number; // e.g. ±1.2% (95% Confidence Interval margin)
+
+  // Benchmark & Reliability
+  datasetValidationBenchmark: number; // e.g. 98.8%
+  reliabilityGrade: 'Optimal (Grade A+)' | 'High Precision (Grade A)' | 'Moderate Confidence' | 'Needs Review';
+}
+
 export interface EnsembleScores {
   resnet50Confidence: number; // e.g. 96.4
   efficientNetB3Confidence: number; // e.g. 97.8
@@ -51,6 +74,7 @@ export interface AnalysisResult {
   pathogenType: DiseaseCategory;
   severity: 'Healthy' | 'Low (1-15%)' | 'Moderate (16-40%)' | 'Severe (>40%)';
   overallConfidence: number;
+  accuracyMetrics?: AccuracyMetric;
   ensembleScores: EnsembleScores;
   claheStats: ClaheStats;
   unetStats: UnetStats;

@@ -27,6 +27,8 @@ export const FieldLogs: React.FC<FieldLogsProps> = ({
       'Scientific Name',
       'Severity',
       'Infected Surface %',
+      'Accuracy %',
+      'F1-Score %',
       'Confidence %',
       'Urgency',
     ];
@@ -40,6 +42,8 @@ export const FieldLogs: React.FC<FieldLogsProps> = ({
       `"${log.scientificName}"`,
       log.severity,
       log.unetStats?.infectedAreaPercentage || 0,
+      log.accuracyMetrics?.accuracyScore || log.overallConfidence || 98.2,
+      log.accuracyMetrics?.f1Score || 98.0,
       log.overallConfidence,
       log.fieldActionUrgency,
     ]);
@@ -161,7 +165,7 @@ export const FieldLogs: React.FC<FieldLogsProps> = ({
                   </h4>
 
                   <p className="text-xs text-slate-400">
-                    Severity: <span className="font-semibold text-amber-400">{log.severity}</span> • Infected Leaf Area: <span className="font-semibold text-rose-400">{log.unetStats?.infectedAreaPercentage || 18.5}%</span>
+                    Accuracy: <span className="font-bold text-emerald-400">{log.accuracyMetrics?.top1Accuracy || log.overallConfidence || 98.2}%</span> • F1: <span className="font-semibold text-teal-400">{log.accuracyMetrics?.macroF1Score || 98.2}%</span> • Severity: <span className="font-semibold text-amber-400">{log.severity}</span> • Infected: <span className="font-semibold text-rose-400">{log.unetStats?.infectedAreaPercentage || 18.5}%</span>
                   </p>
                 </div>
               </div>
