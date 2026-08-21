@@ -1,9 +1,9 @@
 import React from 'react';
-import { Camera, BookOpen, History, Cpu, Sprout, Sparkles } from 'lucide-react';
+import { Camera, BookOpen, History, Cpu, Sprout, BarChart3 } from 'lucide-react';
 
 interface NavbarProps {
-  activeTab: 'scanner' | 'dataset' | 'history' | 'architecture';
-  setActiveTab: (tab: 'scanner' | 'dataset' | 'history' | 'architecture') => void;
+  activeTab: 'scanner' | 'dataset' | 'history' | 'architecture' | 'results';
+  setActiveTab: (tab: 'scanner' | 'dataset' | 'history' | 'architecture' | 'results') => void;
   savedLogsCount: number;
 }
 
@@ -44,6 +44,18 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, savedLo
             >
               <Camera className="w-4 h-4" />
               <span className="hidden sm:inline">Camera Scanner</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('results')}
+              className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                activeTab === 'results'
+                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-900/40'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800'
+              }`}
+            >
+              <BarChart3 className="w-4 h-4 text-emerald-400" />
+              <span className="hidden sm:inline">Results &amp; Figures</span>
             </button>
 
             <button

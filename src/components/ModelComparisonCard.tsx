@@ -20,12 +20,14 @@ interface ModelComparisonCardProps {
   accuracyMetrics?: AccuracyMetric;
   ensembleScores?: EnsembleScores;
   diseaseName: string;
+  onViewFullFigures?: () => void;
 }
 
 export const ModelComparisonCard: React.FC<ModelComparisonCardProps> = ({
   accuracyMetrics,
   ensembleScores,
   diseaseName,
+  onViewFullFigures,
 }) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'breakdown' | 'stressTest'>('overview');
 
@@ -384,12 +386,24 @@ export const ModelComparisonCard: React.FC<ModelComparisonCardProps> = ({
       )}
 
       {/* Footer Banner */}
-      <div className="pt-3 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-2">
+      <div className="pt-3 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-3">
         <span className="flex items-center space-x-1.5">
           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
           <span>Recommended agricultural standard: Dual-backbone soft voting with U-Net lesion masking</span>
         </span>
-        <span className="font-mono text-[11px] text-slate-500">Benchmark Partition: 2,400 Leaf Images</span>
+        
+        <div className="flex items-center space-x-3">
+          <span className="font-mono text-[11px] text-slate-500">Benchmark Partition: N=2,400</span>
+          {onViewFullFigures && (
+            <button
+              onClick={onViewFullFigures}
+              className="flex items-center space-x-1.5 px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 text-xs font-bold transition-all shadow-sm"
+            >
+              <BarChart3 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Explore Graphs &amp; Figures →</span>
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

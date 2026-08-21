@@ -6,6 +6,7 @@ import { DiagnosticReport } from './components/DiagnosticReport';
 import { DatasetBrowser } from './components/DatasetBrowser';
 import { FieldLogs } from './components/FieldLogs';
 import { ArchitectureModal } from './components/ArchitectureModal';
+import { ResultsFigures } from './components/ResultsFigures';
 import { CropType, AnalysisResult, SampleDatasetItem } from './types';
 import { SAMPLE_DATASET } from './data/sampleDataset';
 import { Loader2, AlertCircle, Sprout, ArrowRight } from 'lucide-react';
@@ -18,7 +19,7 @@ import { getImageHash } from './utils/imageHash';
 const clientScanCache = new Map<string, AnalysisResult>();
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'scanner' | 'dataset' | 'history' | 'architecture'>('scanner');
+  const [activeTab, setActiveTab] = useState<'scanner' | 'dataset' | 'history' | 'architecture' | 'results'>('scanner');
   const [selectedCrop, setSelectedCrop] = useState<CropType>('Auto-detect');
   
   const [currentImageUri, setCurrentImageUri] = useState<string | null>(null);
@@ -247,6 +248,7 @@ export default function App() {
                   analysis={analysisResult}
                   onSaveToLogs={handleSaveToLogs}
                   isSaved={isSavedCurrent}
+                  onViewResultsFigures={() => setActiveTab('results')}
                 />
               </div>
             )}
@@ -254,7 +256,12 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 2: DATASET CATALOG */}
+        {/* TAB 2: RESULTS & BENCHMARK FIGURES */}
+        {activeTab === 'results' && (
+          <ResultsFigures />
+        )}
+
+        {/* TAB 3: DATASET CATALOG */}
         {activeTab === 'dataset' && (
           <DatasetBrowser onSelectSample={handleSelectSampleFromBrowser} />
         )}

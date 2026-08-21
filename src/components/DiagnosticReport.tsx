@@ -29,12 +29,14 @@ interface DiagnosticReportProps {
   analysis: AnalysisResult;
   onSaveToLogs: (fieldName: string) => void;
   isSaved: boolean;
+  onViewResultsFigures?: () => void;
 }
 
 export const DiagnosticReport: React.FC<DiagnosticReportProps> = ({
   analysis,
   onSaveToLogs,
   isSaved,
+  onViewResultsFigures,
 }) => {
   const [fieldNameInput, setFieldNameInput] = useState<string>('Plot A - North Sector');
   const [checkedTasks, setCheckedTasks] = useState<Record<number, boolean>>({});
@@ -713,6 +715,7 @@ export const DiagnosticReport: React.FC<DiagnosticReportProps> = ({
         accuracyMetrics={analysis.accuracyMetrics}
         ensembleScores={analysis.ensembleScores}
         diseaseName={analysis.diseaseName}
+        onViewFullFigures={onViewResultsFigures}
       />
 
       {/* Symptoms & Trigger Conditions */}
