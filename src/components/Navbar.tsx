@@ -1,9 +1,9 @@
 import React from 'react';
-import { Camera, BookOpen, History, Cpu, Sprout, BarChart3 } from 'lucide-react';
+import { Camera, BookOpen, History, Cpu, Sprout, BarChart3, Brain } from 'lucide-react';
 
 interface NavbarProps {
-  activeTab: 'scanner' | 'dataset' | 'history' | 'architecture' | 'results';
-  setActiveTab: (tab: 'scanner' | 'dataset' | 'history' | 'architecture' | 'results') => void;
+  activeTab: 'scanner' | 'study' | 'dataset' | 'history' | 'architecture' | 'results';
+  setActiveTab: (tab: 'scanner' | 'study' | 'dataset' | 'history' | 'architecture' | 'results') => void;
   savedLogsCount: number;
 }
 
@@ -23,11 +23,11 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, savedLo
                 <span className="font-extrabold text-lg text-white tracking-tight">PALA-IS<span className="text-emerald-400"> AI</span></span>
                 <div className="hidden lg:flex items-center space-x-1.5 text-[10px] font-mono py-1 px-2.5 bg-slate-950 border border-slate-800 rounded-full text-slate-300">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  <span>SYSTEM READY: HYBRID PIPELINE V2.4</span>
+                  <span>DEEP LEARNING CALIBRATED • V2.4</span>
                 </div>
               </div>
               <p className="text-xs text-slate-400 hidden sm:block">
-                Smart Crop Doctor & Leaf Health Scanner • Instant Rice & Corn Pathology
+                Smart Crop Doctor & Leaf Health Scanner • Rice & Corn Pathology
               </p>
             </div>
           </div>
@@ -44,6 +44,18 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, savedLo
             >
               <Camera className="w-4 h-4" />
               <span className="hidden sm:inline">Camera Scanner</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('study')}
+              className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                activeTab === 'study'
+                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-900/40'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800'
+              }`}
+            >
+              <Brain className="w-4 h-4 text-emerald-400" />
+              <span className="hidden sm:inline">Deep Learning Study</span>
             </button>
 
             <button
@@ -106,3 +118,4 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, savedLo
     </header>
   );
 };
+

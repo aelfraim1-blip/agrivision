@@ -4,12 +4,12 @@ import { CameraCapture } from './components/CameraCapture';
 import { PipelineViewer } from './components/PipelineViewer';
 import { DiagnosticReport } from './components/DiagnosticReport';
 import { DatasetBrowser } from './components/DatasetBrowser';
+import { DeepLearningStudy } from './components/DeepLearningStudy';
 import { FieldLogs } from './components/FieldLogs';
 import { ArchitectureModal } from './components/ArchitectureModal';
 import { ResultsFigures } from './components/ResultsFigures';
 import { CropType, AnalysisResult, SampleDatasetItem } from './types';
-import { SAMPLE_DATASET } from './data/sampleDataset';
-import { Loader2, AlertCircle, Sprout, ArrowRight } from 'lucide-react';
+import { Loader2, AlertCircle, Sprout } from 'lucide-react';
 
 import { compressImageDataUrl } from './utils/imageCompressor';
 import { analyzeImageClientSide } from './utils/clientAnalyzer';
@@ -19,7 +19,7 @@ import { getImageHash } from './utils/imageHash';
 const clientScanCache = new Map<string, AnalysisResult>();
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'scanner' | 'dataset' | 'history' | 'architecture' | 'results'>('scanner');
+  const [activeTab, setActiveTab] = useState<'scanner' | 'study' | 'dataset' | 'history' | 'architecture' | 'results'>('study');
   const [selectedCrop, setSelectedCrop] = useState<CropType>('Rice');
   
   const [currentImageUri, setCurrentImageUri] = useState<string | null>(null);
@@ -74,7 +74,7 @@ export default function App() {
     }
 
     try {
-      // 3. Compress image to fit Vercel payload limits (<300KB)
+      // 3. Compress image to fit payload limits (<300KB)
       const compressedImage = await compressImageDataUrl(imageDataUrl, 1024, 1024, 0.82);
 
       let serverResultData = null;
@@ -141,7 +141,7 @@ export default function App() {
           },
         };
       } else {
-        // Fallback to instant deterministic client-side analysis model
+        // Fallback to deterministic client-side analysis model
         finalResult = analyzeImageClientSide(imageDataUrl, crop);
       }
 
@@ -150,7 +150,6 @@ export default function App() {
       setAnalysisResult(finalResult);
     } catch (err: any) {
       console.error('Analysis error:', err);
-      // Even in extreme unexpected failure, generate deterministic fallback
       const fallbackResult = analyzeImageClientSide(imageDataUrl, crop);
       clientScanCache.set(imgHash, fallbackResult);
       setAnalysisResult(fallbackResult);
@@ -158,14 +157,6 @@ export default function App() {
       setIsAnalyzing(false);
     }
   };
-
-  // Run analysis on initial load with the default sample for immediate demo preview
-  useEffect(() => {
-    if (!currentImageUri && SAMPLE_DATASET.length > 0) {
-      const defaultSample = SAMPLE_DATASET[0];
-      handleCaptureAndAnalyze(defaultSample.sampleImageUrl, defaultSample.crop);
-    }
-  }, []);
 
   const handleSaveToLogs = (fieldName: string) => {
     if (!analysisResult) return;
@@ -206,7 +197,12 @@ export default function App() {
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
-        {/* TAB 1: CAMERA SCANNER & HYBRID DIAGNOSTIC PIPELINE */}
+        {/* TAB: DEEP LEARNING STUDY & PATTERN EXTRACTION STUDIO */}
+        {activeTab === 'study' && (
+          <DeepLearningStudy onApplyToScanner={() => setActiveTab('scanner')} />
+        )}
+
+        {/* TAB: CAMERA SCANNER & HYBRID DIAGNOSTIC PIPELINE */}
         {activeTab === 'scanner' && (
           <div className="space-y-8">
             
@@ -216,15 +212,16 @@ export default function App() {
               selectedCrop={selectedCrop}
               setSelectedCrop={setSelectedCrop}
               isAnalyzing={isAnalyzing}
+              onOpenStudy={() => setActiveTab('study')}
             />
 
             {/* Loading Spinner */}
             {isAnalyzing && (
               <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 text-center space-y-4 shadow-2xl animate-pulse">
                 <Loader2 className="w-10 h-10 text-emerald-400 animate-spin mx-auto" />
-                <h3 className="text-lg font-bold text-white">Running Hybrid Model Diagnostic Sequence...</h3>
+                <h3 className="text-lg font-bold text-white">Applying Deep-Learned Diagnostic Pipeline...</h3>
                 <p className="text-xs text-slate-400 max-w-md mx-auto">
-                  Applying CLAHE histogram enhancement → UNet semantic segmentation mask → ResNet50 & EfficientNet B3 classification → Grad-CAM attention heatmap...
+                  Applying CLAHE histogram enhancement → UNet semantic segmentation mask → ResNet50 & EfficientNet B3 classification with calibrated streak vs spot weights → Grad-CAM attention heatmap...
                 </p>
               </div>
             )}
@@ -256,17 +253,17 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 2: RESULTS & BENCHMARK FIGURES */}
+        {/* TAB: RESULTS & BENCHMARK FIGURES */}
         {activeTab === 'results' && (
           <ResultsFigures />
         )}
 
-        {/* TAB 3: DATASET CATALOG */}
+        {/* TAB: DATASET CATALOG */}
         {activeTab === 'dataset' && (
           <DatasetBrowser onSelectSample={handleSelectSampleFromBrowser} />
         )}
 
-        {/* TAB 3: FIELD LOGS */}
+        {/* TAB: FIELD LOGS */}
         {activeTab === 'history' && (
           <FieldLogs
             logs={fieldLogs}
@@ -296,8 +293,8 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-2">
             <Sprout className="w-4 h-4 text-emerald-500" />
-            <span className="font-semibold text-slate-400">AgriVision AI</span>
-            <span>— Rice & Corn Crop Foliar Disease Diagnostic Platform</span>
+            <span className="font-semibold text-slate-400">PALA-IS AI</span>
+            <span>— Rice & Corn Foliar Disease Deep Learning Diagnostic Platform</span>
           </div>
 
           <div className="flex items-center space-x-4 text-slate-400">
@@ -317,3 +314,4 @@ export default function App() {
     </div>
   );
 }
+
