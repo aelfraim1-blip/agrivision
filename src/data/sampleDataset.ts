@@ -98,8 +98,7 @@ function createLeafSVG(
   }
 
   const svgString = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" data-crop="${crop}" data-disease="${disease}" data-pathology-type="${spotsType}">
-      <!-- Pathology: ${crop} - ${disease} (${spotsType}) -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">
       <rect width="${width}" stroke="none" height="${height}" fill="${bgColor}"/>
       
       <!-- Leaf Shadow -->
@@ -127,7 +126,7 @@ function createLeafSVG(
       <path d="M 190,100 L 175,370 M 210,100 L 225,370" fill="none" stroke="#4ade80" stroke-width="1.5" opacity="0.5"/>
       <path d="M 180,150 L 168,370 M 220,150 L 232,370" fill="none" stroke="#22c55e" stroke-width="1" opacity="0.4"/>
 
-      <!-- Foliar Lesion Layer -->
+      <!-- Disease Spots Overlay -->
       ${spotsSVG}
 
       <!-- Grid Frame Overlay for Smartphone Viewfinder feel -->
@@ -135,14 +134,7 @@ function createLeafSVG(
     </svg>
   `;
 
-  const base64 =
-    typeof Buffer !== 'undefined'
-      ? Buffer.from(svgString.trim()).toString('base64')
-      : typeof btoa !== 'undefined'
-      ? btoa(svgString.trim())
-      : '';
-
-  return `data:image/svg+xml;base64,${base64}`;
+  return `data:image/svg+xml;base64,${btoa(svgString.trim())}`;
 }
 
 export const SAMPLE_DATASET: SampleDatasetItem[] = [

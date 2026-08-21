@@ -98,22 +98,6 @@ export interface TreatmentInfo {
   safetyPrecautions: string[];
 }
 
-export interface DifferentialItem {
-  disease: string;
-  keyDistinction: string;
-  whyRuledOut: string;
-}
-
-export interface ReferenceComparisonMatch {
-  referenceDatasetId: string;
-  referenceDiseaseName: string;
-  referenceScientificName: string;
-  referenceImageUrl: string;
-  morphologicalMatchScore: number;
-  visualAlignmentReason: string;
-  differentialAnalysis: DifferentialItem[];
-}
-
 export interface AnalysisResult {
   id: string;
   timestamp: string;
@@ -124,7 +108,6 @@ export interface AnalysisResult {
   severity: 'Healthy' | 'Low (1-15%)' | 'Moderate (16-40%)' | 'Severe (>40%)';
   overallConfidence: number;
   accuracyMetrics?: AccuracyMetric;
-  referenceComparison?: ReferenceComparisonMatch;
   ensembleScores: EnsembleScores;
   claheStats: ClaheStats;
   unetStats: UnetStats;
