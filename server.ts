@@ -454,21 +454,34 @@ CRITICAL CROP SPECIES CONSTRAINTS:
 
 DIAGNOSTIC VISUAL CRITERIA & DIFFERENTIAL CROSS-REFERENCING:
 1. RICE SHEATH BLIGHT (Rhizoctonia solani) [RICE ONLY]:
-   - Visuals: Oval or irregular serpentine ("snake-skin" or "cloud-like" pattern) greenish-gray or bleached white spots with dark reddish-brown/tan borders on lower leaf sheaths or leaf blades.
-   - Distinctive Difference vs Rice Blast: Sheath Blight has irregular, cloud-like/serpentine blotches with greenish-gray/white centers, whereas Rice Blast has distinct diamond or spindle-shaped lesions with pointed ends.
-2. RICE BLAST (Magnaporthe oryzae / Pyricularia oryzae) [RICE ONLY]:
-   - Visuals: Spindle-shaped or diamond-shaped lesions with pointed ends, gray ash centers, and dark reddish-brown margins on leaf blades.
-3. RICE BROWN SPOT (Bipolaris oryzae) [RICE ONLY]:
-   - Visuals: Small circular or oval dark brown spots scattered across the rice leaf blade, surrounded by yellowish chlorotic halos.
+   - Visuals: Large, elongated, irregular cloud-like or serpentine ("snake-skin" or banded water-soaked patch) lesions extending vertically along the leaf sheath, stem base, or along the lower/mid leaf blade.
+   - Lesion interior: Bleached straw-white, grayish-white, or greenish-gray central necrotic zone.
+   - Lesion border: Distinct, prominent dark reddish-brown / chocolate-brown wavy band or margin framing the bleached patch.
+   - Distinctive Difference vs Rice Brown Spot: Sheath Blight produces LARGE, CONTINUOUS, ELONGATED/BANDED BLEACHED PATCHES with dark borders (as seen in Image 17540). It does NOT produce scattered small circular spots.
+   - Distinctive Difference vs Rice Blast: Sheath Blight has irregular serpentine/cloud-like patches, whereas Rice Blast has sharp diamond/spindle-shaped lesions with acute pointed ends.
+
+2. RICE BROWN SPOT (Bipolaris oryzae / Helminthosporium oryzae) [RICE ONLY]:
+   - Visuals: NUMEROUS SMALL, DISCRETE, CIRCULAR TO OVAL/ELLIPTICAL SPOTS (sesame-seed to small coin size, 1-5 mm) scattered across the rice leaf blade.
+   - Lesion interior & border: Dark brown to reddish-brown centers, frequently surrounded by a prominent yellowish chlorotic halo.
+   - Leaf condition: The entire leaf blade often exhibits diffuse chlorosis/yellowing or dried tip with dozens of distinct brown spots (as seen in Image 10368).
+   - Distinctive Difference vs Rice Sheath Blight: Brown Spot consists of MANY SMALL SCATTERED INDIVIDUAL SPOTS/SPECKS with yellow halos. It NEVER forms wide, continuous, bleached snake-skin / banded patches.
+
+3. RICE BLAST (Magnaporthe oryzae / Pyricularia oryzae) [RICE ONLY]:
+   - Visuals: Discrete spindle-shaped or diamond-shaped lesions with sharp, pointed ends, gray ash centers, and dark reddish-brown margins on leaf blades.
+
 4. BACTERIAL LEAF BLIGHT (Xanthomonas oryzae) [RICE ONLY]:
-   - Visuals: Wavy yellow/white water-soaked lesions originating along leaf margins/edges.
+   - Visuals: Marginal, wavy, water-soaked yellow-to-white stripes progressing longitudinally from the leaf tip or leaf edge down along the blade.
+
 5. CORN COMMON RUST (Puccinia sorghi) [CORN ONLY]:
-   - Visuals: Cinnamon-brown to golden red oval pustules erupting on corn leaves.
+   - Visuals: Cinnamon-brown to golden red oval powdery pustules erupting on corn leaves.
+
 6. CORN GRAY LEAF SPOT (Cercospora zeae-maydis) [CORN ONLY]:
    - Visuals: Strictly rectangular tan/gray lesions bounded by parallel leaf veins on corn.
+
 7. NORTHERN CORN LEAF BLIGHT (Exserohilum turcicum) [CORN ONLY]:
    - Visuals: Large, cigar-shaped elongated tan/gray lesions on corn.
-8. HEALTHY LEAF: Uniform emerald green leaf blade without lesions or chlorosis.
+
+8. HEALTHY LEAF: Uniform emerald green leaf blade without lesions, necrotic patches, or chlorosis.
 
 Output JSON strictly matching this schema:
 {
