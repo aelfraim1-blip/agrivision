@@ -134,7 +134,14 @@ function createLeafSVG(
     </svg>
   `;
 
-  return `data:image/svg+xml;base64,${btoa(svgString.trim())}`;
+  const base64 =
+    typeof Buffer !== 'undefined'
+      ? Buffer.from(svgString.trim()).toString('base64')
+      : typeof btoa !== 'undefined'
+      ? btoa(svgString.trim())
+      : '';
+
+  return `data:image/svg+xml;base64,${base64}`;
 }
 
 export const SAMPLE_DATASET: SampleDatasetItem[] = [

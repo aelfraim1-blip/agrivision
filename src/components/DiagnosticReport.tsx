@@ -24,6 +24,7 @@ import {
   Activity,
 } from 'lucide-react';
 import { ModelComparisonCard } from './ModelComparisonCard';
+import { CrossReferenceCard } from './CrossReferenceCard';
 
 interface DiagnosticReportProps {
   analysis: AnalysisResult;
@@ -255,6 +256,9 @@ export const DiagnosticReport: React.FC<DiagnosticReportProps> = ({
           <span className="leading-relaxed">{farmerTip}</span>
         </div>
       </div>
+
+      {/* 🔬 GROUND-TRUTH DATASET IMAGE CROSS-REFERENCING CARD */}
+      <CrossReferenceCard analysis={analysis} />
 
       {/* Simplified Metrics Row with Layman Tooltips */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

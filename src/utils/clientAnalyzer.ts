@@ -2,6 +2,7 @@ import { AnalysisResult, CropType, DiseaseCategory } from '../types';
 import { SAMPLE_DATASET } from '../data/sampleDataset';
 import { getImageHash } from './imageHash';
 import { calculateModelComparison } from './modelComparisonStats';
+import { buildReferenceComparison } from './crossReferenceEngine';
 
 export function analyzeImageClientSide(imageDataUrl: string, crop: CropType): AnalysisResult {
   // Inspect non-base64 header string and SVG content if any
@@ -103,6 +104,7 @@ export function analyzeImageClientSide(imageDataUrl: string, crop: CropType): An
       ? 'Severe (>40%)'
       : 'Moderate (16-40%)',
     overallConfidence: 98.2,
+    referenceComparison: buildReferenceComparison(match.crop, match.diseaseName, 98.2),
     accuracyMetrics: {
       top1Accuracy: 98.2,
       top3Accuracy: 99.8,

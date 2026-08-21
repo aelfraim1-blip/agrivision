@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import { GoogleGenAI, Type } from '@google/genai';
 import { createServer as createViteServer } from 'vite';
+import { buildReferenceComparison } from './src/utils/crossReferenceEngine';
 
 const app = express();
 const PORT = 3000;
@@ -607,6 +608,11 @@ Output JSON strictly matching this schema:
                 const effErr = Math.round((100 - effAcc) * 10) / 10;
                 const ensembleErr = Math.round((100 - conf) * 10) / 10;
 
+                parsedData.referenceComparison = buildReferenceComparison(
+                  (parsedData.crop === 'Corn' || crop === 'Corn') ? 'Corn' : 'Rice',
+                  parsedData.diseaseName,
+                  conf
+                );
                 parsedData.accuracyMetrics = {
                   top1Accuracy: conf,
                   top3Accuracy: Math.min(99.9, Math.round((conf + 1.6) * 10) / 10),
@@ -726,6 +732,7 @@ Output JSON strictly matching this schema:
     const conf = Number(matchedItem?.overallConfidence) || 98.2;
     const finalData = matchedItem ? {
       ...matchedItem,
+      referenceComparison: buildReferenceComparison(targetCrop, matchedItem.diseaseName, conf),
       accuracyMetrics: {
         top1Accuracy: conf,
         top3Accuracy: Math.min(99.9, Math.round((conf + 1.6) * 10) / 10),
