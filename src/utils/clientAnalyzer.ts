@@ -1,6 +1,7 @@
 import { AnalysisResult, CropType, DiseaseCategory } from '../types';
 import { SAMPLE_DATASET } from '../data/sampleDataset';
 import { getImageHash } from './imageHash';
+import { calculateModelComparison } from './modelComparisonStats';
 
 export function analyzeImageClientSide(imageDataUrl: string, crop: CropType): AnalysisResult {
   // Inspect non-base64 header string and SVG content if any
@@ -117,6 +118,7 @@ export function analyzeImageClientSide(imageDataUrl: string, crop: CropType): An
       datasetValidationBenchmark: 98.8,
       errorMargin: 1.2,
       reliabilityGrade: 'Optimal (Grade A+)',
+      modelComparison: calculateModelComparison(98.2),
     },
     ensembleScores: {
       resnet50Confidence: 97.6,

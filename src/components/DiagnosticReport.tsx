@@ -23,6 +23,7 @@ import {
   TrendingUp,
   Activity,
 } from 'lucide-react';
+import { ModelComparisonCard } from './ModelComparisonCard';
 
 interface DiagnosticReportProps {
   analysis: AnalysisResult;
@@ -706,6 +707,13 @@ export const DiagnosticReport: React.FC<DiagnosticReportProps> = ({
 
         </div>
       </div>
+
+      {/* 🔬 MODEL COMPARISON & ENSEMBLE ADVANTAGE METRICS */}
+      <ModelComparisonCard
+        accuracyMetrics={analysis.accuracyMetrics}
+        ensembleScores={analysis.ensembleScores}
+        diseaseName={analysis.diseaseName}
+      />
 
       {/* Symptoms & Trigger Conditions */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

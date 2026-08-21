@@ -27,6 +27,39 @@ export interface AccuracyMetric {
   // Benchmark & Reliability
   datasetValidationBenchmark: number; // e.g. 98.8%
   reliabilityGrade: 'Optimal (Grade A+)' | 'High Precision (Grade A)' | 'Moderate Confidence' | 'Needs Review';
+
+  // Comparative metrics vs. single models
+  modelComparison?: {
+    singleResNet50: {
+      top1Accuracy: number;
+      macroPrecision: number;
+      macroRecall: number;
+      macroF1Score: number;
+      inferenceTimeMs: number;
+      errorRate: number;
+    };
+    singleEfficientNetB3: {
+      top1Accuracy: number;
+      macroPrecision: number;
+      macroRecall: number;
+      macroF1Score: number;
+      inferenceTimeMs: number;
+      errorRate: number;
+    };
+    hybridEnsemble: {
+      top1Accuracy: number;
+      macroPrecision: number;
+      macroRecall: number;
+      macroF1Score: number;
+      inferenceTimeMs: number;
+      errorRate: number;
+    };
+    accuracyGainOverResNet: number; // e.g. +4.4%
+    accuracyGainOverEfficientNet: number; // e.g. +2.8%
+    errorReductionPercentage: number; // e.g. 61.1% error reduction
+    varianceReduction: string; // e.g. '68% lower classification variance'
+    robustnessScore: number; // e.g. 99.2%
+  };
 }
 
 export interface EnsembleScores {
