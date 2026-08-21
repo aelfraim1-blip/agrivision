@@ -3,6 +3,7 @@ import path from 'path';
 import { GoogleGenAI, Type } from '@google/genai';
 import { createServer as createViteServer } from 'vite';
 import { buildReferenceComparison } from './src/utils/crossReferenceEngine';
+import { classifyFromVisualMetadata } from './src/utils/foliarClassifier';
 
 const app = express();
 const PORT = 3000;
@@ -683,51 +684,19 @@ Output JSON strictly matching this schema:
     }
 
     // Intelligent Feature Matching Fallback Engine
-    // Parse non-base64 header and decoded SVG text only (never match keywords against raw base64 data)
     const headerOnly = image.substring(0, 400).toLowerCase();
     const isSvg = image.includes('data:image/svg+xml');
     const svgText = isSvg ? decodeURIComponent(image).toLowerCase() : '';
     const metaString = `${headerOnly} ${svgText} ${decodedText.slice(0, 500)}`.toLowerCase();
 
     // Determine target crop species strictly
-    let targetCrop: 'Rice' | 'Corn' = 'Rice';
-    if (crop === 'Corn') {
-      targetCrop = 'Corn';
-    } else if (crop === 'Rice') {
-      targetCrop = 'Rice';
-    } else {
-      targetCrop = metaString.includes('corn') || metaString.includes('zeae') || metaString.includes('sorghi') ? 'Corn' : 'Rice';
-    }
+    const targetCrop: 'Rice' | 'Corn' = crop === 'Corn' ? 'Corn' : 'Rice';
 
-    let matchedItem = null;
-
-    if (targetCrop === 'Rice') {
-      if (metaString.includes('sheath') || metaString.includes('rhizoctonia') || metaString.includes('solani') || metaString.includes('snake')) {
-        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-sheath-blight');
-      } else if (metaString.includes('brown') || metaString.includes('bipolaris')) {
-        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-brown-spot');
-      } else if (metaString.includes('blast') || metaString.includes('pyricularia')) {
-        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-blast');
-      } else if (metaString.includes('bacterial') || metaString.includes('blight') || metaString.includes('xanthomonas')) {
-        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-bacterial-blight');
-      } else if (metaString.includes('healthy')) {
-        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-healthy');
-      } else {
-        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-sheath-blight') || DATASET_KNOWLEDGE_BASE[0];
-      }
-    } else {
-      if (metaString.includes('rust') || metaString.includes('puccinia')) {
-        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-rust');
-      } else if (metaString.includes('gray') || metaString.includes('cercospora')) {
-        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-gray-spot');
-      } else if (metaString.includes('blight') || metaString.includes('exserohilum')) {
-        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-northern-blight');
-      } else if (metaString.includes('healthy')) {
-        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-healthy');
-      } else {
-        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-rust') || DATASET_KNOWLEDGE_BASE[0];
-      }
-    }
+    // Retrieve ground-truth match from discriminator
+    const datasetMatch = classifyFromVisualMetadata(image, targetCrop);
+    const matchedItem = DATASET_KNOWLEDGE_BASE.find(
+      (k) => k.crop === targetCrop && k.diseaseName.toLowerCase().includes(datasetMatch.diseaseName.toLowerCase().split(' ')[0])
+    ) || DATASET_KNOWLEDGE_BASE.find((k) => k.crop === targetCrop) || DATASET_KNOWLEDGE_BASE[0];
 
     const conf = Number(matchedItem?.overallConfidence) || 98.2;
     const finalData = matchedItem ? {

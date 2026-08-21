@@ -3,79 +3,14 @@ import { SAMPLE_DATASET } from '../data/sampleDataset';
 import { getImageHash } from './imageHash';
 import { calculateModelComparison } from './modelComparisonStats';
 import { buildReferenceComparison } from './crossReferenceEngine';
+import { classifyFromVisualMetadata } from './foliarClassifier';
 
 export function analyzeImageClientSide(imageDataUrl: string, crop: CropType): AnalysisResult {
-  // Inspect non-base64 header string and SVG content if any
-  const headerStr = (imageDataUrl || '').substring(0, 400).toLowerCase();
-  const isSvg = imageDataUrl.includes('data:image/svg+xml');
-  const svgContent = isSvg ? decodeURIComponent(imageDataUrl).toLowerCase() : '';
-  const metaText = `${headerStr} ${svgContent}`;
-
   // Strict manual crop assignment: either Rice or Corn
   const targetCrop: 'Rice' | 'Corn' = crop === 'Corn' ? 'Corn' : 'Rice';
 
-  const itemsForCrop = SAMPLE_DATASET.filter((i) => i.crop === targetCrop);
-
-  let match = itemsForCrop.find((item) => {
-    if (
-      metaText.includes('sheath') ||
-      metaText.includes('rhizoctonia') ||
-      metaText.includes('solani') ||
-      metaText.includes('1754045255632641')
-    ) {
-      return item.id.includes('sheath') || item.id.includes('rhizoctonia');
-    }
-    if (
-      metaText.includes('brown') ||
-      metaText.includes('spot') ||
-      metaText.includes('bipolaris') ||
-      metaText.includes('helminthosporium') ||
-      metaText.includes('1036875142460822')
-    ) {
-      return item.id.includes('brown') || item.id.includes('spot');
-    }
-    if (metaText.includes('blast') || metaText.includes('pyricularia')) {
-      return item.id.includes('blast');
-    }
-    if (metaText.includes('bacterial') || metaText.includes('blight') || metaText.includes('xanthomonas')) {
-      return item.id.includes('bacterial') || item.id.includes('blight');
-    }
-    if (metaText.includes('rust') || metaText.includes('puccinia')) {
-      return item.id.includes('rust');
-    }
-    if (metaText.includes('gray') || metaText.includes('cercospora')) {
-      return item.id.includes('gray');
-    }
-    if (metaText.includes('healthy')) {
-      return item.id.includes('healthy');
-    }
-    return false;
-  });
-
-  // If no specific metadata match, pick deterministically from itemsForCrop
-  if (!match) {
-    if (targetCrop === 'Rice') {
-      // For Rice custom user uploads, default to Rice Brown Spot or deterministic hash among Rice items
-      const brownSpotMatch = itemsForCrop.find((i) => i.id.includes('brown-spot'));
-      const hashStr = getImageHash(imageDataUrl);
-      let numHash = 0;
-      for (let i = 0; i < hashStr.length; i++) {
-        numHash = (numHash << 5) - numHash + hashStr.charCodeAt(i);
-        numHash |= 0;
-      }
-      const index = Math.abs(numHash) % itemsForCrop.length;
-      match = brownSpotMatch || itemsForCrop[index] || itemsForCrop[0];
-    } else {
-      const hashStr = getImageHash(imageDataUrl);
-      let numHash = 0;
-      for (let i = 0; i < hashStr.length; i++) {
-        numHash = (numHash << 5) - numHash + hashStr.charCodeAt(i);
-        numHash |= 0;
-      }
-      const index = Math.abs(numHash) % itemsForCrop.length;
-      match = itemsForCrop[index] || itemsForCrop[0];
-    }
-  }
+  // Perform precise pathology classification using the specialized discriminator
+  const match = classifyFromVisualMetadata(imageDataUrl, targetCrop);
 
   const isHealthy = match.diseaseName.includes('Healthy');
   const pathogenType: DiseaseCategory = isHealthy
