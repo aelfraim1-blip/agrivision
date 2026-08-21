@@ -1,4 +1,4 @@
-export type CropType = 'Rice' | 'Corn' | 'Auto-detect';
+export type CropType = 'Rice' | 'Corn';
 
 export type DiseaseCategory = 'Fungal' | 'Bacterial' | 'Viral' | 'Physiological' | 'Healthy';
 

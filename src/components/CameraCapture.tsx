@@ -146,30 +146,29 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl">
         <div className="flex flex-wrap items-center gap-3">
           <span className="text-sm font-bold text-white flex items-center space-x-1.5">
-            <span>Select Crop:</span>
+            <span>Select Target Crop:</span>
           </span>
-          <div className="inline-flex rounded-lg bg-slate-800 p-1 border border-slate-700">
-            {(['Auto-detect', 'Rice', 'Corn'] as CropType[]).map((crop) => (
+          <div className="inline-flex rounded-lg bg-slate-950 p-1 border border-slate-800">
+            {(['Rice', 'Corn'] as CropType[]).map((crop) => (
               <button
                 key={crop}
                 onClick={() => setSelectedCrop(crop)}
-                className={`px-3.5 py-1.5 rounded-md text-xs font-bold transition-all ${
+                className={`px-4 py-2 rounded-md text-xs font-bold transition-all flex items-center space-x-1.5 ${
                   selectedCrop === crop
-                    ? 'bg-emerald-500 text-slate-950 shadow-sm'
+                    ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-900/40'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
-                {crop === 'Rice' && '🌾 '}
-                {crop === 'Corn' && '🌽 '}
-                {crop}
+                <span>{crop === 'Rice' ? '🌾' : '🌽'}</span>
+                <span>{crop === 'Rice' ? 'Rice (Palay)' : 'Corn (Maize)'}</span>
               </button>
             ))}
           </div>
         </div>
 
-        <div className="text-xs text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-3 py-1.5 rounded-lg flex items-center space-x-2">
+        <div className="text-xs text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-3.5 py-2 rounded-lg flex items-center space-x-2">
           <Sparkles className="w-4 h-4 flex-shrink-0" />
-          <span><strong>Instant AI Scanner:</strong> Take or upload a leaf photo to diagnose diseases instantly</span>
+          <span><strong>Active Diagnosis Model:</strong> Calibrated for {selectedCrop} foliar diseases</span>
         </div>
       </div>
 

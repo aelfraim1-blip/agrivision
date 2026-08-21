@@ -442,7 +442,7 @@ You have the full AgriVision Rice & Corn Dataset Ground Truth STORED IN MEMORY:
 
 ${datasetSummary}
 
-User Selected Crop Filter: ${crop || 'Auto-detect'}.
+User Selected Target Crop (Manual): ${crop === 'Corn' ? 'Corn (Zea mays)' : 'Rice (Oryza sativa)'}.
 
 CRITICAL CROP SPECIES CONSTRAINTS:
 - If the User Crop Filter is "Rice" OR if the leaf belongs to Rice (Oryza sativa - thin, elongated grass blade without a wide white central midrib):

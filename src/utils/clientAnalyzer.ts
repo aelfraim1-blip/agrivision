@@ -10,20 +10,8 @@ export function analyzeImageClientSide(imageDataUrl: string, crop: CropType): An
   const svgContent = isSvg ? decodeURIComponent(imageDataUrl).toLowerCase() : '';
   const metaText = `${headerStr} ${svgContent}`;
 
-  let targetCrop: 'Rice' | 'Corn' = 'Rice';
-
-  if (crop === 'Corn') {
-    targetCrop = 'Corn';
-  } else if (crop === 'Rice') {
-    targetCrop = 'Rice';
-  } else {
-    // Auto-detect
-    if (metaText.includes('corn') || metaText.includes('zeae') || metaText.includes('sorghi')) {
-      targetCrop = 'Corn';
-    } else {
-      targetCrop = 'Rice';
-    }
-  }
+  // Strict manual crop assignment: either Rice or Corn
+  const targetCrop: 'Rice' | 'Corn' = crop === 'Corn' ? 'Corn' : 'Rice';
 
   const itemsForCrop = SAMPLE_DATASET.filter((i) => i.crop === targetCrop);
 

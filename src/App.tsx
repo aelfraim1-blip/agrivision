@@ -20,7 +20,7 @@ const clientScanCache = new Map<string, AnalysisResult>();
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'scanner' | 'dataset' | 'history' | 'architecture' | 'results'>('scanner');
-  const [selectedCrop, setSelectedCrop] = useState<CropType>('Auto-detect');
+  const [selectedCrop, setSelectedCrop] = useState<CropType>('Rice');
   
   const [currentImageUri, setCurrentImageUri] = useState<string | null>(null);
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
