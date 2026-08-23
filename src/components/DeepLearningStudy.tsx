@@ -58,7 +58,7 @@ const LEARNED_PATTERNS_KNOWLEDGE: LearnedFeaturePattern[] = [
     primaryLocation: 'Lower leaf sheath, culm, and mid-blade ascending vertically',
     negativeRule: 'NEVER produces discrete circular pinhead spots or yellow halos. Dark border belongs to streak margin.',
     disambiguationKey: 'STREAKS & IRREGULAR BANDS → Sheath Blight (100% Calibrated)',
-    sampleImg: SAMPLE_DATASET.find((s) => s.id === 'rice-sheath-blight-01')?.sampleImageUrl || '',
+    sampleImg: SAMPLE_DATASET.find((s) => s.id === 'rice-sheath-blight-01')?.sampleImageUrl || 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=',
     learnedWeights: {
       morphologyWeight: 0.98,
       chromaticWeight: 0.95,
@@ -78,7 +78,7 @@ const LEARNED_PATTERNS_KNOWLEDGE: LearnedFeaturePattern[] = [
     primaryLocation: 'Randomly peppered across upper & mid leaf blade lamina',
     negativeRule: 'NEVER forms continuous elongated vertical streaks or banded snake-skin patches.',
     disambiguationKey: 'ISOLATED ROUND SPOTS + YELLOW HALOS → Brown Spot (100% Calibrated)',
-    sampleImg: SAMPLE_DATASET.find((s) => s.id === 'rice-brown-spot-01')?.sampleImageUrl || '',
+    sampleImg: SAMPLE_DATASET.find((s) => s.id === 'rice-brown-spot-01')?.sampleImageUrl || 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=',
     learnedWeights: {
       morphologyWeight: 0.96,
       chromaticWeight: 0.98,
@@ -98,7 +98,7 @@ const LEARNED_PATTERNS_KNOWLEDGE: LearnedFeaturePattern[] = [
     primaryLocation: 'Outer blade edges / margins progressing downward from leaf tip',
     negativeRule: 'NEVER forms isolated circular spots in central blade. Confined to outer leaf margins.',
     disambiguationKey: 'WAVY MARGINAL STRIPES ALONG LEAF EDGES → Bacterial Leaf Blight',
-    sampleImg: SAMPLE_DATASET.find((s) => s.id === 'rice-bacterial-blight-01')?.sampleImageUrl || '',
+    sampleImg: SAMPLE_DATASET.find((s) => s.id === 'rice-bacterial-blight-01')?.sampleImageUrl || 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=',
     learnedWeights: {
       morphologyWeight: 0.97,
       chromaticWeight: 0.94,
@@ -118,7 +118,7 @@ const LEARNED_PATTERNS_KNOWLEDGE: LearnedFeaturePattern[] = [
     primaryLocation: 'Mid-to-upper leaf lamina with tapered pointy endpoints',
     negativeRule: 'Has sharp acute tapered points; distinct from round brown spots and long wavy streaks.',
     disambiguationKey: 'POINTED DIAMOND / SPINDLE LESIONS → Rice Blast',
-    sampleImg: SAMPLE_DATASET.find((s) => s.id === 'rice-blast-01')?.sampleImageUrl || '',
+    sampleImg: SAMPLE_DATASET.find((s) => s.id === 'rice-blast-01')?.sampleImageUrl || 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=',
     learnedWeights: {
       morphologyWeight: 0.99,
       chromaticWeight: 0.96,
@@ -138,7 +138,7 @@ const LEARNED_PATTERNS_KNOWLEDGE: LearnedFeaturePattern[] = [
     primaryLocation: 'Both upper and lower surfaces of corn leaves',
     negativeRule: 'Elevated powdery pustules that rub off on fingers, not flat necrotic streaks.',
     disambiguationKey: 'ERUPTING CINNAMON POWDERY PUSTULES → Corn Common Rust',
-    sampleImg: SAMPLE_DATASET.find((s) => s.id === 'corn-common-rust-01')?.sampleImageUrl || '',
+    sampleImg: SAMPLE_DATASET.find((s) => s.id === 'corn-rust-01')?.sampleImageUrl || 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=',
     learnedWeights: {
       morphologyWeight: 0.95,
       chromaticWeight: 0.99,
@@ -158,7 +158,7 @@ const LEARNED_PATTERNS_KNOWLEDGE: LearnedFeaturePattern[] = [
     primaryLocation: 'Parallel between corn leaf veins',
     negativeRule: 'Strict rectangular straight edges constrained by longitudinal leaf veins.',
     disambiguationKey: 'PARALLEL VEIN-BOUND RECTANGULAR STREAKS → Gray Leaf Spot',
-    sampleImg: SAMPLE_DATASET.find((s) => s.id === 'corn-gray-leaf-spot-01')?.sampleImageUrl || '',
+    sampleImg: SAMPLE_DATASET.find((s) => s.id === 'corn-gray-spot-01')?.sampleImageUrl || 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=',
     learnedWeights: {
       morphologyWeight: 0.99,
       chromaticWeight: 0.92,
@@ -178,7 +178,7 @@ const LEARNED_PATTERNS_KNOWLEDGE: LearnedFeaturePattern[] = [
     primaryLocation: 'Lower corn leaves progressing upward',
     negativeRule: 'Massive cigar-shaped lesions much larger than Gray Leaf Spot or Rust pustules.',
     disambiguationKey: 'LARGE CIGAR-SHAPED ELLIPTICAL LESIONS → Northern Leaf Blight',
-    sampleImg: SAMPLE_DATASET.find((s) => s.id === 'corn-northern-leaf-blight-01')?.sampleImageUrl || '',
+    sampleImg: SAMPLE_DATASET.find((s) => s.id === 'corn-northern-blight-01')?.sampleImageUrl || 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=',
     learnedWeights: {
       morphologyWeight: 0.98,
       chromaticWeight: 0.94,
@@ -198,7 +198,7 @@ const LEARNED_PATTERNS_KNOWLEDGE: LearnedFeaturePattern[] = [
     primaryLocation: 'Entire blade and sheath',
     negativeRule: '0% necrotic lesions, 0% chlorotic halos, 0% water-soaked streaks.',
     disambiguationKey: 'UNIFORM EMERALD CHLOROPHYLL → Healthy Foliage',
-    sampleImg: SAMPLE_DATASET.find((s) => s.id === 'rice-healthy-01')?.sampleImageUrl || '',
+    sampleImg: SAMPLE_DATASET.find((s) => s.id === 'rice-healthy-01')?.sampleImageUrl || 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=',
     learnedWeights: {
       morphologyWeight: 0.99,
       chromaticWeight: 0.99,
@@ -794,7 +794,7 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
                   </span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Resolves the multi-scale lesion size limitation. ResNeSt-50's radix attention captures micro-lesions ($1-5\text{ mm}$ pinhead brown spots) and macro-lesions (&gt;30 mm sheath blight bands) within cross-channel attention splits.
+                  Resolves the multi-scale lesion size limitation. ResNeSt-50's radix attention captures micro-lesions (1-5 mm pinhead brown spots) and macro-lesions (&gt;30 mm sheath blight bands) within cross-channel attention splits.
                 </p>
                 <div className="pt-1 flex justify-between text-[11px] font-mono text-slate-400 border-t border-slate-900">
                   <span>Radix Attention Weight: <strong className="text-cyan-400">0.965</strong></span>
