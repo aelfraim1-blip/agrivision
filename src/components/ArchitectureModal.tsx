@@ -25,14 +25,14 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({ isOpen, on
         <div>
           <div className="flex items-center space-x-2">
             <Cpu className="w-6 h-6 text-emerald-400" />
-            <h2 className="text-xl font-extrabold text-white">Hybrid Pipeline Architecture Specs</h2>
+            <h2 className="text-xl font-extrabold text-white">Hybrid Pipeline &amp; Frontiers Tri-Ensemble Architecture Specs</h2>
           </div>
           <p className="text-xs text-slate-400 mt-1">
-            Technical explanation of the 5-tier vision & deep learning model ensemble engineered for Rice & Corn leaf diagnostics.
+            Technical explanation of the vision &amp; deep learning model ensemble engineered for Rice &amp; Corn leaf diagnostics based on <em>Frontiers in Plant Science (DOI: 10.3389/fpls.2021.701038)</em>.
           </p>
         </div>
 
-        {/* 5 Models Detailed Grid */}
+        {/* Models Detailed Grid */}
         <div className="space-y-4">
           
           {/* 1. CLAHE */}
@@ -42,7 +42,7 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({ isOpen, on
               <h3 className="text-sm font-bold text-white">1. CLAHE (Contrast Limited Adaptive Histogram Equalization)</h3>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              <strong>Purpose:</strong> Smartphone camera sensors in variable outdoor sunlight frequently suffer from harsh shadows or glare. CLAHE breaks the leaf image into localized grid tiles (e.g. 8x8), equalizing histograms while enforcing a contrast clip limit. This magnifies subtle fungal lesion borders and necrotic spot details without introducing noise artifacts.
+              <strong>Purpose:</strong> Resolves field illumination variance, sunshine flare, and shadows. CLAHE breaks the leaf image into localized grid tiles (8x8), equalizing histograms while enforcing a contrast clip limit. This magnifies subtle fungal lesion borders and necrotic spot details without introducing noise artifacts.
             </p>
           </div>
 
@@ -57,33 +57,44 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({ isOpen, on
             </p>
           </div>
 
-          {/* 3. ResNet50 */}
+          {/* 3. SE-ResNet-50 */}
           <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
             <div className="flex items-center space-x-2">
               <Cpu className="w-4 h-4 text-purple-400" />
-              <h3 className="text-sm font-bold text-white">3. ResNet50 (Deep Residual Network)</h3>
+              <h3 className="text-sm font-bold text-white">3. SE-ResNet-50 (Squeeze-and-Excitation Residual Attention)</h3>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              <strong>Purpose:</strong> ResNet50 uses 50 deep convolutional layers with residual skip connections (<code className="text-purple-300">F(x) + x</code>) to prevent vanishing gradients. It excels at recognizing complex multi-scale spatial patterns such as spindle-shaped rice blast lesions and cigar-shaped corn blights.
+              <strong>Purpose:</strong> Explicitly models interdependencies between feature channels. The Squeeze-and-Excitation block compresses spatial features into channel descriptors and dynamically recalibrates channel weights, amplifying diagnostic foliar lesion signals while suppressing outdoor background clutter.
             </p>
           </div>
 
-          {/* 4. EfficientNet B3 */}
+          {/* 4. ResNeSt-50 */}
           <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
             <div className="flex items-center space-x-2">
               <Sparkles className="w-4 h-4 text-cyan-400" />
-              <h3 className="text-sm font-bold text-white">4. EfficientNet B3 (Compound Scaled Classifier)</h3>
+              <h3 className="text-sm font-bold text-white">4. ResNeSt-50 (Split-Attention Multi-Scale Networks)</h3>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              <strong>Purpose:</strong> EfficientNet B3 uniformly scales network depth, width, and resolution using a compound coefficient. Fusing ResNet50 with EfficientNet B3 creates a high-accuracy hybrid ensemble that mitigates single-model bias and achieves 97%+ classification accuracy.
+              <strong>Purpose:</strong> Resolves the multi-scale lesion size limitation. Splits feature channels into distinct cardinalities with Radix softmax attention across channel splits, allowing the network to simultaneously capture micro-lesions (1-5mm Brown Spot dots) and continuous macro-lesions (&gt;30mm Sheath Blight streaks).
             </p>
           </div>
 
-          {/* 5. Grad-CAM */}
+          {/* 5. DenseNet-121 */}
+          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+            <div className="flex items-center space-x-2">
+              <Cpu className="w-4 h-4 text-emerald-400" />
+              <h3 className="text-sm font-bold text-white">5. DenseNet-121 (Dense Feature Connectivity &amp; Reuse)</h3>
+            </div>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              <strong>Purpose:</strong> Connects every layer to every subsequent layer in a feed-forward fashion, ensuring maximum feature reuse, gradient propagation, and subtle marginal texture preservation across deep layers.
+            </p>
+          </div>
+
+          {/* 6. Grad-CAM */}
           <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
             <div className="flex items-center space-x-2">
               <Activity className="w-4 h-4 text-rose-400" />
-              <h3 className="text-sm font-bold text-white">5. Grad-CAM (Gradient-Weighted Class Activation Mapping)</h3>
+              <h3 className="text-sm font-bold text-white">6. Grad-CAM (Gradient-Weighted Class Activation Mapping)</h3>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
               <strong>Purpose:</strong> Provides Explainable AI (XAI). By backpropagating target disease gradients to the final convolutional layer, Grad-CAM overlays an attention heatmap directly onto the leaf image, proving to farmers and agronomists that the prediction is based on true lesion symptoms rather than background noise.

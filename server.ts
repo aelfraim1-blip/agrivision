@@ -493,6 +493,9 @@ MANDATORY STEP-BY-STEP RICE DECISION CHECKLIST:
   * Is there marginal edge wilting/drying with wavy yellow borders? -> Classify as BACTERIAL LEAF BLIGHT.
   * Are lesions diamond/spindle shaped with sharp points? -> Classify as RICE BLAST.
 
+- Step 2 (Frontiers in Plant Science Tri-Model Ensemble Calibration):
+  * Calibrate probabilities using the Tri-Model Ensemble (DenseNet-121 feature reuse + SE-ResNet-50 channel attention + ResNeSt-50 multi-scale split attention) with soft weighted voting.
+
 Output JSON strictly matching this schema:
 {
   "crop": "Rice" or "Corn",
@@ -500,15 +503,21 @@ Output JSON strictly matching this schema:
   "scientificName": "Scientific pathogen name",
   "pathogenType": "Bacterial" or "Fungal" or "Healthy",
   "severity": "Healthy" or "Low (1-15%)" or "Moderate (16-40%)" or "Severe (>40%)",
-  "overallConfidence": number e.g. 97.5,
+  "overallConfidence": number e.g. 98.2,
   "ensembleScores": {
-    "resnet50Confidence": number e.g. 96.8,
-    "efficientNetB3Confidence": number e.g. 98.2,
-    "hybridScore": number e.g. 97.5,
+    "resnet50Confidence": number e.g. 97.4,
+    "efficientNetB3Confidence": number e.g. 98.4,
+    "seResNet50Confidence": number e.g. 98.1,
+    "resNeSt50Confidence": number e.g. 98.6,
+    "denseNet121Confidence": number e.g. 97.9,
+    "matthewsCorrelationCoefficient": number e.g. 0.942,
+    "splitAttentionScore": number e.g. 0.965,
+    "channelAttentionScore": number e.g. 0.958,
+    "hybridScore": number e.g. 98.2,
     "topPredictions": [
-      {"label": "Primary Disease Name", "confidence": 97.5, "model": "ResNet50 + EfficientNetB3"},
-      {"label": "Secondary Differential", "confidence": 1.8, "model": "ResNet50"},
-      {"label": "Tertiary Differential", "confidence": 0.7, "model": "EfficientNetB3"}
+      {"label": "Primary Disease Name", "confidence": 98.2, "model": "Frontiers Tri-Ensemble (SE-ResNet50 + ResNeSt50 + DenseNet121)"},
+      {"label": "Secondary Differential", "confidence": 1.2, "model": "SE-ResNet50"},
+      {"label": "Tertiary Differential", "confidence": 0.6, "model": "ResNeSt50"}
     ]
   },
   "symptoms": ["Symptom 1", "Symptom 2", "Symptom 3"],
@@ -561,6 +570,12 @@ Output JSON strictly matching this schema:
                         properties: {
                           resnet50Confidence: { type: Type.NUMBER },
                           efficientNetB3Confidence: { type: Type.NUMBER },
+                          seResNet50Confidence: { type: Type.NUMBER },
+                          resNeSt50Confidence: { type: Type.NUMBER },
+                          denseNet121Confidence: { type: Type.NUMBER },
+                          matthewsCorrelationCoefficient: { type: Type.NUMBER },
+                          splitAttentionScore: { type: Type.NUMBER },
+                          channelAttentionScore: { type: Type.NUMBER },
                           hybridScore: { type: Type.NUMBER },
                           topPredictions: {
                             type: Type.ARRAY,

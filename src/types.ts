@@ -65,6 +65,12 @@ export interface AccuracyMetric {
 export interface EnsembleScores {
   resnet50Confidence: number; // e.g. 96.4
   efficientNetB3Confidence: number; // e.g. 97.8
+  seResNet50Confidence?: number; // Squeeze-and-Excitation ResNet-50 (Frontiers in Plant Science)
+  resNeSt50Confidence?: number; // Split-Attention ResNeSt-50 (Frontiers in Plant Science)
+  denseNet121Confidence?: number; // DenseNet-121 Feature Reuse (Frontiers in Plant Science)
+  matthewsCorrelationCoefficient?: number; // MCC metric (e.g. 0.942)
+  splitAttentionScore?: number; // ResNeSt multi-scale radix attention weight
+  channelAttentionScore?: number; // SE-Net squeeze-and-excitation channel weight
   hybridScore: number; // e.g. 97.1
   topPredictions: { label: string; confidence: number; model: string }[];
 }
