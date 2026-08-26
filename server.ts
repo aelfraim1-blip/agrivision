@@ -400,14 +400,14 @@ app.post('/api/chat', async (req, res) => {
     prompt += `User: ${message}\nAgriVision:`;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.7-flash',
+      model: 'gemini-3.6-flash',
       contents: prompt,
     });
 
     return res.json({ text: response.text });
   } catch (err: any) {
     console.error('Chat endpoint error:', err);
-    res.status(500).json({ error: 'Failed to process chat message' });
+    res.status(500).json({ error: 'Failed to process chat message', details: err?.message || String(err) });
   }
 });
 
@@ -570,8 +570,8 @@ Output JSON strictly matching this schema:
 
         // Select high-availability production models per system skills guidelines
         const candidateModels = [
-          'gemini-3.7-flash',
-          'gemini-3.1-flash-lite',
+          'gemini-3.6-flash',
+          'gemini-3.6-flash',
           'gemini-flash-latest',
         ];
 
