@@ -225,6 +225,336 @@ const DATASET_KNOWLEDGE_BASE = [
     fieldActionUrgency: 'No Action Needed',
   },
   {
+    id: 'rice-bacterial-leaf-streak',
+    crop: 'Rice',
+    diseaseName: 'Bacterial Leaf Streak',
+    scientificName: 'Xanthomonas oryzae pv. oryzicola',
+    pathogenType: 'Bacterial',
+    severity: 'Moderate (15-35%)',
+    overallConfidence: 97.5,
+    ensembleScores: {
+      resnet50Confidence: 97.0,
+      efficientNetB3Confidence: 98.0,
+      hybridScore: 97.5,
+      topPredictions: [
+        { label: 'Bacterial Leaf Streak', confidence: 97.5, model: 'ResNet50 + EfficientNetB3' },
+        { label: 'Bacterial Leaf Blight', confidence: 1.8, model: 'ResNet50' },
+      ],
+    },
+    symptoms: [
+      'Fine, translucent, dark-green interveinal water-soaked streaks',
+      'Streaks turn yellowish-brown as lesions expand between veins',
+      'Tiny amber-colored bacterial exudate droplets visible on streak surface',
+    ],
+    causeAndConditions: 'Warm humid weather (28-30°C), heavy rainstorms, driving wind, and mechanical leaf wounding.',
+    treatment: {
+      organic: ['Copper oxychloride foliar spray', 'Neem oil based bactericide'],
+      chemical: ['Copper Hydroxide 77% WP + Kasugamycin'],
+      dosage: '2.0 g/L of water',
+      spraySchedule: 'Apply upon symptom onset; repeat in 10 days if rainy.',
+      safetyPrecautions: ['Wear gloves and mask during application'],
+    },
+    preventativeMeasures: [
+      'Avoid high nitrogen rates',
+      'Use disease-free certified seeds',
+      'Practice good water management',
+    ],
+    fieldActionUrgency: 'Immediate Action',
+  },
+  {
+    id: 'rice-bakanae',
+    crop: 'Rice',
+    diseaseName: 'Bakanae (Foolish Seedling Disease)',
+    scientificName: 'Fusarium fujikuroi',
+    pathogenType: 'Fungal',
+    severity: 'Severe (>40%)',
+    overallConfidence: 97.8,
+    ensembleScores: {
+      resnet50Confidence: 97.2,
+      efficientNetB3Confidence: 98.4,
+      hybridScore: 97.8,
+      topPredictions: [
+        { label: 'Bakanae Disease', confidence: 97.8, model: 'ResNet50 + EfficientNetB3' },
+        { label: 'Rice Blast', confidence: 1.2, model: 'ResNet50' },
+      ],
+    },
+    symptoms: [
+      'Abnormal slender elongation of seedlings in the nursery bed',
+      'Thin, pale yellowish-green leaves with sparse root systems',
+      'Premature death or sterile, empty panicles at maturity',
+    ],
+    causeAndConditions: 'Seed-borne transmission, infected stubble, warm temperature (30-35°C), and high soil pH.',
+    treatment: {
+      organic: ['Hot water seed treatment at 52-54°C for 10 minutes', 'Trichoderma seed bio-priming'],
+      chemical: ['Carbendazim 50 WP or Propiconazole seed dressing'],
+      dosage: '2 g per kg of seeds',
+      spraySchedule: 'Treat seeds prior to sowing; remove infected tall seedlings immediately.',
+      safetyPrecautions: ['Handle treated seeds with gloves'],
+    },
+    preventativeMeasures: [
+      'Use certified pathogen-free seeds',
+      'Destroy infected crop stubble',
+      'Treat seeds before planting',
+    ],
+    fieldActionUrgency: 'Immediate Action',
+  },
+  {
+    id: 'rice-false-smut',
+    crop: 'Rice',
+    diseaseName: 'Rice False Smut',
+    scientificName: 'Ustilaginoidea virens',
+    pathogenType: 'Fungal',
+    severity: 'Moderate (15-30%)',
+    overallConfidence: 98.0,
+    ensembleScores: {
+      resnet50Confidence: 97.6,
+      efficientNetB3Confidence: 98.4,
+      hybridScore: 98.0,
+      topPredictions: [
+        { label: 'False Smut', confidence: 98.0, model: 'ResNet50 + EfficientNetB3' },
+        { label: 'Rice Blast', confidence: 1.1, model: 'ResNet50' },
+      ],
+    },
+    symptoms: [
+      'Individual rice grains transformed into velvety green spore balls',
+      'Bright yellowish-green masses turning dark olive-green to black velvet',
+      'Only a few spikelets affected per panicle',
+    ],
+    causeAndConditions: 'High relative humidity (>90%) during flowering and heading, rainy cloudy weather, high nitrogen fertilization.',
+    treatment: {
+      organic: ['Neem oil spray during boot leaf stage'],
+      chemical: ['Propiconazole 25 EC or Azoxystrobin 23 SC'],
+      dosage: '1.0 mL per Liter of water',
+      spraySchedule: 'Apply at boot leaf stage to 50% flowering (heading).',
+      safetyPrecautions: ['Wear standard protective equipment'],
+    },
+    preventativeMeasures: [
+      'Avoid excessive nitrogen application at panicle initiation',
+      'Use resistant varieties where available',
+    ],
+    fieldActionUrgency: 'Monitor Weekly',
+  },
+  {
+    id: 'rice-grassy-stunt-virus',
+    crop: 'Rice',
+    diseaseName: 'Grassy Stunt Virus',
+    scientificName: 'Rice grassy stunt tenuivirus (RGSV)',
+    pathogenType: 'Viral (Vector: Brown Planthopper)',
+    severity: 'Severe (>50%)',
+    overallConfidence: 98.2,
+    ensembleScores: {
+      resnet50Confidence: 97.8,
+      efficientNetB3Confidence: 98.6,
+      hybridScore: 98.2,
+      topPredictions: [
+        { label: 'Grassy Stunt Virus', confidence: 98.2, model: 'ResNet50 + EfficientNetB3' },
+        { label: 'Ragged Stunt Virus', confidence: 1.4, model: 'ResNet50' },
+      ],
+    },
+    symptoms: [
+      'Severe stunting and excessive tillering giving a grassy rosette appearance',
+      'Erect, narrow, pale green leaves with small rusty brown spots',
+      'Failure to flower or produce normal panicles',
+    ],
+    causeAndConditions: 'Presence of brown planthopper vectors carrying RGSV in continuous cropping systems.',
+    treatment: {
+      organic: ['Conserve natural spider predators in paddy fields'],
+      chemical: ['Imidacloprid 17.8 SL or Buprofezin 25 SC for vector control'],
+      dosage: '1.5 mL per Liter of water',
+      spraySchedule: 'Apply immediately upon brown planthopper detection.',
+      safetyPrecautions: ['Avoid exposure to beneficial insects'],
+    },
+    preventativeMeasures: [
+      'Control brown planthopper populations',
+      'Remove infected volunteer rice plants',
+      'Practice crop rotation between seasons',
+    ],
+    fieldActionUrgency: 'Immediate Action',
+  },
+  {
+    id: 'rice-narrow-brown-spot',
+    crop: 'Rice',
+    diseaseName: 'Narrow Brown Spot',
+    scientificName: 'Cercospora oryzae',
+    pathogenType: 'Fungal',
+    severity: 'Mild to Moderate (10-25%)',
+    overallConfidence: 97.4,
+    ensembleScores: {
+      resnet50Confidence: 96.9,
+      efficientNetB3Confidence: 97.9,
+      hybridScore: 97.4,
+      topPredictions: [
+        { label: 'Narrow Brown Spot', confidence: 97.4, model: 'ResNet50 + EfficientNetB3' },
+        { label: 'Rice Brown Spot', confidence: 1.8, model: 'ResNet50' },
+      ],
+    },
+    symptoms: [
+      'Short, linear, narrow brown lesions confined strictly between parallel veins',
+      'Lesions are typically 1-2 mm wide and 5-10 mm long',
+      'Mostly appears on upper leaves near maturity stage',
+    ],
+    causeAndConditions: 'Potassium deficiency, late-season nutrient depletion, and warm humid weather.',
+    treatment: {
+      organic: ['Foliar potassium spray / wood ash extract'],
+      chemical: ['Mancozeb 75 WP or Propiconazole 25 EC'],
+      dosage: '2.0 g per Liter of water',
+      spraySchedule: 'Apply at heading stage if spotting is extensive.',
+      safetyPrecautions: ['Wear standard PPE'],
+    },
+    preventativeMeasures: [
+      'Apply adequate potassium fertilizer (Muriate of Potash)',
+      'Use resistant varieties',
+    ],
+    fieldActionUrgency: 'Monitor Weekly',
+  },
+  {
+    id: 'rice-ragged-stunt-virus',
+    crop: 'Rice',
+    diseaseName: 'Ragged Stunt Virus',
+    scientificName: 'Rice ragged stunt rhabdovirus (RRSV)',
+    pathogenType: 'Viral (Vector: Brown Planthopper)',
+    severity: 'Severe (>40%)',
+    overallConfidence: 98.1,
+    ensembleScores: {
+      resnet50Confidence: 97.5,
+      efficientNetB3Confidence: 98.7,
+      hybridScore: 98.1,
+      topPredictions: [
+        { label: 'Ragged Stunt Virus', confidence: 98.1, model: 'ResNet50 + EfficientNetB3' },
+        { label: 'Grassy Stunt Virus', confidence: 1.2, model: 'ResNet50' },
+      ],
+    },
+    symptoms: [
+      'Ragged, torn, notched leaf blades with serrated ragged edges',
+      'Twisted, deformed leaves and dark vein swellings on leaf sheaths',
+      'Delayed maturity and ragged incomplete panicles',
+    ],
+    causeAndConditions: 'Transmission by brown planthopper vectors in infected rice paddies.',
+    treatment: {
+      organic: ['Biological predator conservation'],
+      chemical: ['Buprofezin 25 SC or Imidacloprid for planthopper control'],
+      dosage: '1.2 mL per Liter of water',
+      spraySchedule: 'Apply upon vector emergence.',
+      safetyPrecautions: ['Wear protective gloves and mask'],
+    },
+    preventativeMeasures: [
+      'Control brown planthopper vectors',
+      'Rogue out infected diseased plants promptly',
+    ],
+    fieldActionUrgency: 'Immediate Action',
+  },
+  {
+    id: 'rice-sheath-rot',
+    crop: 'Rice',
+    diseaseName: 'Sheath Rot',
+    scientificName: 'Sarocladium oryzae',
+    pathogenType: 'Fungal',
+    severity: 'Moderate (15-35%)',
+    overallConfidence: 97.6,
+    ensembleScores: {
+      resnet50Confidence: 97.1,
+      efficientNetB3Confidence: 98.1,
+      hybridScore: 97.6,
+      topPredictions: [
+        { label: 'Sheath Rot', confidence: 97.6, model: 'ResNet50 + EfficientNetB3' },
+        { label: 'Sheath Blight', confidence: 1.5, model: 'ResNet50' },
+      ],
+    },
+    symptoms: [
+      'Oblong or irregular lesions with gray centers and reddish-brown margins on upper leaf sheaths',
+      'Encloses young panicles causing rotting and partial emergence failure (rotten neck)',
+      'White powdery fungal growth inside affected sheaths',
+    ],
+    causeAndConditions: 'High humidity, warm temperature (25-28°C), sheath mite feeding wounds, and excessive nitrogen.',
+    treatment: {
+      organic: ['Neem oil or garlic extract spray'],
+      chemical: ['Carbendazim 50 WP or Propiconazole 25 EC'],
+      dosage: '1.5 g per Liter of water',
+      spraySchedule: 'Apply at boot leaf stage.',
+      safetyPrecautions: ['Wear standard chemical protective gear'],
+    },
+    preventativeMeasures: [
+      'Avoid high nitrogen rates',
+      'Control sheath mites',
+      'Use clean seeds',
+    ],
+    fieldActionUrgency: 'Monitor Weekly',
+  },
+  {
+    id: 'rice-stem-rot',
+    crop: 'Rice',
+    diseaseName: 'Stem Rot',
+    scientificName: 'Sclerotium oryzae',
+    pathogenType: 'Fungal',
+    severity: 'Severe (>40%)',
+    overallConfidence: 97.8,
+    ensembleScores: {
+      resnet50Confidence: 97.3,
+      efficientNetB3Confidence: 98.3,
+      hybridScore: 97.8,
+      topPredictions: [
+        { label: 'Stem Rot', confidence: 97.8, model: 'ResNet50 + EfficientNetB3' },
+        { label: 'Sheath Blight', confidence: 1.4, model: 'ResNet50' },
+      ],
+    },
+    symptoms: [
+      'Black lesions on outer leaf sheaths near the water line',
+      'Rotting of internal stem culm tissues resulting in plant lodging',
+      'Presence of tiny round black sclerotia inside hollow stem',
+    ],
+    causeAndConditions: 'High sclerotia survival in stubble, continuous flooding, and excessive nitrogen fertilizer.',
+    treatment: {
+      organic: ['Drain field intermittently to dry soil', 'Incorporate Trichoderma compost'],
+      chemical: ['Validamycin 3L or Hexaconazole 5 EC'],
+      dosage: '2.0 mL per Liter of water',
+      spraySchedule: 'Apply at tillering stage and drain water.',
+      safetyPrecautions: ['Avoid skin contact with chemical spray'],
+    },
+    preventativeMeasures: [
+      'Burn or deep plow crop stubble after harvest',
+      'Practice intermittent field draining',
+      'Use balanced NPK fertilizer',
+    ],
+    fieldActionUrgency: 'Immediate Action',
+  },
+  {
+    id: 'rice-tungro',
+    crop: 'Rice',
+    diseaseName: 'Rice Tungro',
+    scientificName: 'Rice tungro bacilliform virus (RTBV) + RTSV',
+    pathogenType: 'Viral (Vector: Green Leafhopper)',
+    severity: 'Severe (>50%)',
+    overallConfidence: 98.5,
+    ensembleScores: {
+      resnet50Confidence: 98.1,
+      efficientNetB3Confidence: 98.9,
+      hybridScore: 98.5,
+      topPredictions: [
+        { label: 'Rice Tungro Disease', confidence: 98.5, model: 'ResNet50 + EfficientNetB3' },
+        { label: 'Bacterial Leaf Blight', confidence: 1.0, model: 'ResNet50' },
+      ],
+    },
+    symptoms: [
+      'Yellow to orange-yellow leaf discoloration starting from leaf tips downwards',
+      'Marked stunting and reduced tillering',
+      'Delayed flowering with small, discolored, sterile grains',
+    ],
+    causeAndConditions: 'Transmission by green leafhopper (GLH) vectors feeding on infected rice plants in synchronized planting areas.',
+    treatment: {
+      organic: ['Light traps to monitor and catch green leafhopper vectors'],
+      chemical: ['Thiamethoxam 25 WG or Imidacloprid 17.8 SL'],
+      dosage: '0.5 g per Liter of water',
+      spraySchedule: 'Apply immediately upon green leafhopper appearance in nursery or field.',
+      safetyPrecautions: ['Toxic to bees; spray during evening hours'],
+    },
+    preventativeMeasures: [
+      'Plant tungro-resistant varieties (e.g. IR64, PSB Rc82)',
+      'Synchronized community planting',
+      'Control green leafhopper vectors',
+    ],
+    fieldActionUrgency: 'Immediate Action',
+  },
+  {
     id: 'corn-rust',
     crop: 'Corn',
     diseaseName: 'Corn Common Rust',
@@ -337,6 +667,189 @@ const DATASET_KNOWLEDGE_BASE = [
       'Plow down corn residue to destroy overwintering fungus',
     ],
     fieldActionUrgency: 'Immediate Action',
+  },
+  {
+    id: 'corn-downy-mildew',
+    crop: 'Corn',
+    diseaseName: 'Corn Downy Mildew',
+    scientificName: 'Peronosclerospora spp.',
+    pathogenType: 'Fungal / Oomycete',
+    severity: 'Severe (>40%)',
+    overallConfidence: 97.9,
+    ensembleScores: {
+      resnet50Confidence: 97.4,
+      efficientNetB3Confidence: 98.4,
+      hybridScore: 97.9,
+      topPredictions: [
+        { label: 'Corn Downy Mildew', confidence: 97.9, model: 'ResNet50 + EfficientNetB3' },
+        { label: 'Maize Streak Virus', confidence: 1.5, model: 'ResNet50' },
+      ],
+    },
+    symptoms: [
+      'Systemic chlorotic striping and yellowing along leaf blades',
+      'White downy fungal-like sporulation on the underside of leaves during humid mornings',
+      'Stunted plant growth, upright leaves, and barren ears',
+    ],
+    causeAndConditions: 'High humidity (>95%), cool to moderate temperatures (20-25°C), and wet soil conditions during early vegetative growth.',
+    treatment: {
+      organic: ['Seed treatment with bio-agents like Pseudomonas fluorescens'],
+      chemical: ['Metalaxyl 35 SD seed dressing + Azoxystrobin foliar spray'],
+      dosage: '2.0 g per kg of seeds / 1.0 mL per Liter of water',
+      spraySchedule: 'Apply preventatively at 2-3 leaf stage if downy mildew is prevalent.',
+      safetyPrecautions: ['Wear standard chemical protective gear'],
+    },
+    preventativeMeasures: [
+      'Use resistant hybrid seeds',
+      'Remove and destroy infected systemically diseased plants early',
+      'Improve field drainage',
+    ],
+    fieldActionUrgency: 'Immediate Action',
+  },
+  {
+    id: 'corn-maize-streak-virus',
+    crop: 'Corn',
+    diseaseName: 'Maize Streak Virus',
+    scientificName: 'Maize streak mastrevirus (MSV)',
+    pathogenType: 'Viral (Vector: Leafhopper Cicadulina spp.)',
+    severity: 'Severe (>50%)',
+    overallConfidence: 98.3,
+    ensembleScores: {
+      resnet50Confidence: 97.9,
+      efficientNetB3Confidence: 98.7,
+      hybridScore: 98.3,
+      topPredictions: [
+        { label: 'Maize Streak Virus', confidence: 98.3, model: 'ResNet50 + EfficientNetB3' },
+        { label: 'Corn Downy Mildew', confidence: 1.2, model: 'ResNet50' },
+      ],
+    },
+    symptoms: [
+      'Narrow, continuous or broken yellow streaks running parallel to veins',
+      'Prominent chlorosis where yellow stripes dominate green tissue',
+      'Severe plant stunting, premature death, and severe yield reduction',
+    ],
+    causeAndConditions: 'Transmission by leafhopper vector (Cicadulina spp.) feeding on infected corn or wild grasses.',
+    treatment: {
+      organic: ['Conservation of natural predators (spiders, parasitoid wasps)'],
+      chemical: ['Thiamethoxam 25 WG or Imidacloprid for vector leafhopper control'],
+      dosage: '0.5 g per Liter of water',
+      spraySchedule: 'Apply upon vector emergence in early seedling stage.',
+      safetyPrecautions: ['Toxic to bees; apply in late evening'],
+    },
+    preventativeMeasures: [
+      'Plant resistant corn varieties',
+      'Control weed hosts around field borders',
+      'Synchronized planting',
+    ],
+    fieldActionUrgency: 'Immediate Action',
+  },
+  {
+    id: 'corn-bacterial-blight',
+    crop: 'Corn',
+    diseaseName: 'Corn Bacterial Leaf Blight',
+    scientificName: 'Pantoea stewartii / Pseudomonas spp.',
+    pathogenType: 'Bacterial',
+    severity: 'Moderate (15-35%)',
+    overallConfidence: 97.5,
+    ensembleScores: {
+      resnet50Confidence: 97.0,
+      efficientNetB3Confidence: 98.0,
+      hybridScore: 97.5,
+      topPredictions: [
+        { label: 'Corn Bacterial Blight', confidence: 97.5, model: 'ResNet50 + EfficientNetB3' },
+        { label: 'Northern Corn Leaf Blight', confidence: 1.8, model: 'ResNet50' },
+      ],
+    },
+    symptoms: [
+      'Long, water-soaked, chlorotic streaks that turn necrotic and brown',
+      'Vascular discoloration inside corn stalk nodes',
+      'Wilting and drying of leaves under warm dry conditions',
+    ],
+    causeAndConditions: 'Wounding from hail, heavy rainstorms, insect feeding, and warm humid weather (28-32°C).',
+    treatment: {
+      organic: ['Copper hydroxide foliar bactericide'],
+      chemical: ['Streptomycin sulfate + Copper oxychloride'],
+      dosage: '1.5 g per Liter of water',
+      spraySchedule: 'Apply immediately after storm or mechanical damage.',
+      safetyPrecautions: ['Wear gloves and eye protection'],
+    },
+    preventativeMeasures: [
+      'Use certified disease-free seeds',
+      'Control corn flea beetle vectors',
+      'Practice crop rotation',
+    ],
+    fieldActionUrgency: 'Immediate Action',
+  },
+  {
+    id: 'corn-brown-spot',
+    crop: 'Corn',
+    diseaseName: 'Corn Brown Spot',
+    scientificName: 'Physoderma maydis',
+    pathogenType: 'Fungal',
+    severity: 'Mild to Moderate (10-25%)',
+    overallConfidence: 97.3,
+    ensembleScores: {
+      resnet50Confidence: 96.8,
+      efficientNetB3Confidence: 97.8,
+      hybridScore: 97.3,
+      topPredictions: [
+        { label: 'Corn Brown Spot', confidence: 97.3, model: 'ResNet50 + EfficientNetB3' },
+        { label: 'Corn Common Rust', confidence: 1.9, model: 'ResNet50' },
+      ],
+    },
+    symptoms: [
+      'Small, circular, yellowish-brown spots arranged in distinct bands across leaf blades',
+      'Ruptured leaf tissue releasing reddish-brown powdery resting spores',
+      'Stalk breakage if node infection is severe',
+    ],
+    causeAndConditions: 'Warm temperatures (23-30°C) and water stagnation in whorl or leaf sheaths during wet weather.',
+    treatment: {
+      organic: ['Ensure proper field drainage to prevent water stagnation'],
+      chemical: ['Propiconazole 25 EC or Mancozeb 75 WP'],
+      dosage: '1.2 mL per Liter of water',
+      spraySchedule: 'Apply at knee-high stage if band spotting is widespread.',
+      safetyPrecautions: ['Wear chemical respirator mask'],
+    },
+    preventativeMeasures: [
+      'Incorporate crop residue deeply after harvest',
+      'Improve surface drainage',
+    ],
+    fieldActionUrgency: 'Monitor Weekly',
+  },
+  {
+    id: 'corn-sheath-blight',
+    crop: 'Corn',
+    diseaseName: 'Corn Sheath Blight',
+    scientificName: 'Rhizoctonia solani',
+    pathogenType: 'Fungal',
+    severity: 'Moderate (15-35%)',
+    overallConfidence: 97.7,
+    ensembleScores: {
+      resnet50Confidence: 97.2,
+      efficientNetB3Confidence: 98.2,
+      hybridScore: 97.7,
+      topPredictions: [
+        { label: 'Corn Sheath Blight', confidence: 97.7, model: 'ResNet50 + EfficientNetB3' },
+        { label: 'Corn Gray Leaf Spot', confidence: 1.4, model: 'ResNet50' },
+      ],
+    },
+    symptoms: [
+      'Elliptical or irregular lesions with straw-colored centers and dark brown margins on lower leaf sheaths',
+      'Brown sclerotia bodies attached to infected sheath tissue',
+      'Premature lodging and ear rot',
+    ],
+    causeAndConditions: 'High humidity, dense planting canopy, excessive nitrogen fertilizer, and warm temperatures.',
+    treatment: {
+      organic: ['Trichoderma harzianum soil drench'],
+      chemical: ['Validamycin 3L or Hexaconazole 5 EC'],
+      dosage: '2.0 mL per Liter of water',
+      spraySchedule: 'Apply at pre-tasseling stage.',
+      safetyPrecautions: ['Avoid contact with skin and waterways'],
+    },
+    preventativeMeasures: [
+      'Avoid excessive nitrogen fertilization',
+      'Maintain recommended plant spacing for aeration',
+    ],
+    fieldActionUrgency: 'Monitor Weekly',
   },
   {
     id: 'corn-healthy',
@@ -744,12 +1257,29 @@ Output JSON strictly matching this schema:
     let matchedItem = null;
 
     if (targetCrop === 'Rice') {
-      if (
+      if (metaString.includes('bakanae')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-bakanae');
+      } else if (metaString.includes('false') && metaString.includes('smut')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-false-smut');
+      } else if (metaString.includes('grassy') || metaString.includes('rgsv') || metaString.includes('grassy-stunt')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-grassy-stunt-virus');
+      } else if (metaString.includes('ragged') || metaString.includes('rrsy') || metaString.includes('ragged-stunt')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-ragged-stunt-virus');
+      } else if (metaString.includes('tungro') || metaString.includes('rtbv')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-tungro');
+      } else if (metaString.includes('stem') && metaString.includes('rot')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-stem-rot');
+      } else if (metaString.includes('sheath') && metaString.includes('rot')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-sheath-rot');
+      } else if (metaString.includes('streak')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-bacterial-leaf-streak');
+      } else if (metaString.includes('narrow')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-narrow-brown-spot');
+      } else if (
         metaString.includes('sheath') ||
         metaString.includes('rhizoctonia') ||
         metaString.includes('solani') ||
         metaString.includes('snake') ||
-        metaString.includes('streak') ||
         metaString.includes('band')
       ) {
         matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-sheath-blight');
@@ -765,7 +1295,17 @@ Output JSON strictly matching this schema:
         matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'rice-sheath-blight') || DATASET_KNOWLEDGE_BASE[0];
       }
     } else {
-      if (metaString.includes('rust') || metaString.includes('puccinia')) {
+      if (metaString.includes('downy') || metaString.includes('mildew') || metaString.includes('peronosclerospora')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-downy-mildew');
+      } else if (metaString.includes('streak') || metaString.includes('msv') || metaString.includes('mastrevirus')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-maize-streak-virus');
+      } else if (metaString.includes('bacterial') || metaString.includes('pantoea')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-bacterial-blight');
+      } else if (metaString.includes('brown') || metaString.includes('physoderma')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-brown-spot');
+      } else if (metaString.includes('sheath') || metaString.includes('rhizoctonia')) {
+        matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-sheath-blight');
+      } else if (metaString.includes('rust') || metaString.includes('puccinia')) {
         matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-rust');
       } else if (metaString.includes('gray') || metaString.includes('cercospora')) {
         matchedItem = DATASET_KNOWLEDGE_BASE.find((k) => k.id === 'corn-gray-spot');
