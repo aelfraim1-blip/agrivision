@@ -6,6 +6,9 @@ import { GoogleGenAI, Type } from '@google/genai';
 const app = express();
 const PORT = 3000;
 
+app.get('/api/health', (req, res) => res.json({ status: 'ok', vercel: !!process.env.VERCEL }));
+
+
 // Increase JSON payload limit for high-resolution leaf photos from smartphone cameras
 app.use(express.json({ limit: '25mb' }));
 
@@ -808,7 +811,8 @@ export default app;
 // Setup Vite middleware in dev or static files in production
 async function startServer() {
   if (process.env.NODE_ENV !== 'production') {
-    const { createServer: createViteServer } = await import('vite');
+    const vitePkg = 'vite';
+    const { createServer: createViteServer } = await import(vitePkg);
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
