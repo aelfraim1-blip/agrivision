@@ -42,14 +42,19 @@ export const Chatbot: React.FC = () => {
         }),
       });
 
+      const data = await response.json().catch(() => null);
+
       if (!response.ok) {
-        throw new Error('Failed to get response');
+        throw new Error(data?.error || data?.details || 'Failed to get response');
       }
 
-      const data = await response.json();
       setMessages((prev) => [...prev, { role: 'assistant', content: data.text || 'Sorry, I encountered an error.' }]);
-    } catch (error) {
-      setMessages((prev) => [...prev, { role: 'assistant', content: 'Sorry, I am having trouble connecting to my knowledge base right now. Please check if the API key is configured.' }]);
+    } catch (error: any) {
+      console.error('Chat error:', error);
+      setMessages((prev) => [...prev, { 
+        role: 'assistant', 
+        content: `Connection error: ${error.message || 'Unable to reach the knowledge base'}.\n\nIf you are on Vercel, make sure you have added the GEMINI_API_KEY to your Environment Variables and triggered a completely new deployment.` 
+      }]);
     } finally {
       setIsLoading(false);
     }
