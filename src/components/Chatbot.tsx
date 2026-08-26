@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, X, Send, Bot, User, Loader2 } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -111,14 +112,25 @@ export const Chatbot: React.FC = () => {
                 {msg.role === 'user' ? <User className="w-4 h-4 text-white" /> : <Bot className="w-4 h-4 text-white" />}
               </div>
               <div
-                className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm ${
+                className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm ${
                   msg.role === 'user'
                     ? 'bg-indigo-600 text-white rounded-tr-sm'
                     : 'bg-slate-800 text-slate-200 border border-slate-700 rounded-tl-sm'
                 }`}
-                style={{ whiteSpace: 'pre-wrap' }}
               >
-                {msg.content}
+                <div className="markdown-body">
+                  <ReactMarkdown
+                    components={{
+                      p: ({ node, ...props }) => <p className="mb-2 last:mb-0" {...props} />,
+                      strong: ({ node, ...props }) => <strong className="font-bold text-white" {...props} />,
+                      ul: ({ node, ...props }) => <ul className="list-disc pl-4 mb-2 last:mb-0 space-y-1" {...props} />,
+                      ol: ({ node, ...props }) => <ol className="list-decimal pl-4 mb-2 last:mb-0 space-y-1" {...props} />,
+                      li: ({ node, ...props }) => <li {...props} />,
+                    }}
+                  >
+                    {msg.content}
+                  </ReactMarkdown>
+                </div>
               </div>
             </div>
           ))}
