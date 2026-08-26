@@ -1,6 +1,6 @@
 export type CropType = 'Rice' | 'Corn';
 
-export type DiseaseCategory = 'Fungal' | 'Bacterial' | 'Viral' | 'Physiological' | 'Healthy';
+export type DiseaseCategory = 'Fungal' | 'Fungal/Oomycete' | 'Bacterial' | 'Viral' | 'Physiological' | 'Healthy';
 
 export type PipelineStage = 'raw' | 'clahe' | 'unet' | 'classification' | 'gradcam';
 

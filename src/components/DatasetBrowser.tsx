@@ -77,7 +77,7 @@ export const DatasetBrowser: React.FC<DatasetBrowserProps> = ({ onSelectSample }
           <div className="flex items-center space-x-2">
             <span className="text-slate-400 font-semibold">Pathogen:</span>
             <div className="inline-flex rounded-lg bg-slate-950 p-1 border border-slate-800">
-              {(['All', 'Fungal', 'Bacterial', 'Healthy'] as const).map((cat) => (
+              {(['All', 'Fungal', 'Fungal/Oomycete', 'Bacterial', 'Viral', 'Healthy'] as const).map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setCategoryFilter(cat)}

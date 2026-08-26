@@ -8,6 +8,7 @@ import { DeepLearningStudy } from './components/DeepLearningStudy';
 import { FieldLogs } from './components/FieldLogs';
 import { ArchitectureModal } from './components/ArchitectureModal';
 import { ResultsFigures } from './components/ResultsFigures';
+import { Chatbot } from './components/Chatbot';
 import { CropType, AnalysisResult, SampleDatasetItem } from './types';
 import { Loader2, AlertCircle, Sprout } from 'lucide-react';
 
@@ -309,7 +310,7 @@ export default function App() {
             <span>Grad-CAM</span>
           </div>
         </div>
-      </footer>
+      </footer><Chatbot />
 
     </div>
   );

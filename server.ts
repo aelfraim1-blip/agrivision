@@ -377,6 +377,40 @@ const DATASET_KNOWLEDGE_BASE = [
 // Server-side in-memory cache map to guarantee identical, deterministic results for repeated image uploads
 const analysisServerCache = new Map<string, any>();
 
+// AI Chatbot Endpoint
+app.post('/api/chat', async (req, res) => {
+  try {
+    const ai = getGeminiAI();
+    if (!ai) {
+      return res.status(503).json({ error: 'Gemini API key is not configured.' });
+    }
+    const { message, history = [] } = req.body;
+    if (!message) {
+      return res.status(400).json({ error: 'Message is required' });
+    }
+
+    let prompt = `You are an expert agricultural AI assistant named AgriVision AI. You help farmers and researchers identify and manage crop diseases (specifically corn and rice).\n\n`;
+    if (history.length > 0) {
+      prompt += `Previous conversation:\n`;
+      for (const msg of history) {
+        prompt += `${msg.role === 'user' ? 'User' : 'AgriVision'}: ${msg.content}\n`;
+      }
+      prompt += `\n`;
+    }
+    prompt += `User: ${message}\nAgriVision:`;
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-3.7-flash',
+      contents: prompt,
+    });
+
+    return res.json({ text: response.text });
+  } catch (err: any) {
+    console.error('Chat endpoint error:', err);
+    res.status(500).json({ error: 'Failed to process chat message' });
+  }
+});
+
 // Crop Disease Analysis Endpoint using Gemini 3.6 Flash Vision with Grounded Dataset Memory
 app.post(['/api/analyze', '/api/index', '/analyze'], async (req, res) => {
   try {

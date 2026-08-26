@@ -9,7 +9,7 @@ function createLeafSVG(
   bgColor: string,
   leafColor: string,
   spotColor: string,
-  spotsType: 'rust' | 'blight' | 'blast' | 'spots' | 'streaks' | 'sheath-blight' | 'healthy'
+  spotsType: 'rust' | 'blight' | 'blast' | 'spots' | 'streaks' | 'sheath-blight' | 'healthy' | 'streak-virus' | 'downy-mildew'
 ): string {
   const isRice = crop === 'Rice';
   const width = 400;
@@ -114,6 +114,29 @@ function createLeafSVG(
         <circle cx="192" cy="345" r="4"/>
         <circle cx="178" cy="135" r="3.5"/>
         <circle cx="215" cy="185" r="4"/>
+      </g>
+    `;
+  } else if (spotsType === 'streak-virus') {
+    // Continuous bright yellow/white broken streaks
+    spotsSVG = `
+      <g fill="#fef08a" opacity="0.8">
+        <rect x="195" y="60" width="4" height="60" rx="1" transform="rotate(-5 195 60)"/>
+        <rect x="210" y="110" width="3" height="85" rx="1" transform="rotate(-3 210 110)"/>
+        <rect x="180" y="150" width="5" height="120" rx="2" transform="rotate(-8 180 150)"/>
+        <rect x="215" y="220" width="4" height="100" rx="1" transform="rotate(-5 215 220)"/>
+        <rect x="188" y="280" width="3" height="75" rx="1" transform="rotate(-4 188 280)"/>
+      </g>
+    `;
+  } else if (spotsType === 'downy-mildew') {
+    // Pale chlorotic streaks with white fuzzy mold-like center
+    spotsSVG = `
+      <g fill="#d9f99d" opacity="0.6">
+        <rect x="180" y="80" width="35" height="140" rx="10" transform="rotate(-5 180 80)"/>
+        <rect x="190" y="200" width="28" height="120" rx="10" transform="rotate(-3 190 200)"/>
+      </g>
+      <g fill="#f8fafc" opacity="0.7">
+        <path d="M 185,90 Q 200,150 190,210 Q 180,150 185,90 Z" />
+        <path d="M 195,210 Q 210,260 200,310 Q 190,260 195,210 Z" />
       </g>
     `;
   }
@@ -256,6 +279,61 @@ export const SAMPLE_DATASET: SampleDatasetItem[] = [
     description: 'Long elliptical cigar-shaped grayish-green to tan lesions on corn leaf blades.',
     keySymptoms: ['Cigar-shaped long lesions (1-6 inches)', 'Dark dark spore production inside lesions', 'Loss of photosynthetic leaf area'],
     sampleImageUrl: createLeafSVG('Corn', 'Northern Blight', '#022c22', '#15803d', '#a16207', 'blast'),
+  },
+  {
+    id: 'corn-downy-mildew-01',
+    crop: 'Corn',
+    diseaseName: 'Corn Downy Mildew',
+    scientificName: 'Peronosclerospora spp.',
+    category: 'Fungal/Oomycete',
+    severity: 'Severe',
+    description: 'Systemic infection causing chlorotic streaks and white downy growth on the underside of leaves.',
+    keySymptoms: ['Chlorotic striping', 'White downy mold on lower surface', 'Stunted growth'],
+    sampleImageUrl: createLeafSVG('Corn', 'Downy Mildew', '#022c22', '#15803d', '#d9f99d', 'downy-mildew'),
+  },
+  {
+    id: 'corn-maize-streak-virus-01',
+    crop: 'Corn',
+    diseaseName: 'Maize Streak Virus',
+    scientificName: 'Mastrevirus (MSV)',
+    category: 'Viral',
+    severity: 'Severe',
+    description: 'Characterized by narrow, parallel, continuous or broken yellow streaks along the veins of corn leaves.',
+    keySymptoms: ['Narrow yellow/white streaks', 'Streaks running parallel to veins', 'Stunting if infected early'],
+    sampleImageUrl: createLeafSVG('Corn', 'Maize Streak Virus', '#022c22', '#15803d', '#fef08a', 'streak-virus'),
+  },
+  {
+    id: 'corn-bacterial-blight-01',
+    crop: 'Corn',
+    diseaseName: 'Bacterial Leaf Blight',
+    scientificName: 'Pantoea stewartii / Pseudomonas spp.',
+    category: 'Bacterial',
+    severity: 'Moderate',
+    description: 'Long, water-soaked, chlorotic or necrotic streaks along the leaves.',
+    keySymptoms: ['Water-soaked streaks', 'Necrotic lesions', 'Chlorotic halo'],
+    sampleImageUrl: createLeafSVG('Corn', 'Bacterial Blight', '#022c22', '#15803d', '#fef08a', 'streaks'),
+  },
+  {
+    id: 'corn-brown-spot-01',
+    crop: 'Corn',
+    diseaseName: 'Brown spot',
+    scientificName: 'Physoderma maydis',
+    category: 'Fungal/Oomycete',
+    severity: 'Moderate',
+    description: 'Small, circular, yellowish-brown spots often forming bands across the leaf.',
+    keySymptoms: ['Small circular spots', 'Bands on leaves', 'Dark brown pustules'],
+    sampleImageUrl: createLeafSVG('Corn', 'Brown Spot', '#022c22', '#15803d', '#713f12', 'spots'),
+  },
+  {
+    id: 'corn-sheath-blight-01',
+    crop: 'Corn',
+    diseaseName: 'Sheath Blight',
+    scientificName: 'Rhizoctonia solani',
+    category: 'Fungal/Oomycete',
+    severity: 'Severe',
+    description: 'Elliptical or irregular lesions with light-colored centers and dark brown margins on the lower leaf sheaths.',
+    keySymptoms: ['Elliptical lesions', 'Light centers', 'Dark margins'],
+    sampleImageUrl: createLeafSVG('Corn', 'Sheath Blight', '#022c22', '#15803d', '#a16207', 'sheath-blight'),
   },
   {
     id: 'corn-healthy-01',
