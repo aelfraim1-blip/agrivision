@@ -806,6 +806,12 @@ Output JSON strictly matching this schema:
 });
 
 // Export app for Vercel serverless functions
+
+// Catch-all for API routes to prevent HTML 404s
+app.all('/api/*', (req, res) => {
+  res.status(404).json({ error: 'API route not found', path: req.url });
+});
+
 export default app;
 
 // Setup Vite middleware in dev or static files in production
