@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { GoogleGenAI, Type } from '@google/genai';
-import { createServer as createViteServer } from 'vite';
+
 
 const app = express();
 const PORT = 3000;
@@ -412,7 +412,7 @@ app.post('/api/chat', async (req, res) => {
 });
 
 // Crop Disease Analysis Endpoint using Gemini 3.6 Flash Vision with Grounded Dataset Memory
-app.post(['/api/analyze', '/api/index', '/analyze'], async (req, res) => {
+app.post('/api/analyze', async (req, res) => {
   try {
     const { image, crop } = req.body;
 
@@ -808,6 +808,7 @@ export default app;
 // Setup Vite middleware in dev or static files in production
 async function startServer() {
   if (process.env.NODE_ENV !== 'production') {
+    const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
