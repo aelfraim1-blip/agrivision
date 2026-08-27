@@ -271,7 +271,7 @@ export const DiagnosticReport: React.FC<DiagnosticReportProps> = ({
           <div className="flex items-center justify-between">
             <span className="text-xs text-slate-400 font-medium flex items-center space-x-1">
               <span>Damage / Severity Level</span>
-              <Info className="w-3 h-3 text-slate-500" title="How much injury or infection is on the leaf" />
+              <Info className="w-3 h-3 text-slate-500" />
             </span>
           </div>
           <div className="flex items-baseline space-x-2 pt-1">
@@ -300,7 +300,7 @@ export const DiagnosticReport: React.FC<DiagnosticReportProps> = ({
           <div className="flex items-center justify-between">
             <span className="text-xs text-slate-400 font-medium flex items-center space-x-1">
               <span>Affected Leaf Area</span>
-              <Info className="w-3 h-3 text-slate-500" title="Measured by AI visual camera mask" />
+              <Info className="w-3 h-3 text-slate-500" />
             </span>
           </div>
           <div className="flex items-baseline space-x-2 pt-1">
@@ -319,7 +319,7 @@ export const DiagnosticReport: React.FC<DiagnosticReportProps> = ({
             <span className="text-xs text-emerald-400 font-medium flex items-center space-x-1">
               <Target className="w-3.5 h-3.5 text-emerald-400" />
               <span>Top-1 Accuracy Metric</span>
-              <Info className="w-3 h-3 text-emerald-500" title="Exact match diagnostic classification accuracy across ensemble vision models" />
+              <Info className="w-3 h-3 text-emerald-500" />
             </span>
             <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
               {analysis.accuracyMetrics?.reliabilityGrade || 'Grade A+'}

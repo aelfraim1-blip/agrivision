@@ -9,7 +9,7 @@ function createLeafSVG(
   bgColor: string,
   leafColor: string,
   spotColor: string,
-  spotsType: 'rust' | 'blight' | 'blast' | 'spots' | 'streaks' | 'sheath-blight' | 'healthy' | 'streak-virus' | 'downy-mildew'
+  spotsType: 'rust' | 'blight' | 'blast' | 'spots' | 'streaks' | 'sheath-blight' | 'healthy' | 'streak-virus' | 'downy-mildew' | 'streak' | 'bakanae' | 'smut' | 'stunt' | 'narrow' | 'ragged' | 'rot' | 'stemrot' | 'tungro'
 ): string {
   const isRice = crop === 'Rice';
   const width = 400;
@@ -297,7 +297,7 @@ export const SAMPLE_DATASET: SampleDatasetItem[] = [
     diseaseName: 'Narrow Brown Spot',
     scientificName: 'Cercospora oryzae',
     category: 'Fungal',
-    severity: 'Mild',
+    severity: 'Low',
     description: 'Short linear narrow brown lesions confined strictly between parallel leaf veins near maturity.',
     keySymptoms: ['Linear narrow brown lesions', 'Confined between parallel veins', 'Upper leaf blade spotting'],
     sampleImageUrl: createLeafSVG('Rice', 'Narrow Brown', '#0f172a', '#b45309', '#b45309', 'narrow'),

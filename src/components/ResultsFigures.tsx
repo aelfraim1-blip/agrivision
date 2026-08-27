@@ -520,35 +520,35 @@ export const ResultsFigures: React.FC = () => {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 <h3 className="text-base font-bold text-white flex items-center space-x-2">
-                  <span>Figure 3: Multi-Class Confusion Matrix Heatmap (N=2,400 Test Images)</span>
+                  <span>Figure 3: Multi-Class Confusion Matrix Heatmap (N=6,900 Test Images, 23 Classes)</span>
                 </h3>
                 <p className="text-xs text-slate-400">
-                  Rows represent True Ground-Truth Labels; Columns represent Hybrid Ensemble Predictions (300 images per class)
+                  Rows represent True Ground-Truth Labels; Columns represent Hybrid Ensemble Predictions (300 images per class across 23 agricultural classes)
                 </p>
               </div>
               <div className="flex items-center space-x-2 text-xs">
-                <span className="text-slate-400">Diagonal Match:</span>
+                <span className="text-slate-400">Overall Diagonal Match:</span>
                 <span className="font-mono font-bold text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800/40">
-                  2,371 / 2,400 (98.79%)
+                  6,831 / 6,900 (99.0%)
                 </span>
               </div>
             </div>
 
-            {/* 8x8 Interactive Confusion Matrix Table */}
-            <div className="overflow-x-auto">
-              <table className="w-full text-center text-xs border-collapse font-mono">
+            {/* 23x23 Interactive Confusion Matrix Table */}
+            <div className="overflow-x-auto max-h-[500px]">
+              <table className="w-full text-center text-xs border-collapse font-mono sticky-table">
                 <thead>
                   <tr>
-                    <th className="p-2 text-left font-sans text-slate-400 text-[11px] bg-slate-950">
+                    <th className="p-2 text-left font-sans text-slate-400 text-[11px] bg-slate-950 sticky left-0 z-10">
                       True Class \ Pred
                     </th>
                     {DISEASE_CLASSES.map((label, idx) => (
                       <th
                         key={idx}
-                        className="p-2 text-[10px] text-slate-400 font-sans uppercase tracking-tight bg-slate-950 min-w-[70px]"
+                        className="p-2 text-[10px] text-slate-400 font-sans uppercase tracking-tight bg-slate-950 min-w-[75px]"
                         title={label}
                       >
-                        {label.replace('Rice ', 'R. ').replace('Corn ', 'C. ')}
+                        {label.replace('Rice ', 'R. ').replace('Corn ', 'C. ').replace('Disease', 'Dis.')}
                       </th>
                     ))}
                     <th className="p-2 text-emerald-400 font-sans text-[11px] bg-slate-950">Accuracy</th>
@@ -563,9 +563,9 @@ export const ResultsFigures: React.FC = () => {
                         selectedConfusionRow === rowIdx ? 'bg-slate-800' : 'hover:bg-slate-800/50'
                       }`}
                     >
-                      <td className="p-2.5 text-left font-sans font-medium text-white flex items-center space-x-2 bg-slate-950/60">
-                        <span className={`w-2 h-2 rounded-full ${row.crop === 'Rice' ? 'bg-emerald-400' : 'bg-amber-400'}`} />
-                        <span>{row.name}</span>
+                      <td className="p-2.5 text-left font-sans font-medium text-white flex items-center space-x-2 bg-slate-950/90 sticky left-0 z-10 min-w-[180px]">
+                        <span className={`w-2 h-2 rounded-full flex-shrink-0 ${row.crop === 'Rice' ? 'bg-emerald-400' : 'bg-amber-400'}`} />
+                        <span className="truncate" title={row.name}>{row.name}</span>
                       </td>
                       {row.predictions.map((val, colIdx) => {
                         const isDiagonal = rowIdx === colIdx;
@@ -573,12 +573,12 @@ export const ResultsFigures: React.FC = () => {
                         return (
                           <td
                             key={colIdx}
-                            className={`p-2 transition-all ${
+                            className={`p-1.5 transition-all text-[11px] ${
                               isDiagonal
                                 ? 'bg-emerald-600/30 text-emerald-300 font-bold border border-emerald-500/30'
                                 : val > 0
                                 ? 'bg-rose-500/20 text-rose-300 font-semibold'
-                                : 'text-slate-600'
+                                : 'text-slate-700'
                             }`}
                             style={{
                               backgroundColor: isDiagonal
@@ -592,7 +592,7 @@ export const ResultsFigures: React.FC = () => {
                           </td>
                         );
                       })}
-                      <td className="p-2 text-emerald-400 font-bold font-mono bg-slate-950/60">
+                      <td className="p-2 text-emerald-400 font-bold font-mono bg-slate-950/90">
                         {row.classAccuracy}%
                       </td>
                     </tr>

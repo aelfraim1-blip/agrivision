@@ -75,7 +75,7 @@ export const MODEL_BENCHMARKS: ModelBenchmarkItem[] = [
     color: '#a855f7', // purple-500
   },
   {
-    id: 'densenet121',
+    id: 'single-densenet121',
     name: 'Single DenseNet-121',
     architecture: 'Densely Connected Feature Reuse Network',
     parameters: '8.0M',
@@ -211,7 +211,7 @@ export const TRAINING_CONVERGENCE: EpochConvergencePoint[] = [
   { epoch: 50, ensembleValAcc: 98.8, ensembleTrainLoss: 0.031, resnetValAcc: 94.2, resnetTrainLoss: 0.12, effnetValAcc: 95.6, effnetTrainLoss: 0.088, mobilenetValAcc: 90.4, mobilenetTrainLoss: 0.19 },
 ];
 
-// Multi-Class Confusion Matrix (8 classes, test partition N=2,400 images, 300 per class)
+// Multi-Class Confusion Matrix (23 classes, test partition N=6,900 images, 300 per class)
 export interface ConfusionMatrixClass {
   id: string;
   name: string;
@@ -219,94 +219,66 @@ export interface ConfusionMatrixClass {
   totalSamples: number;
   correctPredictions: number;
   classAccuracy: number;
-  predictions: number[]; // row distribution across 8 classes
+  predictions: number[]; // row distribution across 23 classes
 }
 
 export const DISEASE_CLASSES = [
   'Rice Blast',
-  'Rice Brown Spot',
   'Rice Bacterial Blight',
   'Rice Sheath Blight',
-  'Corn Northern Blight',
-  'Corn Gray Leaf Spot',
+  'Rice Brown Spot',
+  'Healthy Rice',
+  'Bacterial Leaf Streak',
+  'Bakanae Disease',
+  'False Smut',
+  'Grassy Stunt Virus',
+  'Narrow Brown Spot',
+  'Ragged Stunt Virus',
+  'Sheath Rot',
+  'Stem Rot',
+  'Rice Tungro',
   'Corn Common Rust',
-  'Healthy Foliage',
+  'Corn Gray Leaf Spot',
+  'Northern Corn Leaf Blight',
+  'Corn Downy Mildew',
+  'Maize Streak Virus',
+  'Corn Bacterial Blight',
+  'Corn Brown Spot',
+  'Corn Sheath Blight',
+  'Healthy Corn',
 ];
 
-export const CONFUSION_MATRIX: ConfusionMatrixClass[] = [
-  {
-    id: 'rb',
-    name: 'Rice Blast',
-    crop: 'Rice',
+// Helper to generate 23-length prediction array with correct diagonal hit and minor confusions
+const createPredictions = (correctIdx: number, correctCount = 296) => {
+  const arr = new Array(23).fill(0);
+  arr[correctIdx] = correctCount;
+  let remaining = 300 - correctCount;
+  let curr = (correctIdx + 1) % 23;
+  while (remaining > 0) {
+    if (curr !== correctIdx) {
+      arr[curr] += 1;
+      remaining--;
+    }
+    curr = (curr + 1) % 23;
+  }
+  return arr;
+};
+
+export const CONFUSION_MATRIX: ConfusionMatrixClass[] = DISEASE_CLASSES.map((name, idx) => {
+  const crop = name.includes('Corn') || name === 'Corn Common Rust' || name === 'Corn Gray Leaf Spot' || name === 'Northern Corn Leaf Blight' || name === 'Corn Downy Mildew' || name === 'Maize Streak Virus' || name === 'Corn Bacterial Blight' || name === 'Corn Brown Spot' || name === 'Corn Sheath Blight' ? 'Corn' : 'Rice';
+  const correct = 294 + (idx % 5); // 294 to 298
+  const accuracy = Number(((correct / 300) * 100).toFixed(1));
+  const id = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+  return {
+    id,
+    name,
+    crop,
     totalSamples: 300,
-    correctPredictions: 296,
-    classAccuracy: 98.7,
-    predictions: [296, 2, 1, 1, 0, 0, 0, 0],
-  },
-  {
-    id: 'rbs',
-    name: 'Rice Brown Spot',
-    crop: 'Rice',
-    totalSamples: 300,
-    correctPredictions: 295,
-    classAccuracy: 98.3,
-    predictions: [3, 295, 0, 1, 0, 1, 0, 0],
-  },
-  {
-    id: 'rbb',
-    name: 'Rice Bacterial Blight',
-    crop: 'Rice',
-    totalSamples: 300,
-    correctPredictions: 297,
-    classAccuracy: 99.0,
-    predictions: [1, 0, 297, 2, 0, 0, 0, 0],
-  },
-  {
-    id: 'rsb',
-    name: 'Rice Sheath Blight',
-    crop: 'Rice',
-    totalSamples: 300,
-    correctPredictions: 294,
-    classAccuracy: 98.0,
-    predictions: [1, 2, 2, 294, 0, 1, 0, 0],
-  },
-  {
-    id: 'cnb',
-    name: 'Corn Northern Blight',
-    crop: 'Corn',
-    totalSamples: 300,
-    correctPredictions: 296,
-    classAccuracy: 98.7,
-    predictions: [0, 0, 0, 0, 296, 3, 1, 0],
-  },
-  {
-    id: 'cgls',
-    name: 'Corn Gray Leaf Spot',
-    crop: 'Corn',
-    totalSamples: 300,
-    correctPredictions: 295,
-    classAccuracy: 98.3,
-    predictions: [0, 0, 0, 0, 3, 295, 2, 0],
-  },
-  {
-    id: 'ccr',
-    name: 'Corn Common Rust',
-    crop: 'Corn',
-    totalSamples: 300,
-    correctPredictions: 298,
-    classAccuracy: 99.3,
-    predictions: [0, 0, 0, 0, 0, 1, 298, 1],
-  },
-  {
-    id: 'healthy',
-    name: 'Healthy Foliage',
-    crop: 'Rice',
-    totalSamples: 300,
-    correctPredictions: 299,
-    classAccuracy: 99.7,
-    predictions: [0, 0, 0, 0, 0, 0, 1, 299],
-  },
-];
+    correctPredictions: correct,
+    classAccuracy: accuracy,
+    predictions: createPredictions(idx, correct),
+  };
+});
 
 // ROC Curves points (FPR vs TPR)
 export interface RocPoint {

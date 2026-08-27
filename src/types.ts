@@ -15,6 +15,8 @@ export interface AccuracyMetric {
   specificityTNR: number; // e.g. 99.1% (True Negative Rate: TN / [TN + FP])
   macroF1Score: number; // e.g. 98.2% (Harmonic Mean: 2*(P*R)/(P+R))
   rocAucScore: number; // e.g. 99.4% (Multi-Class Area Under ROC Curve)
+  accuracyScore?: number;
+  f1Score?: number;
 
   // Spatial & Lesion Segmentation Metrics (U-Net)
   iouSegmentation: number; // e.g. 91.6% (Intersection over Union / Jaccard Index)
