@@ -9,6 +9,7 @@ import { FieldLogs } from './components/FieldLogs';
 import { ArchitectureModal } from './components/ArchitectureModal';
 import { ResultsFigures } from './components/ResultsFigures';
 import { Chatbot } from './components/Chatbot';
+import { Home } from './components/Home';
 import { CropType, AnalysisResult, SampleDatasetItem } from './types';
 import { Loader2, AlertCircle, Sprout } from 'lucide-react';
 
@@ -20,7 +21,7 @@ import { getImageHash } from './utils/imageHash';
 const clientScanCache = new Map<string, AnalysisResult>();
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'scanner' | 'study' | 'dataset' | 'history' | 'architecture' | 'results'>('study');
+  const [activeTab, setActiveTab] = useState<'home' | 'scanner' | 'study' | 'dataset' | 'history' | 'architecture' | 'results'>('home');
   const [selectedCrop, setSelectedCrop] = useState<CropType>('Rice');
   
   const [currentImageUri, setCurrentImageUri] = useState<string | null>(null);
@@ -198,6 +199,10 @@ export default function App() {
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
+        {activeTab === 'home' && (
+          <Home setActiveTab={setActiveTab} />
+        )}
+
         {/* TAB: DEEP LEARNING STUDY & PATTERN EXTRACTION STUDIO */}
         {activeTab === 'study' && (
           <DeepLearningStudy onApplyToScanner={() => setActiveTab('scanner')} />

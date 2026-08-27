@@ -1,9 +1,9 @@
 import React from 'react';
-import { Camera, BookOpen, History, Cpu, Sprout, BarChart3, Brain } from 'lucide-react';
+import { Camera, BookOpen, History, Cpu, Sprout, BarChart3, Brain, Home as HomeIcon } from 'lucide-react';
 
 interface NavbarProps {
-  activeTab: 'scanner' | 'study' | 'dataset' | 'history' | 'architecture' | 'results';
-  setActiveTab: (tab: 'scanner' | 'study' | 'dataset' | 'history' | 'architecture' | 'results') => void;
+  activeTab: 'home' | 'scanner' | 'study' | 'dataset' | 'history' | 'architecture' | 'results';
+  setActiveTab: (tab: 'home' | 'scanner' | 'study' | 'dataset' | 'history' | 'architecture' | 'results') => void;
   savedLogsCount: number;
 }
 
@@ -14,7 +14,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, savedLo
         <div className="flex items-center justify-between h-16">
           
           {/* Logo & Brand */}
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('scanner')}>
+          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('home')}>
             <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-lg shadow-emerald-500/10">
               <Sprout className="w-6 h-6" />
             </div>
@@ -35,7 +35,18 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, savedLo
           {/* Navigation Links */}
           <nav className="flex items-center space-x-1 sm:space-x-2">
             <button
-              onClick={() => setActiveTab('scanner')}
+              onClick={() => setActiveTab('home')}
+              className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                activeTab === 'home'
+                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-900/40'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800'
+              }`}
+            >
+              <HomeIcon className="w-4 h-4" />
+              <span className="hidden sm:inline">Home</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('home')}
               className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                 activeTab === 'scanner'
                   ? 'bg-emerald-600 text-white shadow-md shadow-emerald-900/40'
