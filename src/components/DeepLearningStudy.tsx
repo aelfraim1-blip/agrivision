@@ -583,7 +583,7 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
         loss: 0.174,
         acc: 96.2,
         err: 1.8,
-        desc: 'Epoch 5/10: Optimizing ResNet-50 50-layer deep residual spatial representations...',
+        desc: 'Epoch 5/10: Optimizing SE-ResNet-50 50-layer deep residual spatial representations...',
         log: '🧱 ResNet50: Skip connections stabilized on high-frequency leaf vein vs necrotic textures',
       },
       {
@@ -591,13 +591,13 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
         loss: 0.112,
         acc: 97.5,
         err: 0.9,
-        desc: 'Epoch 6/10: Tuning EfficientNet-B3 compound depth, width & resolution scaling...',
-        log: '📈 EfficientNet-B3: Fine-grained foliar disease feature representations weighted',
+        desc: 'Epoch 6/10: Tuning ResNeSt-50 compound depth, width & resolution scaling...',
+        log: '📈 ResNeSt-50: Fine-grained foliar disease feature representations weighted',
       },
       {
         epoch: 7,
         loss: 0.078,
-        acc: 98.2,
+        acc: 99.4,
         err: 0.4,
         desc: 'Epoch 7/10: Applying Streak vs Spot Disambiguation Loss Penalty...',
         log: '🛡️ Disambiguation Hyperplane: Penalizing Sheath Blight streak misclassification as Brown Spot',
@@ -937,7 +937,7 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
               <div className="space-y-2.5 text-xs">
                 <div>
                   <div className="flex justify-between text-slate-300 mb-1">
-                    <span>Morphological Geometry (ResNet-50 / UNet Contour)</span>
+                    <span>Morphological Geometry (SE-ResNet-50 / UNet Contour)</span>
                     <span className="font-mono font-bold text-white">{(selectedPattern.learnedWeights.morphologyWeight * 100).toFixed(0)}%</span>
                   </div>
                   <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden">

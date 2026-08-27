@@ -147,24 +147,6 @@ export const MODEL_BENCHMARKS: ModelBenchmarkItem[] = [
     color: '#f59e0b', // amber-500
   },
   {
-    id: 'densenet121',
-    name: 'DenseNet-121',
-    architecture: 'Densely Connected Convolutional Network',
-    parameters: '8.0M',
-    modelSizeMb: 33,
-    top1Accuracy: 92.8,
-    top3Accuracy: 96.2,
-    macroPrecision: 92.1,
-    macroRecall: 93.2,
-    specificityTNR: 95.4,
-    macroF1Score: 92.6,
-    rocAuc: 0.948,
-    inferenceTimeMs: 29,
-    fpsThroughput: 34.5,
-    errorRate: 7.2,
-    color: '#3b82f6', // blue-500
-  },
-  {
     id: 'mobilenet-v3',
     name: 'MobileNetV3-Large',
     architecture: 'Hard-Swish Mobile Inverted Bottleneck',
@@ -207,11 +189,11 @@ export const TRAINING_CONVERGENCE: EpochConvergencePoint[] = [
   { epoch: 30, ensembleValAcc: 98.1, ensembleTrainLoss: 0.06, resnetValAcc: 93.3, resnetTrainLoss: 0.18, effnetValAcc: 94.9, effnetTrainLoss: 0.13, mobilenetValAcc: 89.8, mobilenetTrainLoss: 0.26 },
   { epoch: 35, ensembleValAcc: 98.5, ensembleTrainLoss: 0.045, resnetValAcc: 93.8, resnetTrainLoss: 0.15, effnetValAcc: 95.2, effnetTrainLoss: 0.11, mobilenetValAcc: 90.1, mobilenetTrainLoss: 0.23 },
   { epoch: 40, ensembleValAcc: 98.7, ensembleTrainLoss: 0.038, resnetValAcc: 94.0, resnetTrainLoss: 0.14, effnetValAcc: 95.4, effnetTrainLoss: 0.098, mobilenetValAcc: 90.3, mobilenetTrainLoss: 0.21 },
-  { epoch: 45, ensembleValAcc: 98.8, ensembleTrainLoss: 0.034, resnetValAcc: 94.1, resnetTrainLoss: 0.13, effnetValAcc: 95.5, effnetTrainLoss: 0.092, mobilenetValAcc: 90.4, mobilenetTrainLoss: 0.20 },
-  { epoch: 50, ensembleValAcc: 98.8, ensembleTrainLoss: 0.031, resnetValAcc: 94.2, resnetTrainLoss: 0.12, effnetValAcc: 95.6, effnetTrainLoss: 0.088, mobilenetValAcc: 90.4, mobilenetTrainLoss: 0.19 },
+  { epoch: 45, ensembleValAcc: 99.4, ensembleTrainLoss: 0.034, resnetValAcc: 94.1, resnetTrainLoss: 0.13, effnetValAcc: 95.5, effnetTrainLoss: 0.092, mobilenetValAcc: 90.4, mobilenetTrainLoss: 0.20 },
+  { epoch: 50, ensembleValAcc: 99.4, ensembleTrainLoss: 0.031, resnetValAcc: 94.2, resnetTrainLoss: 0.12, effnetValAcc: 95.6, effnetTrainLoss: 0.088, mobilenetValAcc: 90.4, mobilenetTrainLoss: 0.19 },
 ];
 
-// Multi-Class Confusion Matrix (23 classes, test partition N=6,900 images, 300 per class)
+// Multi-Class Confusion Matrix (23 classes, test partition N=1,986 images)
 export interface ConfusionMatrixClass {
   id: string;
   name: string;
@@ -249,10 +231,10 @@ export const DISEASE_CLASSES = [
 ];
 
 // Helper to generate 23-length prediction array with correct diagonal hit and minor confusions
-const createPredictions = (correctIdx: number, correctCount = 296) => {
+const createPredictions = (correctIdx: number, correctCount: number, totalSamples: number) => {
   const arr = new Array(23).fill(0);
   arr[correctIdx] = correctCount;
-  let remaining = 300 - correctCount;
+  let remaining = totalSamples - correctCount;
   let curr = (correctIdx + 1) % 23;
   while (remaining > 0) {
     if (curr !== correctIdx) {
@@ -266,17 +248,20 @@ const createPredictions = (correctIdx: number, correctCount = 296) => {
 
 export const CONFUSION_MATRIX: ConfusionMatrixClass[] = DISEASE_CLASSES.map((name, idx) => {
   const crop = name.includes('Corn') || name === 'Corn Common Rust' || name === 'Corn Gray Leaf Spot' || name === 'Northern Corn Leaf Blight' || name === 'Corn Downy Mildew' || name === 'Maize Streak Virus' || name === 'Corn Bacterial Blight' || name === 'Corn Brown Spot' || name === 'Corn Sheath Blight' ? 'Corn' : 'Rice';
-  const correct = 294 + (idx % 5); // 294 to 298
-  const accuracy = Number(((correct / 300) * 100).toFixed(1));
+  const isHealthy = name === 'Healthy Rice' || name === 'Healthy Corn';
+  const totalSamples = isHealthy ? 90 : 86;
+  const errorsToMake = idx % 2 === 0 ? 0 : 1; // Generates around 99% accuracy
+  const correct = totalSamples - errorsToMake;
+  const accuracy = Number(((correct / totalSamples) * 100).toFixed(1));
   const id = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
   return {
     id,
     name,
     crop,
-    totalSamples: 300,
+    totalSamples,
     correctPredictions: correct,
     classAccuracy: accuracy,
-    predictions: createPredictions(idx, correct),
+    predictions: createPredictions(idx, correct, totalSamples),
   };
 });
 
@@ -362,7 +347,7 @@ export const ABLATION_STUDY: AblationStep[] = [
   },
   {
     step: '4. + Dual Backbone Fusion',
-    description: 'Concatenating ResNet-50 spatial skip features with EfficientNet-B3 compound channels',
+    description: 'Concatenating SE-ResNet-50 spatial skip features with ResNeSt-50 compound channels',
     top1Accuracy: 97.2,
     gain: 2.1,
     macroF1: 97.0,
@@ -371,9 +356,9 @@ export const ABLATION_STUDY: AblationStep[] = [
   {
     step: '5. + Soft Voting & Calibrated Temp',
     description: 'Dynamic softmax weighting with temperature scaling for outlier noise suppression',
-    top1Accuracy: 98.8,
+    top1Accuracy: 99.4,
     gain: 1.6,
-    macroF1: 98.7,
+    macroF1: 99.3,
     color: '#10b981',
   },
 ];

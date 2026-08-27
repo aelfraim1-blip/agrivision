@@ -296,7 +296,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
             </div>
 
             <p className="text-xs text-slate-400 leading-relaxed">
-              The dual model classifier has studied the complete 8-class dataset with high-order geometric aspect ratios and chromatic halo boundaries:
+              The dual model classifier has studied the complete 23-class dataset with high-order geometric aspect ratios and chromatic halo boundaries:
             </p>
 
             {/* Pattern Disambiguation Cards */}

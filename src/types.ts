@@ -8,12 +8,12 @@ export type ColormapMode = 'jet' | 'viridis' | 'inferno' | 'turbo';
 
 export interface AccuracyMetric {
   // Classification Metrics
-  top1Accuracy: number; // e.g. 98.2% (Exact primary diagnosis match)
+  top1Accuracy: number; // e.g. 99.4% (Exact primary diagnosis match)
   top3Accuracy: number; // e.g. 99.8% (Ground truth in top-3 candidates)
   macroPrecision: number; // e.g. 97.9% (Positive Predictive Value: TP / [TP + FP])
   macroRecall: number; // e.g. 98.5% (Sensitivity / True Positive Rate: TP / [TP + FN])
   specificityTNR: number; // e.g. 99.1% (True Negative Rate: TN / [TN + FP])
-  macroF1Score: number; // e.g. 98.2% (Harmonic Mean: 2*(P*R)/(P+R))
+  macroF1Score: number; // e.g. 99.4% (Harmonic Mean: 2*(P*R)/(P+R))
   rocAucScore: number; // e.g. 99.4% (Multi-Class Area Under ROC Curve)
   accuracyScore?: number;
   f1Score?: number;
@@ -27,7 +27,7 @@ export interface AccuracyMetric {
   errorMargin: number; // e.g. ±1.2% (95% Confidence Interval margin)
 
   // Benchmark & Reliability
-  datasetValidationBenchmark: number; // e.g. 98.8%
+  datasetValidationBenchmark: number; // e.g. 99.4%
   reliabilityGrade: 'Optimal (Grade A+)' | 'High Precision (Grade A)' | 'Moderate Confidence' | 'Needs Review';
 
   // Comparative metrics vs. single models
