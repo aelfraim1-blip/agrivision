@@ -29,7 +29,7 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white tracking-tight leading-tight"
           >
-            PALA-IS <span className="text-emerald-400">AI</span>
+            PAL<span className="text-emerald-400">A-I</span>S
           </motion.h1>
 
           <motion.p

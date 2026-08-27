@@ -10,7 +10,7 @@ interface Message {
 export const Chatbot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: 'Hello! I am AgriVision AI. How can I help you with crop diseases today?' }
+    { role: 'assistant', content: 'Hello! I am PALA-IS. How can I help you with crop diseases today?' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -85,7 +85,7 @@ export const Chatbot: React.FC = () => {
               <Bot className="w-5 h-5 text-emerald-400" />
             </div>
             <div>
-              <h3 className="font-bold text-white text-sm">AgriVision AI</h3>
+              <h3 className="font-bold text-white text-sm">PALA-IS</h3>
               <p className="text-xs text-slate-400">Crop Health Assistant</p>
             </div>
           </div>
