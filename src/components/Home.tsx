@@ -26,7 +26,7 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             <span className="text-xs font-mono text-emerald-300 font-bold uppercase tracking-wider">Deep Learning Calibrated</span>
           </motion.div>
 
-          <motion.h1
+          <motion.h1 translate="no"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
