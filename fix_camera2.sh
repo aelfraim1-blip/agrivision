@@ -1,0 +1,2 @@
+sed -i 's/  isAnalyzing: boolean;/  isAnalyzing: boolean;\n  onOpenStudy?: () => void;/g' src/components/CameraCapture.tsx
+sed -i 's/export const CameraCapture: React.FC<CameraCaptureProps> = ({ onCapture, selectedCrop, setSelectedCrop, isAnalyzing }) => {/export const CameraCapture: React.FC<CameraCaptureProps> = ({ onCapture, selectedCrop, setSelectedCrop, isAnalyzing, onOpenStudy }) => {/g' src/components/CameraCapture.tsx

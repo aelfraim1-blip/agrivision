@@ -1,12 +1,15 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, Sprout, Network, Zap, ShieldCheck, Activity, BrainCircuit, ScanSearch } from 'lucide-react';
+import { ArrowRight, Network, Zap, ShieldCheck, Activity, BrainCircuit, ScanSearch } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface HomeProps {
   setActiveTab: (tab: 'home' | 'scanner' | 'study' | 'dataset' | 'history' | 'architecture' | 'results') => void;
 }
 
 export const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
+  const { t } = useLanguage();
+
   return (
     <div className="space-y-16 py-8">
       {/* Hero Section */}
@@ -53,7 +56,7 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
               className="w-full sm:w-auto px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold text-lg shadow-lg shadow-emerald-900/50 transition-all flex items-center justify-center space-x-2 group"
             >
               <ScanSearch className="w-5 h-5" />
-              <span>Launch Scanner</span>
+              <span>{t('Launch Scanner')}</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
             <button
@@ -61,7 +64,7 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
               className="w-full sm:w-auto px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 hover:border-slate-600 rounded-xl font-bold text-lg transition-all flex items-center justify-center space-x-2"
             >
               <BrainCircuit className="w-5 h-5 text-emerald-400" />
-              <span>View Training Study</span>
+              <span>{t('View Training Study')}</span>
             </button>
           </motion.div>
         </div>
@@ -79,7 +82,7 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
           <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 mb-6">
             <Network className="w-6 h-6" />
           </div>
-          <h3 className="text-xl font-bold text-white">Tri-Model Ensemble</h3>
+          <h3 className="text-xl font-bold text-white">{t('Tri-Model Ensemble')}</h3>
           <p className="text-sm text-slate-400 leading-relaxed">
             Eliminates single-model blindspots by synthesizing SE-ResNet-50 (spatial context), ResNeSt-50 (split-attention), and DenseNet-121 (feature reuse) architectures.
           </p>
@@ -95,7 +98,7 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
           <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-6">
             <ShieldCheck className="w-6 h-6" />
           </div>
-          <h3 className="text-xl font-bold text-white">99.4% Peak Accuracy</h3>
+          <h3 className="text-xl font-bold text-white">{t('99.4% Peak Accuracy')}</h3>
           <p className="text-sm text-slate-400 leading-relaxed">
             Validated across a rigorous partition of 1,986 test images covering 23 complex disease classifications in rice and corn pathology.
           </p>
@@ -111,7 +114,7 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
           <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 mb-6">
             <Zap className="w-6 h-6" />
           </div>
-          <h3 className="text-xl font-bold text-white">Edge-Optimized (42ms)</h3>
+          <h3 className="text-xl font-bold text-white">{t('Edge-Optimized (42ms)')}</h3>
           <p className="text-sm text-slate-400 leading-relaxed">
             Despite utilizing three complex backbones, the pipeline completes full inference in 42ms (23.8 FPS) making it viable for mobile field deployment.
           </p>
@@ -125,10 +128,10 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
           <div className="flex-1 space-y-6">
             <div className="inline-flex items-center space-x-2 text-emerald-400 font-bold uppercase tracking-wider text-xs">
               <Activity className="w-4 h-4" />
-              <span>Full Diagnostic Pipeline</span>
+              <span>{t('Full Diagnostic Pipeline')}</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight">
-              From Raw Leaf to <br /> Confirmed Diagnosis.
+              {t('From Raw Leaf to Confirmed Diagnosis.')}
             </h2>
             <p className="text-slate-400 leading-relaxed max-w-lg">
               The PALA-IS architecture doesn't just classify—it pre-processes. CLAHE stabilizes lighting in field conditions, while U-Net semantic segmentation isolates chlorotic regions before the tri-model ensemble casts its vote.
@@ -137,30 +140,30 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
               onClick={() => setActiveTab('results')}
               className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-lg font-bold transition-all text-sm mt-4"
             >
-              View Empirical Results & Figures
+              {t('View Empirical Results & Figures')}
             </button>
           </div>
           
           <div className="flex-1 w-full max-w-md mx-auto">
             <div className="bg-slate-950 rounded-2xl p-6 border border-slate-800 shadow-xl space-y-4">
               <div className="flex items-center justify-between p-3 bg-slate-900 rounded-lg border border-slate-800">
-                <span className="text-slate-400 text-xs font-mono">1. Input</span>
-                <span className="text-white font-semibold text-sm">Raw Field Image</span>
+                <span className="text-slate-400 text-xs font-mono">1. {t('Input')}</span>
+                <span className="text-white font-semibold text-sm">{t('Raw Field Image')}</span>
               </div>
               <div className="flex justify-center"><ArrowRight className="w-4 h-4 text-emerald-500 rotate-90" /></div>
               <div className="flex items-center justify-between p-3 bg-slate-900 rounded-lg border border-emerald-500/20">
-                <span className="text-emerald-400 text-xs font-mono">2. Enhance</span>
-                <span className="text-emerald-300 font-semibold text-sm">CLAHE Histogram</span>
+                <span className="text-emerald-400 text-xs font-mono">2. {t('Enhance')}</span>
+                <span className="text-emerald-300 font-semibold text-sm">{t('CLAHE Histogram')}</span>
               </div>
               <div className="flex justify-center"><ArrowRight className="w-4 h-4 text-emerald-500 rotate-90" /></div>
               <div className="flex items-center justify-between p-3 bg-slate-900 rounded-lg border border-indigo-500/20">
-                <span className="text-indigo-400 text-xs font-mono">3. Mask</span>
-                <span className="text-indigo-300 font-semibold text-sm">U-Net Segmentation</span>
+                <span className="text-indigo-400 text-xs font-mono">3. {t('Mask')}</span>
+                <span className="text-indigo-300 font-semibold text-sm">{t('U-Net Segmentation')}</span>
               </div>
               <div className="flex justify-center"><ArrowRight className="w-4 h-4 text-emerald-500 rotate-90" /></div>
               <div className="flex items-center justify-between p-3 bg-slate-900 rounded-lg border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
-                <span className="text-purple-400 text-xs font-mono">4. Classify</span>
-                <span className="text-purple-300 font-semibold text-sm">Tri-Model Ensemble</span>
+                <span className="text-purple-400 text-xs font-mono">4. {t('Classify')}</span>
+                <span className="text-purple-300 font-semibold text-sm">{t('Tri-Model Ensemble')}</span>
               </div>
             </div>
           </div>

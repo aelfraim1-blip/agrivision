@@ -1,3 +1,4 @@
+import { useLanguage } from '../contexts/LanguageContext';
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, X, Send, Bot, User, Loader2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -8,9 +9,10 @@ interface Message {
 }
 
 export const Chatbot: React.FC = () => {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: 'Hello! I am PALA-IS. How can I help you with crop diseases today?' }
+    { role: 'assistant', content: t('Hello! I am PALA-IS. How can I help you with crop diseases today?') }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -86,7 +88,7 @@ export const Chatbot: React.FC = () => {
             </div>
             <div>
               <h3 className="font-bold text-white text-sm">PALA-IS</h3>
-              <p className="text-xs text-slate-400">Crop Health Assistant</p>
+              <p className="text-xs text-slate-400">{t('Crop Health Assistant')}</p>
             </div>
           </div>
           <button

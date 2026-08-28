@@ -1,3 +1,4 @@
+import { useLanguage } from '../contexts/LanguageContext';
 import React, { useRef, useState, useEffect } from 'react';
 import { Camera, SwitchCamera, Upload, Sparkles, AlertCircle, Brain, CheckCircle2, ShieldCheck, Zap, ArrowRight, Layers } from 'lucide-react';
 import { CropType } from '../types';
@@ -10,13 +11,8 @@ interface CameraCaptureProps {
   onOpenStudy?: () => void;
 }
 
-export const CameraCapture: React.FC<CameraCaptureProps> = ({
-  onCapture,
-  selectedCrop,
-  setSelectedCrop,
-  isAnalyzing,
-  onOpenStudy,
-}) => {
+export const CameraCapture: React.FC<CameraCaptureProps> = ({ onCapture, selectedCrop, setSelectedCrop, isAnalyzing, onOpenStudy }) => {
+  const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   
@@ -239,7 +235,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
                 Scan Real Leaf via Camera or Upload
               </h3>
               <p className="text-xs text-slate-400 max-w-md mb-6 leading-relaxed">
-                Capture a photo with your device camera or upload a crop leaf image to run CLAHE enhancement, UNet lesion segmentation, and dual model classification calibrated on the learned dataset patterns.
+                {t('Capture a photo with your device camera or upload a crop leaf image to run CLAHE enhancement, UNet lesion segmentation, and dual model classification calibrated on the learned dataset patterns.')}
               </p>
 
               {cameraError && (
@@ -270,7 +266,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
               <input
                 ref={fileInputRef}
                 type="file"
-                accept="image/*"
+                accept="image"
                 onChange={handleFileUpload}
                 className="hidden"
               />
@@ -351,7 +347,6 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
           {onOpenStudy && (
             <div className="pt-3 border-t border-slate-800">
               <button
-                onClick={onOpenStudy}
                 className="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 text-xs font-semibold flex items-center justify-center space-x-2 transition-all"
               >
                 <Layers className="w-4 h-4 text-emerald-400" />
