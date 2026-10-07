@@ -81,7 +81,7 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({ rawImageUri, ana
   }, [rawImageUri, clipLimit, unetOpacity, colormapMode, heatmapOpacity]);
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6">
+    <div className="bg-white border border-emerald-900/10 rounded-2xl p-6 shadow-md space-y-6">
       
       {/* Hidden Image for processing */}
       <img
@@ -98,101 +98,101 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({ rawImageUri, ana
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
           <div>
             <div className="flex items-center space-x-2">
-              <Sparkles className="w-5 h-5 text-emerald-400" />
-              <h3 className="text-lg font-bold text-white">How the AI Doctor Analyzed Your Leaf</h3>
+              <Sparkles className="w-5 h-5 text-amber-600" />
+              <h3 className="text-xl font-extrabold text-emerald-950">How the AI Doctor Analyzed Your Leaf</h3>
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-600 mt-1">
               Interactive 5-stage process explaining how computer vision turns a leaf photo into an accurate crop diagnosis
             </p>
           </div>
 
-          <div className="flex items-center space-x-2 bg-slate-950 p-2 rounded-xl border border-slate-800">
-            <Target className="w-4 h-4 text-emerald-400" />
-            <span className="text-xs text-slate-300 font-semibold px-1">Top-1 Accuracy:</span>
-            <span className="text-sm font-extrabold text-emerald-400">
+          <div className="flex items-center space-x-2 bg-amber-50 p-2.5 rounded-xl border border-amber-300">
+            <Target className="w-4 h-4 text-amber-600" />
+            <span className="text-xs text-amber-950 font-bold px-1">Top-1 Accuracy:</span>
+            <span className="text-sm font-extrabold text-amber-700">
               {analysis.accuracyMetrics?.top1Accuracy || analysis.ensembleScores?.hybridScore || 99.4}%
             </span>
-            <span className="text-[10px] text-emerald-300/80 bg-emerald-950/80 px-1.5 py-0.5 rounded border border-emerald-500/30">
+            <span className="text-[10px] text-emerald-900 bg-emerald-100 px-2 py-0.5 rounded-full font-bold border border-emerald-300">
               {analysis.accuracyMetrics?.reliabilityGrade || 'Grade A+'}
             </span>
           </div>
         </div>
 
         {/* Stage Selector Tabs with Plain Language Subtitles */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 bg-emerald-50/50 p-1.5 rounded-xl border border-emerald-900/10">
           <button
             onClick={() => setActiveStage('raw')}
             className={`flex flex-col items-center justify-center p-2 rounded-lg text-xs font-semibold transition-all ${
               activeStage === 'raw'
-                ? 'bg-slate-800 text-white border border-slate-700 shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#064e3b] text-white shadow-md ring-1 ring-amber-400'
+                : 'text-slate-600 hover:text-emerald-950'
             }`}
           >
             <div className="flex items-center space-x-1">
-              <Eye className="w-3.5 h-3.5 text-blue-400" />
+              <Eye className="w-3.5 h-3.5 text-blue-300" />
               <span className="font-bold">1. Photo</span>
             </div>
-            <span className="text-[10px] text-slate-400 font-normal">Original Leaf</span>
+            <span className="text-[10px] opacity-80 font-normal">Original Leaf</span>
           </button>
 
           <button
             onClick={() => setActiveStage('clahe')}
             className={`flex flex-col items-center justify-center p-2 rounded-lg text-xs font-semibold transition-all ${
               activeStage === 'clahe'
-                ? 'bg-slate-800 text-white border border-slate-700 shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#064e3b] text-white shadow-md ring-1 ring-amber-400'
+                : 'text-slate-600 hover:text-emerald-950'
             }`}
           >
             <div className="flex items-center space-x-1">
-              <Sliders className="w-3.5 h-3.5 text-amber-400" />
+              <Sliders className="w-3.5 h-3.5 text-amber-300" />
               <span className="font-bold">2. Sharpen</span>
             </div>
-            <span className="text-[10px] text-slate-400 font-normal">Enhanced Contrast</span>
+            <span className="text-[10px] opacity-80 font-normal">Enhanced Contrast</span>
           </button>
 
           <button
             onClick={() => setActiveStage('unet')}
             className={`flex flex-col items-center justify-center p-2 rounded-lg text-xs font-semibold transition-all ${
               activeStage === 'unet'
-                ? 'bg-slate-800 text-white border border-slate-700 shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#064e3b] text-white shadow-md ring-1 ring-amber-400'
+                : 'text-slate-600 hover:text-emerald-950'
             }`}
           >
             <div className="flex items-center space-x-1">
-              <Layers className="w-3.5 h-3.5 text-emerald-400" />
+              <Layers className="w-3.5 h-3.5 text-emerald-300" />
               <span className="font-bold">3. Spot Mask</span>
             </div>
-            <span className="text-[10px] text-slate-400 font-normal">Highlight Spots</span>
+            <span className="text-[10px] opacity-80 font-normal">Highlight Spots</span>
           </button>
 
           <button
             onClick={() => setActiveStage('classification')}
             className={`flex flex-col items-center justify-center p-2 rounded-lg text-xs font-semibold transition-all ${
               activeStage === 'classification'
-                ? 'bg-slate-800 text-white border border-slate-700 shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#064e3b] text-white shadow-md ring-1 ring-amber-400'
+                : 'text-slate-600 hover:text-emerald-950'
             }`}
           >
             <div className="flex items-center space-x-1">
-              <Cpu className="w-3.5 h-3.5 text-purple-400" />
+              <Cpu className="w-3.5 h-3.5 text-purple-300" />
               <span className="font-bold">4. AI Matcher</span>
             </div>
-            <span className="text-[10px] text-slate-400 font-normal">Compare Diseases</span>
+            <span className="text-[10px] opacity-80 font-normal">Compare Diseases</span>
           </button>
 
           <button
             onClick={() => setActiveStage('gradcam')}
             className={`flex flex-col items-center justify-center p-2 rounded-lg text-xs font-semibold transition-all ${
               activeStage === 'gradcam'
-                ? 'bg-slate-800 text-white border border-slate-700 shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#064e3b] text-white shadow-md ring-1 ring-amber-400'
+                : 'text-slate-600 hover:text-emerald-950'
             }`}
           >
             <div className="flex items-center space-x-1">
-              <Activity className="w-3.5 h-3.5 text-rose-400" />
+              <Activity className="w-3.5 h-3.5 text-rose-300" />
               <span className="font-bold">5. Heatmap</span>
             </div>
-            <span className="text-[10px] text-slate-400 font-normal">AI Focus Map</span>
+            <span className="text-[10px] opacity-80 font-normal">AI Focus Map</span>
           </button>
         </div>
       </div>
@@ -280,41 +280,41 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({ rawImageUri, ana
         <div className="lg:col-span-5 space-y-4">
           
           {activeStage === 'raw' && (
-            <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
-              <h4 className="text-sm font-bold text-white flex items-center space-x-2">
-                <Eye className="w-4 h-4 text-blue-400" />
+            <div className="bg-emerald-50/30 border border-emerald-900/10 rounded-2xl p-5 space-y-3">
+              <h4 className="text-sm font-extrabold text-emerald-950 flex items-center space-x-2">
+                <Eye className="w-4 h-4 text-blue-600" />
                 <span>Stage 1: Raw Smartphone Input</span>
               </h4>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-xs text-slate-700 leading-relaxed">
                 Captures leaf geometry, lighting balance, and shadow artifacts directly from the mobile sensor. Performs RGB normalization before deep feature extraction.
               </p>
-              <div className="space-y-2 pt-2 border-t border-slate-800 text-xs">
-                <div className="flex justify-between text-slate-400">
+              <div className="space-y-2 pt-2 border-t border-emerald-900/10 text-xs">
+                <div className="flex justify-between text-slate-600">
                   <span>Crop Detected:</span>
-                  <span className="text-emerald-400 font-bold">{analysis.crop}</span>
+                  <span className="text-emerald-900 font-extrabold">{analysis.crop}</span>
                 </div>
-                <div className="flex justify-between text-slate-400">
+                <div className="flex justify-between text-slate-600">
                   <span>Target Leaf Status:</span>
-                  <span className="text-white font-medium">Valid Canopy Leaf</span>
+                  <span className="text-emerald-950 font-bold">Valid Canopy Leaf</span>
                 </div>
               </div>
             </div>
           )}
 
           {activeStage === 'clahe' && (
-            <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
-              <h4 className="text-sm font-bold text-white flex items-center space-x-2">
-                <Sliders className="w-4 h-4 text-amber-400" />
+            <div className="bg-emerald-50/30 border border-emerald-900/10 rounded-2xl p-5 space-y-3">
+              <h4 className="text-sm font-extrabold text-emerald-950 flex items-center space-x-2">
+                <Sliders className="w-4 h-4 text-amber-600" />
                 <span>Stage 2: CLAHE Contrast Enhancement</span>
               </h4>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-xs text-slate-700 leading-relaxed">
                 Contrast Limited Adaptive Histogram Equalization transforms low-contrast smartphone images, accentuating subtle lesion margins and fungal spores without over-amplifying background noise.
               </p>
 
-              <div className="space-y-2 pt-2 border-t border-slate-800">
-                <div className="flex justify-between text-xs text-slate-300">
-                  <span>Clip Limit (Tile Threshold):</span>
-                  <span className="font-bold text-amber-400">{clipLimit}</span>
+              <div className="space-y-2 pt-2 border-t border-emerald-900/10">
+                <div className="flex justify-between text-xs text-slate-800">
+                  <span className="font-semibold">Clip Limit (Tile Threshold):</span>
+                  <span className="font-extrabold text-amber-700">{clipLimit}</span>
                 </div>
                 <input
                   type="range"
@@ -323,19 +323,19 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({ rawImageUri, ana
                   step="0.5"
                   value={clipLimit}
                   onChange={(e) => setClipLimit(parseFloat(e.target.value))}
-                  className="w-full accent-amber-500 h-1.5 rounded bg-slate-800 cursor-pointer"
+                  className="w-full accent-amber-600 h-1.5 rounded bg-slate-200 cursor-pointer"
                 />
               </div>
 
               {/* Histogram Mini Chart */}
-              <div className="p-3 bg-slate-900 rounded-lg border border-slate-800 text-xs space-y-2">
-                <span className="text-[11px] text-slate-400 font-semibold block">Luminance Entropy Distribution:</span>
+              <div className="p-3 bg-white rounded-xl border border-emerald-900/10 text-xs space-y-2 shadow-xs">
+                <span className="text-[11px] text-slate-600 font-bold block">Luminance Entropy Distribution:</span>
                 <div className="h-12 flex items-end space-x-0.5 overflow-hidden">
                   {claheHist.slice(0, 64).map((v, i) => (
                     <div
                       key={i}
                       style={{ height: `${Math.min(100, (v / (Math.max(...claheHist) || 1)) * 100)}%` }}
-                      className="flex-1 bg-amber-500/80 rounded-t-[1px]"
+                      className="flex-1 bg-amber-500 rounded-t-[1px]"
                     ></div>
                   ))}
                 </div>
@@ -344,30 +344,30 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({ rawImageUri, ana
           )}
 
           {activeStage === 'unet' && (
-            <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
-              <h4 className="text-sm font-bold text-white flex items-center space-x-2">
-                <Layers className="w-4 h-4 text-emerald-400" />
+            <div className="bg-emerald-50/30 border border-emerald-900/10 rounded-2xl p-5 space-y-3">
+              <h4 className="text-sm font-extrabold text-emerald-950 flex items-center space-x-2">
+                <Layers className="w-4 h-4 text-emerald-700" />
                 <span>Stage 3: UNet Semantic Segmentation</span>
               </h4>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-xs text-slate-700 leading-relaxed">
                 Employs encoder-decoder UNet convolution layers to segment diseased leaf regions pixel-by-pixel, quantifying total leaf surface area infected.
               </p>
 
               <div className="grid grid-cols-2 gap-2 pt-2">
-                <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-center">
-                  <span className="text-[10px] text-slate-400 font-medium block">Infected Area %</span>
-                  <span className="text-base font-extrabold text-rose-400">{infectedPercent}%</span>
+                <div className="p-3 rounded-xl bg-white border border-emerald-900/10 text-center shadow-xs">
+                  <span className="text-[10px] text-slate-500 font-bold block">Infected Area %</span>
+                  <span className="text-lg font-extrabold text-rose-600">{infectedPercent}%</span>
                 </div>
-                <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-center">
-                  <span className="text-[10px] text-slate-400 font-medium block">Isolated Lesion Clusters</span>
-                  <span className="text-base font-extrabold text-amber-400">{lesionCount}</span>
+                <div className="p-3 rounded-xl bg-white border border-emerald-900/10 text-center shadow-xs">
+                  <span className="text-[10px] text-slate-500 font-bold block">Isolated Lesion Clusters</span>
+                  <span className="text-lg font-extrabold text-amber-700">{lesionCount}</span>
                 </div>
               </div>
 
-              <div className="space-y-1.5 pt-2 border-t border-slate-800">
-                <div className="flex justify-between text-xs text-slate-300">
-                  <span>Mask Opacity:</span>
-                  <span className="font-bold text-emerald-400">{Math.round(unetOpacity * 100)}%</span>
+              <div className="space-y-1.5 pt-2 border-t border-emerald-900/10">
+                <div className="flex justify-between text-xs text-slate-800">
+                  <span className="font-semibold">Mask Opacity:</span>
+                  <span className="font-extrabold text-emerald-800">{Math.round(unetOpacity * 100)}%</span>
                 </div>
                 <input
                   type="range"
@@ -376,93 +376,93 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({ rawImageUri, ana
                   step="0.05"
                   value={unetOpacity}
                   onChange={(e) => setUnetOpacity(parseFloat(e.target.value))}
-                  className="w-full accent-emerald-500 h-1.5 rounded bg-slate-800 cursor-pointer"
+                  className="w-full accent-emerald-700 h-1.5 rounded bg-slate-200 cursor-pointer"
                 />
               </div>
             </div>
           )}
 
           {activeStage === 'classification' && (
-            <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
-              <h4 className="text-sm font-bold text-white flex items-center space-x-2">
-                <Cpu className="w-4 h-4 text-purple-400" />
+            <div className="bg-emerald-50/30 border border-emerald-900/10 rounded-2xl p-5 space-y-3">
+              <h4 className="text-sm font-extrabold text-emerald-950 flex items-center space-x-2">
+                <Cpu className="w-4 h-4 text-amber-600" />
                 <span>Stage 4: Hybrid Model Classification</span>
               </h4>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-xs text-slate-700 leading-relaxed">
                 Fuses deep feature maps from ResNet50 (residual spatial representation) and EfficientNet B3 (compound scaled depth) for robust disease prediction.
               </p>
 
               {/* Dual Model Bar Meters */}
-              <div className="space-y-3 pt-2 border-t border-slate-800">
+              <div className="space-y-3 pt-2 border-t border-emerald-900/10">
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs">
-                    <span className="text-slate-300 font-medium">ResNet50 Classifier:</span>
-                    <span className="text-purple-400 font-bold">{analysis.ensembleScores?.resnet50Confidence || 96.2}%</span>
+                    <span className="text-slate-700 font-semibold">ResNet50 Classifier:</span>
+                    <span className="text-emerald-900 font-extrabold">{analysis.ensembleScores?.resnet50Confidence || 96.2}%</span>
                   </div>
-                  <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
+                  <div className="h-2 rounded-full bg-slate-200 overflow-hidden">
                     <div
                       style={{ width: `${analysis.ensembleScores?.resnet50Confidence || 96.2}%` }}
-                      className="h-full bg-purple-500 rounded-full"
+                      className="h-full bg-[#064e3b] rounded-full"
                     ></div>
                   </div>
                 </div>
 
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs">
-                    <span className="text-slate-300 font-medium">EfficientNet B3 Classifier:</span>
-                    <span className="text-cyan-400 font-bold">{analysis.ensembleScores?.efficientNetB3Confidence || 97.8}%</span>
+                    <span className="text-slate-700 font-semibold">EfficientNet B3 Classifier:</span>
+                    <span className="text-amber-800 font-extrabold">{analysis.ensembleScores?.efficientNetB3Confidence || 97.8}%</span>
                   </div>
-                  <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
+                  <div className="h-2 rounded-full bg-slate-200 overflow-hidden">
                     <div
                       style={{ width: `${analysis.ensembleScores?.efficientNetB3Confidence || 97.8}%` }}
-                      className="h-full bg-cyan-400 rounded-full"
+                      className="h-full bg-amber-500 rounded-full"
                     ></div>
                   </div>
                 </div>
 
-                <div className="p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-500/30 flex justify-between items-center text-xs">
-                  <span className="font-semibold text-emerald-300">Weighted Hybrid Ensemble:</span>
-                  <span className="font-extrabold text-emerald-400 text-sm">{analysis.ensembleScores?.hybridScore || 99.4}%</span>
+                <div className="p-3 rounded-xl bg-amber-50 border border-amber-300 flex justify-between items-center text-xs">
+                  <span className="font-bold text-amber-950">Weighted Hybrid Ensemble:</span>
+                  <span className="font-extrabold text-amber-800 text-sm">{analysis.ensembleScores?.hybridScore || 99.4}%</span>
                 </div>
 
                 {/* Accuracy Metrics Summary Grid */}
                 <div className="grid grid-cols-2 gap-2 pt-1">
-                  <div className="bg-slate-900 p-2 rounded-lg border border-slate-800 text-center">
-                    <span className="text-[10px] text-slate-400 block font-medium">Top-1 Accuracy</span>
-                    <span className="text-sm font-extrabold text-emerald-400">
+                  <div className="bg-white p-2.5 rounded-xl border border-emerald-900/10 text-center shadow-xs">
+                    <span className="text-[10px] text-slate-500 block font-bold">Top-1 Accuracy</span>
+                    <span className="text-sm font-extrabold text-emerald-900">
                       {analysis.accuracyMetrics?.top1Accuracy || 99.4}%
                     </span>
                   </div>
-                  <div className="bg-slate-900 p-2 rounded-lg border border-slate-800 text-center">
-                    <span className="text-[10px] text-slate-400 block font-medium">Macro F1-Score</span>
-                    <span className="text-sm font-extrabold text-amber-400">
+                  <div className="bg-white p-2.5 rounded-xl border border-emerald-900/10 text-center shadow-xs">
+                    <span className="text-[10px] text-slate-500 block font-bold">Macro F1-Score</span>
+                    <span className="text-sm font-extrabold text-amber-700">
                       {analysis.accuracyMetrics?.macroF1Score || 99.3}%
                     </span>
                   </div>
-                  <div className="bg-slate-900 p-2 rounded-lg border border-slate-800 text-center">
-                    <span className="text-[10px] text-slate-400 block font-medium">Macro Precision (PPV)</span>
-                    <span className="text-sm font-extrabold text-cyan-400">
+                  <div className="bg-white p-2.5 rounded-xl border border-emerald-900/10 text-center shadow-xs">
+                    <span className="text-[10px] text-slate-500 block font-bold">Macro Precision (PPV)</span>
+                    <span className="text-sm font-extrabold text-emerald-800">
                       {analysis.accuracyMetrics?.macroPrecision || 97.9}%
                     </span>
                   </div>
-                  <div className="bg-slate-900 p-2 rounded-lg border border-slate-800 text-center">
-                    <span className="text-[10px] text-slate-400 block font-medium">Test Benchmark</span>
-                    <span className="text-sm font-extrabold text-purple-400">
+                  <div className="bg-white p-2.5 rounded-xl border border-emerald-900/10 text-center shadow-xs">
+                    <span className="text-[10px] text-slate-500 block font-bold">Test Benchmark</span>
+                    <span className="text-sm font-extrabold text-amber-600">
                       {analysis.accuracyMetrics?.datasetValidationBenchmark || 99.4}%
                     </span>
                   </div>
                 </div>
 
                 {/* Ensemble Advantage Callout */}
-                <div className="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1">
+                <div className="p-3 rounded-xl bg-white border border-emerald-900/10 space-y-1 shadow-xs">
                   <div className="flex items-center justify-between text-[11px]">
-                    <span className="font-bold text-white">Ensemble Advantage:</span>
-                    <span className="font-mono text-emerald-400 font-bold">
+                    <span className="font-bold text-emerald-950">Ensemble Advantage:</span>
+                    <span className="font-mono text-amber-700 font-extrabold">
                       +{(analysis.accuracyMetrics?.modelComparison?.accuracyGainOverResNet || 4.4)}% vs Single ResNet
                     </span>
                   </div>
-                  <p className="text-[10px] text-slate-400 leading-tight">
-                    Fusing SE-ResNet-50, ResNeSt-50, and DenseNet-121 achieves <strong className="text-emerald-300">{analysis.accuracyMetrics?.modelComparison?.errorReductionPercentage || 61.1}%</strong> error reduction with 64.2% lower prediction variance across varying field lighting.
+                  <p className="text-[10px] text-slate-600 leading-tight">
+                    Fusing SE-ResNet-50, ResNeSt-50, and DenseNet-121 achieves <strong className="text-emerald-900">{analysis.accuracyMetrics?.modelComparison?.errorReductionPercentage || 61.1}%</strong> error reduction with 64.2% lower prediction variance across varying field lighting.
                   </p>
                 </div>
               </div>
@@ -470,29 +470,29 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({ rawImageUri, ana
           )}
 
           {activeStage === 'gradcam' && (
-            <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
-              <h4 className="text-sm font-bold text-white flex items-center space-x-2">
-                <Activity className="w-4 h-4 text-rose-400" />
+            <div className="bg-emerald-50/30 border border-emerald-900/10 rounded-2xl p-5 space-y-3">
+              <h4 className="text-sm font-extrabold text-emerald-950 flex items-center space-x-2">
+                <Activity className="w-4 h-4 text-rose-600" />
                 <span>Stage 5: Grad-CAM Explainable AI Visualizer</span>
               </h4>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-xs text-slate-700 leading-relaxed">
                 Gradient-weighted Class Activation Mapping computes backpropagated gradients to project heatmap activations onto the leaf, confirming prediction focus.
               </p>
 
-              <div className="space-y-2 pt-2 border-t border-slate-800">
-                <div className="flex justify-between text-xs text-slate-300">
-                  <span>Colormap Palette:</span>
-                  <span className="font-bold text-rose-400 uppercase">{colormapMode}</span>
+              <div className="space-y-2 pt-2 border-t border-emerald-900/10">
+                <div className="flex justify-between text-xs text-slate-800">
+                  <span className="font-semibold">Colormap Palette:</span>
+                  <span className="font-extrabold text-rose-600 uppercase">{colormapMode}</span>
                 </div>
                 <div className="grid grid-cols-4 gap-1.5">
                   {(['jet', 'viridis', 'inferno', 'turbo'] as ColormapMode[]).map((mode) => (
                     <button
                       key={mode}
                       onClick={() => setColormapMode(mode)}
-                      className={`py-1 rounded text-[11px] font-semibold uppercase border transition-all ${
+                      className={`py-1.5 rounded-lg text-[11px] font-bold uppercase border transition-all ${
                         colormapMode === mode
-                          ? 'bg-rose-500 text-slate-950 border-rose-400 font-bold'
-                          : 'bg-slate-800 text-slate-400 border-slate-700 hover:text-slate-200'
+                          ? 'bg-[#064e3b] text-white border-amber-400 font-extrabold shadow-sm'
+                          : 'bg-white text-slate-600 border-slate-200 hover:text-emerald-950'
                       }`}
                     >
                       {mode}
@@ -502,9 +502,9 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({ rawImageUri, ana
               </div>
 
               <div className="space-y-1.5 pt-2">
-                <div className="flex justify-between text-xs text-slate-300">
-                  <span>Heatmap Opacity:</span>
-                  <span className="font-bold text-rose-400">{Math.round(heatmapOpacity * 100)}%</span>
+                <div className="flex justify-between text-xs text-slate-800">
+                  <span className="font-semibold">Heatmap Opacity:</span>
+                  <span className="font-extrabold text-rose-600">{Math.round(heatmapOpacity * 100)}%</span>
                 </div>
                 <input
                   type="range"
@@ -513,7 +513,7 @@ export const PipelineViewer: React.FC<PipelineViewerProps> = ({ rawImageUri, ana
                   step="0.05"
                   value={heatmapOpacity}
                   onChange={(e) => setHeatmapOpacity(parseFloat(e.target.value))}
-                  className="w-full accent-rose-500 h-1.5 rounded bg-slate-800 cursor-pointer"
+                  className="w-full accent-rose-600 h-1.5 rounded bg-slate-200 cursor-pointer"
                 />
               </div>
             </div>

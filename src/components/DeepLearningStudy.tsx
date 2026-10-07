@@ -651,18 +651,18 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
     <div className="space-y-8 animate-fadeIn">
       
       {/* Header Banner */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="bg-gradient-to-br from-[#064e3b] via-[#043e2f] to-[#022c22] border-2 border-amber-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden text-white">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-400/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-3 max-w-3xl">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
-              <Brain className="w-4 h-4" />
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400/40 text-amber-300 text-xs font-bold">
+              <Brain className="w-4 h-4 text-amber-400" />
               <span>Deep Learning Pattern Study &amp; Feature Weight Extraction</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
               Foliar Disease Pattern Learning Studio
             </h1>
-            <p className="text-sm text-slate-300 leading-relaxed">
+            <p className="text-sm text-emerald-100 leading-relaxed">
               Before scanning field leaves, this deep learning engine systematically studies dataset morphology, aspect ratios, chromatic halo signatures, and spatial locations. It enforces strict mathematical rules to eliminate inaccuracies like confusing <strong>Rice Sheath Blight streaks</strong> with <strong>Brown Spots</strong>.
             </p>
           </div>
@@ -673,13 +673,13 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
               disabled={isTraining}
               className={`px-6 py-3.5 rounded-2xl font-bold text-sm flex items-center justify-center space-x-2.5 transition-all shadow-xl ${
                 isTraining
-                  ? 'bg-slate-800 text-slate-400 cursor-not-allowed border border-slate-700'
-                  : 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-emerald-900/40 active:scale-95'
+                  ? 'bg-white/10 text-emerald-200 cursor-not-allowed border border-white/20'
+                  : 'bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-emerald-950 active:scale-95'
               }`}
             >
               {isTraining ? (
                 <>
-                  <RefreshCw className="w-4 h-4 animate-spin text-emerald-400" />
+                  <RefreshCw className="w-4 h-4 animate-spin text-amber-300" />
                   <span>Studying Dataset Patterns ({Math.round(trainingProgress)}%)...</span>
                 </>
               ) : (
@@ -692,64 +692,64 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
 
             <button
               onClick={onApplyToScanner}
-              className="px-6 py-3 rounded-2xl font-semibold text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center justify-center space-x-2 transition-all"
+              className="px-6 py-3 rounded-2xl font-semibold text-xs bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center space-x-2 transition-all shadow-sm"
             >
-              <Zap className="w-4 h-4 text-emerald-400" />
+              <Zap className="w-4 h-4 text-amber-400" />
               <span>Open Scanner with Learned Weights</span>
             </button>
           </div>
         </div>
 
         {/* Live Training Progress & Metrics Bar */}
-        <div className="mt-8 pt-6 border-t border-slate-800/80 grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-4">
-            <div className="text-xs text-slate-400 flex items-center justify-between">
+        <div className="mt-8 pt-6 border-t border-emerald-800/80 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-xl p-4">
+            <div className="text-xs text-emerald-200 flex items-center justify-between">
               <span>Deep Learning Status</span>
               <span className={`w-2 h-2 rounded-full ${isTraining ? 'bg-amber-400 animate-ping' : 'bg-emerald-400'}`}></span>
             </div>
             <div className="text-lg font-extrabold text-white mt-1">
               {isTraining ? `Epoch ${currentEpoch}/10` : 'Model Calibrated'}
             </div>
-            <div className="text-[11px] text-emerald-400 truncate mt-0.5">
+            <div className="text-[11px] text-amber-300 truncate mt-0.5">
               {isTraining ? 'Optimizing weights...' : '100% Patterns Studied'}
             </div>
           </div>
 
-          <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-4">
-            <div className="text-xs text-slate-400 flex items-center justify-between">
+          <div className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-xl p-4">
+            <div className="text-xs text-emerald-200 flex items-center justify-between">
               <span>Validation Accuracy</span>
-              <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
+              <TrendingUp className="w-3.5 h-3.5 text-amber-300" />
             </div>
-            <div className="text-lg font-extrabold text-emerald-400 mt-1">
+            <div className="text-lg font-extrabold text-amber-300 mt-1">
               {currentAccuracy.toFixed(1)}%
             </div>
-            <div className="text-[11px] text-slate-400 mt-0.5">
+            <div className="text-[11px] text-emerald-200 mt-0.5">
               Macro Precision: 98.9%
             </div>
           </div>
 
-          <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-4">
-            <div className="text-xs text-slate-400 flex items-center justify-between">
+          <div className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-xl p-4">
+            <div className="text-xs text-emerald-200 flex items-center justify-between">
               <span>Categorical Loss</span>
-              <TrendingDown className="w-3.5 h-3.5 text-blue-400" />
+              <TrendingDown className="w-3.5 h-3.5 text-cyan-300" />
             </div>
-            <div className="text-lg font-extrabold text-blue-400 mt-1">
+            <div className="text-lg font-extrabold text-cyan-300 mt-1">
               {currentLoss.toFixed(4)}
             </div>
-            <div className="text-[11px] text-slate-400 mt-0.5">
+            <div className="text-[11px] text-emerald-200 mt-0.5">
               Entropy Loss Minimization
             </div>
           </div>
 
-          <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-4">
-            <div className="text-xs text-slate-400 flex items-center justify-between">
+          <div className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-xl p-4">
+            <div className="text-xs text-emerald-200 flex items-center justify-between">
               <span>Streak vs Spot Error</span>
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-300" />
             </div>
-            <div className="text-lg font-extrabold text-emerald-400 mt-1">
+            <div className="text-lg font-extrabold text-emerald-300 mt-1">
               {streakSpotDisambiguationError.toFixed(2)}%
             </div>
-            <div className="text-[11px] text-emerald-300 mt-0.5">
+            <div className="text-[11px] text-emerald-200 mt-0.5">
               Zero Confusion Guarantee
             </div>
           </div>
@@ -758,13 +758,13 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
         {/* Progress Bar */}
         {isTraining && (
           <div className="mt-4 space-y-2">
-            <div className="flex items-center justify-between text-xs text-slate-300">
-              <span className="font-semibold text-emerald-400">{activeStepDescription}</span>
+            <div className="flex items-center justify-between text-xs text-emerald-100">
+              <span className="font-semibold text-amber-300">{activeStepDescription}</span>
               <span className="font-mono">{Math.round(trainingProgress)}%</span>
             </div>
-            <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+            <div className="w-full h-2 bg-black/30 rounded-full overflow-hidden border border-white/20">
               <div
-                className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-300"
+                className="h-full bg-gradient-to-r from-amber-400 to-amber-500 transition-all duration-300"
                 style={{ width: `${trainingProgress}%` }}
               ></div>
             </div>
@@ -777,12 +777,12 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
         
         {/* Left 4 Cols: Class List & Pattern Summary */}
         <div className="lg:col-span-4 space-y-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <div className="bg-white border border-emerald-900/10 rounded-2xl p-5 shadow-sm text-slate-800">
             <div className="flex items-center space-x-2 mb-3">
-              <Layers className="w-4 h-4 text-emerald-400" />
-              <h3 className="text-sm font-bold text-white">Studied Disease Classes ({LEARNED_PATTERNS_KNOWLEDGE.length})</h3>
+              <Layers className="w-4 h-4 text-emerald-700" />
+              <h3 className="text-sm font-bold text-emerald-950">Studied Disease Classes ({LEARNED_PATTERNS_KNOWLEDGE.length})</h3>
             </div>
-            <p className="text-xs text-slate-400 mb-4">
+            <p className="text-xs text-slate-500 mb-4">
               Select any foliar disease to inspect the exact morphological vectors, aspect ratios, and rules learned by the deep learning model:
             </p>
 
@@ -795,11 +795,11 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
                     onClick={() => setSelectedPatternId(item.id)}
                     className={`w-full text-left p-3 rounded-xl border transition-all flex items-center space-x-3 ${
                       isSelected
-                        ? 'bg-emerald-950/70 border-emerald-500 shadow-md ring-1 ring-emerald-500/50'
-                        : 'bg-slate-950/60 border-slate-800 hover:bg-slate-800/80 hover:border-slate-700'
+                        ? 'bg-emerald-50 border-emerald-600 shadow-sm ring-1 ring-emerald-500'
+                        : 'bg-slate-50/80 border-slate-200 hover:bg-emerald-50/40 hover:border-emerald-300'
                     }`}
                   >
-                    <div className="w-11 h-11 rounded-lg bg-slate-900 overflow-hidden border border-slate-700 flex-shrink-0 relative">
+                    <div className="w-11 h-11 rounded-lg bg-white overflow-hidden border border-slate-200 flex-shrink-0 relative shadow-inner">
                       <img
                         src={item.sampleImg}
                         alt={item.className}
@@ -808,20 +808,20 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center space-x-1.5">
-                        <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-slate-800 text-slate-300">
+                        <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-900 border border-emerald-200">
                           {item.crop}
                         </span>
-                        <span className="text-[10px] text-emerald-400 font-semibold truncate">
+                        <span className="text-[10px] text-emerald-700 font-semibold truncate">
                           {item.lesionType}
                         </span>
                       </div>
-                      <h4 className="text-xs font-bold text-white truncate mt-0.5">
+                      <h4 className="text-xs font-bold text-slate-900 truncate mt-0.5">
                         {item.className}
                       </h4>
                     </div>
                     <ChevronRight
                       className={`w-4 h-4 flex-shrink-0 transition-transform ${
-                        isSelected ? 'text-emerald-400 translate-x-1' : 'text-slate-600'
+                        isSelected ? 'text-emerald-700 translate-x-1' : 'text-slate-400'
                       }`}
                     />
                   </button>
@@ -831,14 +831,14 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
           </div>
 
           {/* Quick Learning Logs */}
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3">
-            <div className="flex items-center space-x-2 text-xs font-bold text-slate-300">
-              <Activity className="w-4 h-4 text-emerald-400" />
+          <div className="bg-white border border-emerald-900/10 rounded-2xl p-5 shadow-sm space-y-3 text-slate-800">
+            <div className="flex items-center space-x-2 text-xs font-bold text-emerald-950">
+              <Activity className="w-4 h-4 text-emerald-700" />
               <span>Real-Time Learning Logs</span>
             </div>
-            <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3 space-y-1.5 font-mono text-[10px] text-slate-300 max-h-40 overflow-y-auto">
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-1.5 font-mono text-[10px] text-slate-700 max-h-40 overflow-y-auto">
               {trainingLogs.map((log, idx) => (
-                <div key={idx} className="leading-tight py-0.5 border-b border-slate-900 last:border-none">
+                <div key={idx} className="leading-tight py-0.5 border-b border-slate-200/60 last:border-none">
                   {log}
                 </div>
               ))}
@@ -850,12 +850,12 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
         <div className="lg:col-span-8 space-y-6">
           
           {/* Selected Disease Learned Profile Card */}
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-7 shadow-xl space-y-6">
+          <div className="bg-white border border-emerald-900/10 rounded-3xl p-6 sm:p-7 shadow-sm text-slate-800 space-y-6">
             
             {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-800">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-emerald-900/10">
               <div className="flex items-center space-x-4">
-                <div className="w-16 h-16 rounded-2xl bg-slate-950 border border-slate-700 overflow-hidden flex-shrink-0 shadow-lg">
+                <div className="w-16 h-16 rounded-2xl bg-emerald-50/50 border border-emerald-200 overflow-hidden flex-shrink-0 shadow-sm">
                   <img
                     src={selectedPattern.sampleImg}
                     alt={selectedPattern.className}
@@ -864,49 +864,49 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
                 </div>
                 <div>
                   <div className="flex items-center space-x-2">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-900 border border-emerald-200">
                       {selectedPattern.crop} Foliage
                     </span>
-                    <span className="text-xs text-slate-400 italic">
+                    <span className="text-xs text-slate-500 italic">
                       {selectedPattern.pathogen}
                     </span>
                   </div>
-                  <h2 className="text-xl font-extrabold text-white mt-1">
+                  <h2 className="text-xl font-extrabold text-emerald-950 mt-1">
                     {selectedPattern.className}
                   </h2>
                 </div>
               </div>
 
-              <div className="bg-slate-950 border border-slate-800 px-3.5 py-2 rounded-xl text-right">
-                <div className="text-[10px] uppercase font-bold text-slate-400">Class Identifier</div>
-                <div className="text-xs font-mono font-bold text-emerald-400">#{selectedPattern.id}</div>
+              <div className="bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-xl text-right">
+                <div className="text-[10px] uppercase font-bold text-slate-500">Class Identifier</div>
+                <div className="text-xs font-mono font-bold text-emerald-800">#{selectedPattern.id}</div>
               </div>
             </div>
 
             {/* Core Morphological & Mathematical Descriptors */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               
-              <div className="bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-1.5">
-                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">1. Lesion Morphology &amp; Shape</span>
-                <p className="text-sm font-bold text-white flex items-center space-x-1.5">
+              <div className="bg-slate-50 border border-slate-200 p-4 rounded-2xl space-y-1.5">
+                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">1. Lesion Morphology &amp; Shape</span>
+                <p className="text-sm font-bold text-slate-900 flex items-center space-x-1.5">
                   <span>{selectedPattern.lesionType}</span>
                 </p>
-                <p className="text-xs text-slate-400">
-                  Aspect Ratio: <strong className="text-slate-200">{selectedPattern.aspectRatio}</strong>
+                <p className="text-xs text-slate-600">
+                  Aspect Ratio: <strong className="text-slate-900">{selectedPattern.aspectRatio}</strong>
                 </p>
                 <div className="pt-2 flex items-center justify-between text-xs">
-                  <span className="text-slate-400">Circularity Index:</span>
-                  <span className="font-mono font-bold text-emerald-400">{selectedPattern.circularityScore}</span>
+                  <span className="text-slate-500">Circularity Index:</span>
+                  <span className="font-mono font-bold text-emerald-700">{selectedPattern.circularityScore}</span>
                 </div>
               </div>
 
-              <div className="bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-1.5">
-                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">2. Chromatic &amp; Halo Signature</span>
-                <p className="text-xs text-slate-200 leading-relaxed font-semibold">
+              <div className="bg-slate-50 border border-slate-200 p-4 rounded-2xl space-y-1.5">
+                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">2. Chromatic &amp; Halo Signature</span>
+                <p className="text-xs text-slate-800 leading-relaxed font-semibold">
                   {selectedPattern.haloColorDelta}
                 </p>
-                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block pt-2">Spatial Distribution:</span>
-                <p className="text-xs text-slate-300">
+                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block pt-2">Spatial Distribution:</span>
+                <p className="text-xs text-slate-600">
                   {selectedPattern.primaryLocation}
                 </p>
               </div>
@@ -914,74 +914,74 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
             </div>
 
             {/* Negative Constraint Rule learned by model */}
-            <div className="bg-rose-950/30 border border-rose-500/30 rounded-2xl p-4 space-y-1.5">
-              <div className="flex items-center space-x-2 text-rose-400 text-xs font-bold">
-                <ShieldCheck className="w-4 h-4" />
+            <div className="bg-rose-50 border border-rose-200 rounded-2xl p-4 space-y-1.5">
+              <div className="flex items-center space-x-2 text-rose-800 text-xs font-bold">
+                <ShieldCheck className="w-4 h-4 text-rose-600" />
                 <span>Learned Negative Constraint (Anti-Misclassification Rule):</span>
               </div>
-              <p className="text-xs text-rose-200/90 leading-relaxed">
+              <p className="text-xs text-rose-900 leading-relaxed font-medium">
                 {selectedPattern.negativeRule}
               </p>
             </div>
 
             {/* Neural Weight Profile Sliders */}
-            <div className="bg-slate-950/80 border border-slate-800 p-5 rounded-2xl space-y-3">
+            <div className="bg-slate-50 border border-slate-200 p-5 rounded-2xl space-y-3">
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2 text-xs font-bold text-white">
-                  <Sliders className="w-4 h-4 text-emerald-400" />
+                <div className="flex items-center space-x-2 text-xs font-bold text-emerald-950">
+                  <Sliders className="w-4 h-4 text-emerald-700" />
                   <span>Deep Feature Extraction Weights</span>
                 </div>
-                <span className="text-[11px] text-emerald-400 font-mono">Calibrated (Epoch 10)</span>
+                <span className="text-[11px] text-emerald-800 font-mono font-semibold">Calibrated (Epoch 10)</span>
               </div>
 
               <div className="space-y-2.5 text-xs">
                 <div>
-                  <div className="flex justify-between text-slate-300 mb-1">
+                  <div className="flex justify-between text-slate-700 mb-1">
                     <span>Morphological Geometry (SE-ResNet-50 / UNet Contour)</span>
-                    <span className="font-mono font-bold text-white">{(selectedPattern.learnedWeights.morphologyWeight * 100).toFixed(0)}%</span>
+                    <span className="font-mono font-bold text-slate-900">{(selectedPattern.learnedWeights.morphologyWeight * 100).toFixed(0)}%</span>
                   </div>
-                  <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden">
+                  <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-emerald-500"
+                      className="h-full bg-emerald-600"
                       style={{ width: `${selectedPattern.learnedWeights.morphologyWeight * 100}%` }}
                     ></div>
                   </div>
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-slate-300 mb-1">
+                  <div className="flex justify-between text-slate-700 mb-1">
                     <span>Chromatic &amp; Spore Color Filter (CLAHE Lab Space)</span>
-                    <span className="font-mono font-bold text-white">{(selectedPattern.learnedWeights.chromaticWeight * 100).toFixed(0)}%</span>
+                    <span className="font-mono font-bold text-slate-900">{(selectedPattern.learnedWeights.chromaticWeight * 100).toFixed(0)}%</span>
                   </div>
-                  <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden">
+                  <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-teal-500"
+                      className="h-full bg-teal-600"
                       style={{ width: `${selectedPattern.learnedWeights.chromaticWeight * 100}%` }}
                     ></div>
                   </div>
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-slate-300 mb-1">
+                  <div className="flex justify-between text-slate-700 mb-1">
                     <span>Chlorotic Halo Sensitivity (Halo Ring Extractor)</span>
-                    <span className="font-mono font-bold text-white">{(selectedPattern.learnedWeights.haloWeight * 100).toFixed(0)}%</span>
+                    <span className="font-mono font-bold text-slate-900">{(selectedPattern.learnedWeights.haloWeight * 100).toFixed(0)}%</span>
                   </div>
-                  <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden">
+                  <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-amber-400"
+                      className="h-full bg-amber-500"
                       style={{ width: `${selectedPattern.learnedWeights.haloWeight * 100}%` }}
                     ></div>
                   </div>
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-slate-300 mb-1">
+                  <div className="flex justify-between text-slate-700 mb-1">
                     <span>Spatial &amp; Anatomical Positioning (Lamina vs. Margin vs. Sheath)</span>
-                    <span className="font-mono font-bold text-white">{(selectedPattern.learnedWeights.spatialWeight * 100).toFixed(0)}%</span>
+                    <span className="font-mono font-bold text-slate-900">{(selectedPattern.learnedWeights.spatialWeight * 100).toFixed(0)}%</span>
                   </div>
-                  <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden">
+                  <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-indigo-500"
+                      className="h-full bg-indigo-600"
                       style={{ width: `${selectedPattern.learnedWeights.spatialWeight * 100}%` }}
                     ></div>
                   </div>
@@ -990,19 +990,19 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
             </div>
 
             {/* Bottom Disambiguation Matrix Callout */}
-            <div className="bg-emerald-950/40 border border-emerald-500/40 p-4 rounded-2xl flex items-center justify-between gap-4">
+            <div className="bg-emerald-50/70 border border-emerald-200 p-4 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="space-y-1">
-                <div className="text-xs font-bold text-emerald-300 flex items-center space-x-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <div className="text-xs font-bold text-emerald-900 flex items-center space-x-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-700" />
                   <span>Ground Truth Disambiguation Rule:</span>
                 </div>
-                <p className="text-xs font-bold text-white">
+                <p className="text-xs font-bold text-emerald-950">
                   {selectedPattern.disambiguationKey}
                 </p>
               </div>
               <button
                 onClick={onApplyToScanner}
-                className="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs rounded-xl shadow-md transition-all flex-shrink-0"
+                className="px-4 py-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-emerald-950 font-bold text-xs rounded-xl shadow-sm transition-all flex-shrink-0"
               >
                 Scan with this Model
               </button>
@@ -1011,31 +1011,31 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
           </div>
 
           {/* 🌿 FRONTIERS IN PLANT SCIENCE RESEARCH METHODOLOGY & RESOLUTION OF LIMITATIONS */}
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-7 shadow-xl space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+          <div className="bg-white border border-emerald-900/10 rounded-3xl p-6 sm:p-7 shadow-sm text-slate-800 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-emerald-900/10">
               <div className="flex items-center space-x-3">
-                <div className="p-3 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                  <BookOpen className="w-6 h-6 text-emerald-400" />
+                <div className="p-3 rounded-2xl bg-emerald-50 text-emerald-800 border border-emerald-200">
+                  <BookOpen className="w-6 h-6 text-emerald-700" />
                 </div>
                 <div>
                   <div className="flex items-center space-x-2">
-                    <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-200">
                       Frontiers in Plant Science (DOI: 10.3389/fpls.2021.701038)
                     </span>
-                    <span className="text-xs text-slate-400 font-mono">Peer-Reviewed Methodology</span>
+                    <span className="text-xs text-slate-500 font-mono">Peer-Reviewed Methodology</span>
                   </div>
-                  <h3 className="text-lg font-extrabold text-white mt-1">
+                  <h3 className="text-lg font-extrabold text-emerald-950 mt-1">
                     How This Research Solves Inaccuracies &amp; Diagnostic Limitations
                   </h3>
                 </div>
               </div>
               <div className="text-right">
-                <span className="text-[11px] text-slate-400 block font-mono">Ensemble Matthews Corr (MCC)</span>
-                <span className="text-lg font-black text-emerald-400 font-mono">0.942 (Optimal)</span>
+                <span className="text-[11px] text-slate-500 block font-mono">Ensemble Matthews Corr (MCC)</span>
+                <span className="text-lg font-black text-emerald-800 font-mono">0.942 (Optimal)</span>
               </div>
             </div>
 
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 leading-relaxed">
               Standard deep learning models frequently fail in open paddy fields because individual CNN backbones cannot simultaneously handle fine pinpoint lesions and massive continuous streaks. Below is how our implementation directly applies the <strong>Frontiers in Plant Science</strong> tri-model ensemble and attention calibration to resolve every diagnostic bottleneck:
             </p>
 
@@ -1043,82 +1043,82 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               
               {/* Pillar 1: Tri-Model Architecture */}
-              <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4 space-y-2">
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-purple-300 flex items-center space-x-1.5">
-                    <Cpu className="w-4 h-4 text-purple-400" />
+                  <span className="text-xs font-bold text-purple-900 flex items-center space-x-1.5">
+                    <Cpu className="w-4 h-4 text-purple-700" />
                     <span>1. Tri-Model Feature Ensemble</span>
                   </span>
-                  <span className="text-[10px] bg-purple-950 text-purple-300 px-1.5 py-0.5 rounded font-mono border border-purple-800/40">
+                  <span className="text-[10px] bg-purple-50 text-purple-800 px-1.5 py-0.5 rounded font-mono border border-purple-200">
                     DenseNet + SE-ResNet + ResNeSt
                   </span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-slate-600 leading-relaxed">
                   Fuses <strong>DenseNet-121</strong> (dense feature reuse prevents vanishing gradients), <strong>SE-ResNet-50</strong> (squeezes spatial maps to recalibrate channel weights), and <strong>ResNeSt-50</strong> (split-attention radix over feature groups) to eliminate single-model bias.
                 </p>
-                <div className="pt-1 flex justify-between text-[11px] font-mono text-slate-400 border-t border-slate-900">
-                  <span>Ensemble Accuracy: <strong className="text-emerald-400">99.4%</strong></span>
-                  <span>Gain: <strong className="text-emerald-400">+3.8%</strong></span>
+                <div className="pt-1 flex justify-between text-[11px] font-mono text-slate-500 border-t border-slate-200/80">
+                  <span>Ensemble Accuracy: <strong className="text-emerald-800">99.4%</strong></span>
+                  <span>Gain: <strong className="text-emerald-800">+3.8%</strong></span>
                 </div>
               </div>
 
               {/* Pillar 2: Inter-Class Disambiguation */}
-              <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4 space-y-2">
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-amber-300 flex items-center space-x-1.5">
-                    <Target className="w-4 h-4 text-amber-400" />
+                  <span className="text-xs font-bold text-amber-900 flex items-center space-x-1.5">
+                    <Target className="w-4 h-4 text-amber-600" />
                     <span>2. Sheath Blight vs Brown Spot Disambiguation</span>
                   </span>
-                  <span className="text-[10px] bg-amber-950 text-amber-300 px-1.5 py-0.5 rounded font-mono border border-amber-800/40">
+                  <span className="text-[10px] bg-amber-50 text-amber-800 px-1.5 py-0.5 rounded font-mono border border-amber-300">
                     0.00% Error
                   </span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-slate-600 leading-relaxed">
                   Solves the severe inter-class visual similarity limitation by applying a strict geometric aspect ratio ($3.8:1$ for Sheath Blight streaks vs $1.1:1$ for Brown Spot dots) and a chlorotic halo chromatic detector ($\Delta E = 28.4$).
                 </p>
-                <div className="pt-1 flex justify-between text-[11px] font-mono text-slate-400 border-t border-slate-900">
-                  <span>Sheath Blight Aspect: <strong className="text-slate-200">3.8:1</strong></span>
-                  <span>Spot Circularity: <strong className="text-slate-200">0.91</strong></span>
+                <div className="pt-1 flex justify-between text-[11px] font-mono text-slate-500 border-t border-slate-200/80">
+                  <span>Sheath Blight Aspect: <strong className="text-slate-800">3.8:1</strong></span>
+                  <span>Spot Circularity: <strong className="text-slate-800">0.91</strong></span>
                 </div>
               </div>
 
               {/* Pillar 3: Multi-Scale Receptive Fields */}
-              <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4 space-y-2">
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-cyan-300 flex items-center space-x-1.5">
-                    <Sliders className="w-4 h-4 text-cyan-400" />
+                  <span className="text-xs font-bold text-cyan-900 flex items-center space-x-1.5">
+                    <Sliders className="w-4 h-4 text-cyan-600" />
                     <span>3. Multi-Scale Receptive Fields</span>
                   </span>
-                  <span className="text-[10px] bg-cyan-950 text-cyan-300 px-1.5 py-0.5 rounded font-mono border border-cyan-800/40">
+                  <span className="text-[10px] bg-cyan-50 text-cyan-800 px-1.5 py-0.5 rounded font-mono border border-cyan-200">
                     Radix Split-Attention
                   </span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-slate-600 leading-relaxed">
                   Resolves the multi-scale lesion size limitation. ResNeSt-50's radix attention captures micro-lesions (1-5 mm pinhead brown spots) and macro-lesions (&gt;30 mm sheath blight bands) within cross-channel attention splits.
                 </p>
-                <div className="pt-1 flex justify-between text-[11px] font-mono text-slate-400 border-t border-slate-900">
-                  <span>Radix Attention Weight: <strong className="text-cyan-400">0.965</strong></span>
-                  <span>Micro IoU: <strong className="text-cyan-400">91.8%</strong></span>
+                <div className="pt-1 flex justify-between text-[11px] font-mono text-slate-500 border-t border-slate-200/80">
+                  <span>Radix Attention Weight: <strong className="text-cyan-800">0.965</strong></span>
+                  <span>Micro IoU: <strong className="text-cyan-800">91.8%</strong></span>
                 </div>
               </div>
 
               {/* Pillar 4: Illumination & Glare Invariance */}
-              <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4 space-y-2">
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-emerald-300 flex items-center space-x-1.5">
-                    <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  <span className="text-xs font-bold text-emerald-900 flex items-center space-x-1.5">
+                    <ShieldCheck className="w-4 h-4 text-emerald-700" />
                     <span>4. Natural Field Illumination Resilience</span>
                   </span>
-                  <span className="text-[10px] bg-emerald-950 text-emerald-300 px-1.5 py-0.5 rounded font-mono border border-emerald-800/40">
+                  <span className="text-[10px] bg-emerald-50 text-emerald-800 px-1.5 py-0.5 rounded font-mono border border-emerald-200">
                     CLAHE + SE-Net
                   </span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-slate-600 leading-relaxed">
                   Outdoor sunshine glare, paddy water reflections, and leaf shadows are neutralized before inference using Contrast-Limited Adaptive Histogram Equalization (CLAHE) coupled with SE-ResNet channel recalibration.
                 </p>
-                <div className="pt-1 flex justify-between text-[11px] font-mono text-slate-400 border-t border-slate-900">
-                  <span>Noise Suppression: <strong className="text-emerald-400">98.5%</strong></span>
-                  <span>Shadow Invariance: <strong className="text-emerald-400">Optimal</strong></span>
+                <div className="pt-1 flex justify-between text-[11px] font-mono text-slate-500 border-t border-slate-200/80">
+                  <span>Noise Suppression: <strong className="text-emerald-800">98.5%</strong></span>
+                  <span>Shadow Invariance: <strong className="text-emerald-800">Optimal</strong></span>
                 </div>
               </div>
 
@@ -1126,61 +1126,61 @@ export const DeepLearningStudy: React.FC<DeepLearningStudyProps> = ({ onApplyToS
           </div>
 
           {/* Critical Comparison Matrix: Sheath Blight vs. Brown Spot */}
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+          <div className="bg-white border border-emerald-900/10 rounded-3xl p-6 shadow-sm text-slate-800 space-y-4">
             <div className="flex items-center space-x-2">
-              <Target className="w-5 h-5 text-emerald-400" />
-              <h3 className="text-base font-bold text-white">
+              <Target className="w-5 h-5 text-emerald-700" />
+              <h3 className="text-base font-bold text-emerald-950">
                 Core Focus: Sheath Blight Streaks vs. Brown Spot Freckles
               </h3>
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-500">
               Direct side-by-side comparison of the learned neural parameters that prevent misclassification:
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Sheath Blight */}
-              <div className="bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-2">
+              <div className="bg-emerald-50/40 border border-emerald-200/80 p-4 rounded-2xl space-y-2">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-sm font-extrabold text-emerald-400">🌾 Rice Sheath Blight</h4>
-                  <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">
+                  <h4 className="text-sm font-extrabold text-emerald-900">🌾 Rice Sheath Blight</h4>
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 border border-emerald-300 font-bold">
                     Streaks &amp; Bands
                   </span>
                 </div>
-                <ul className="text-xs text-slate-300 space-y-1.5 pt-1">
+                <ul className="text-xs text-slate-700 space-y-1.5 pt-1">
                   <li className="flex items-start space-x-1.5">
-                    <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <Check className="w-3.5 h-3.5 text-emerald-700 flex-shrink-0 mt-0.5" />
                     <span><strong>Continuous vertical streaks &amp; banded patches</strong> along leaf sheath &amp; stem.</span>
                   </li>
                   <li className="flex items-start space-x-1.5">
-                    <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <Check className="w-3.5 h-3.5 text-emerald-700 flex-shrink-0 mt-0.5" />
                     <span>Bleached straw-white center with <strong>chocolate-brown wavy edge band</strong>.</span>
                   </li>
                   <li className="flex items-start space-x-1.5">
-                    <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <Check className="w-3.5 h-3.5 text-emerald-700 flex-shrink-0 mt-0.5" />
                     <span><strong>High aspect ratio (3.8:1)</strong>; never individual round sesame dots.</span>
                   </li>
                 </ul>
               </div>
 
               {/* Brown Spot */}
-              <div className="bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-2">
+              <div className="bg-amber-50/40 border border-amber-200/80 p-4 rounded-2xl space-y-2">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-sm font-extrabold text-amber-400">🌾 Rice Brown Spot</h4>
-                  <span className="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800">
+                  <h4 className="text-sm font-extrabold text-amber-900">🌾 Rice Brown Spot</h4>
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300 font-bold">
                     Discrete Round Dots
                   </span>
                 </div>
-                <ul className="text-xs text-slate-300 space-y-1.5 pt-1">
+                <ul className="text-xs text-slate-700 space-y-1.5 pt-1">
                   <li className="flex items-start space-x-1.5">
-                    <Check className="w-3.5 h-3.5 text-amber-400 flex-shrink-0 mt-0.5" />
+                    <Check className="w-3.5 h-3.5 text-amber-600 flex-shrink-0 mt-0.5" />
                     <span><strong>Multiple small, isolated circular-to-oval spots</strong> (1-5mm) scattered across blade.</span>
                   </li>
                   <li className="flex items-start space-x-1.5">
-                    <Check className="w-3.5 h-3.5 text-amber-400 flex-shrink-0 mt-0.5" />
+                    <Check className="w-3.5 h-3.5 text-amber-600 flex-shrink-0 mt-0.5" />
                     <span>Framed by a <strong>prominent bright yellow circular chlorotic halo</strong>.</span>
                   </li>
                   <li className="flex items-start space-x-1.5">
-                    <Check className="w-3.5 h-3.5 text-amber-400 flex-shrink-0 mt-0.5" />
+                    <Check className="w-3.5 h-3.5 text-amber-600 flex-shrink-0 mt-0.5" />
                     <span><strong>High circularity (0.91)</strong>; never forms continuous vertical streaks.</span>
                   </li>
                 </ul>

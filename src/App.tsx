@@ -187,7 +187,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#f8faf8] text-slate-800 flex flex-col font-sans">
       
       {/* Top Navbar */}
       <Navbar
@@ -223,10 +223,10 @@ export default function App() {
 
             {/* Loading Spinner */}
             {isAnalyzing && (
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 text-center space-y-4 shadow-2xl animate-pulse">
-                <Loader2 className="w-10 h-10 text-emerald-400 animate-spin mx-auto" />
-                <h3 className="text-lg font-bold text-white">Applying Deep-Learned Diagnostic Pipeline...</h3>
-                <p className="text-xs text-slate-400 max-w-md mx-auto">
+              <div className="bg-white border-2 border-emerald-900/10 rounded-2xl p-8 text-center space-y-4 shadow-xl animate-pulse">
+                <Loader2 className="w-10 h-10 text-amber-500 animate-spin mx-auto" />
+                <h3 className="text-lg font-bold text-emerald-950">Applying Deep-Learned Diagnostic Pipeline...</h3>
+                <p className="text-xs text-slate-600 max-w-md mx-auto">
                   Applying CLAHE histogram enhancement → UNet semantic segmentation mask → ResNet50 & EfficientNet B3 classification with calibrated streak vs spot weights → Grad-CAM attention heatmap...
                 </p>
               </div>
@@ -234,8 +234,8 @@ export default function App() {
 
             {/* Error Message */}
             {analysisError && (
-              <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center space-x-2">
-                <AlertCircle className="w-4 h-4 text-rose-400 flex-shrink-0" />
+              <div className="p-4 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 text-xs flex items-center space-x-2">
+                <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0" />
                 <span>{analysisError}</span>
               </div>
             )}
@@ -295,23 +295,23 @@ export default function App() {
       />
 
       {/* App Footer */}
-      <footer className="bg-slate-900 border-t border-slate-800 py-6 mt-12 text-xs text-slate-500">
+      <footer className="bg-[#064e3b] border-t-2 border-amber-500/40 py-6 mt-12 text-xs text-emerald-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-2">
-            <Sprout className="w-4 h-4 text-emerald-500" />
-            <span className="font-semibold text-slate-400" translate="no">PAL<span className="text-emerald-500">A-I</span>S</span>
-            <span>— Rice & Corn Foliar Disease Deep Learning Diagnostic Platform</span>
+            <Sprout className="w-4 h-4 text-amber-400" />
+            <span className="font-semibold text-white" translate="no">PAL<span className="text-amber-400">A-I</span>S</span>
+            <span className="text-emerald-100/90">— Rice & Corn Foliar Disease Deep Learning Diagnostic Platform</span>
           </div>
 
-          <div className="flex items-center space-x-4 text-slate-400">
+          <div className="flex items-center space-x-4 text-emerald-200">
             <span>CLAHE</span>
-            <span>•</span>
+            <span className="text-amber-400">•</span>
             <span>UNet</span>
-            <span>•</span>
+            <span className="text-amber-400">•</span>
             <span>ResNet50</span>
-            <span>•</span>
+            <span className="text-amber-400">•</span>
             <span>EfficientNet B3</span>
-            <span>•</span>
+            <span className="text-amber-400">•</span>
             <span>Grad-CAM</span>
           </div>
         </div>
