@@ -131,6 +131,18 @@ export interface AnalysisResult {
   laymanSummary?: string;
   simpleActionPlan?: string[];
   farmerTip?: string;
+  datasetGroundTruth?: {
+    connected: boolean;
+    datasetName: string;
+    rootFolderId: string;
+    rootFolderUrl: string;
+    classFolderId?: string;
+    classFolderUrl?: string;
+    folderName?: string;
+    verifiedClassMatch?: boolean;
+    driveFileId?: string;
+    sampleName?: string;
+  };
 }
 
 export interface SampleDatasetItem {

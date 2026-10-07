@@ -78,6 +78,7 @@ export default function App() {
     try {
       // 3. Compress image to fit payload limits (<300KB)
       const compressedImage = await compressImageDataUrl(imageDataUrl, 1024, 1024, 0.82);
+      const driveFileId = imageDataUrl?.match(/id=([a-zA-Z0-9_-]+)/)?.[1];
 
       let serverResultData = null;
 
@@ -85,7 +86,7 @@ export default function App() {
         const response = await fetch('/api/analyze', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: compressedImage, crop }),
+          body: JSON.stringify({ image: compressedImage, crop, driveFileId }),
         });
 
         if (response.ok) {

@@ -4,12 +4,12 @@ export async function compressImageDataUrl(
   maxHeight = 1024,
   quality = 0.82
 ): Promise<string> {
-  if (!dataUrl || !dataUrl.startsWith('data:image')) {
+  if (!dataUrl) {
     return dataUrl;
   }
 
-  // If already small (< 300KB string length ~ 400k chars), don't re-compress
-  if (dataUrl.length < 400000) {
+  // If already small base64 dataUrl (< 400KB), return as is
+  if (dataUrl.startsWith('data:image') && dataUrl.length < 400000) {
     return dataUrl;
   }
 

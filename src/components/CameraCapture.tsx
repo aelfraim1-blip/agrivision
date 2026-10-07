@@ -1,7 +1,8 @@
 import { useLanguage } from '../contexts/LanguageContext';
 import React, { useRef, useState, useEffect } from 'react';
-import { Camera, SwitchCamera, Upload, Sparkles, AlertCircle, Brain, CheckCircle2, ShieldCheck, Zap, ArrowRight, Layers } from 'lucide-react';
+import { Camera, SwitchCamera, Upload, Sparkles, AlertCircle, Brain, CheckCircle2, ShieldCheck, Zap, ArrowRight, Layers, Database, Play } from 'lucide-react';
 import { CropType } from '../types';
+import { DRIVE_CLASSES, getDriveImageUrl } from '../data/driveDataset';
 
 interface CameraCaptureProps {
   onCapture: (imageDataUrl: string, selectedCrop: CropType) => void;
@@ -263,10 +264,36 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({ onCapture, selecte
                 </button>
               </div>
 
+              {/* Quick Test Specimens from Connected Google Drive Dataset */}
+              <div className="pt-2 border-t border-emerald-900/10 space-y-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-slate-700 flex items-center space-x-1.5">
+                    <Database className="w-3.5 h-3.5 text-emerald-800" />
+                    <span>Or Test Real Specimen from Google Drive Dataset:</span>
+                  </span>
+                  <span className="text-[10px] text-emerald-800 font-semibold">Data Sets_PALA-IS</span>
+                </div>
+
+                <div className="flex flex-wrap gap-1.5 justify-center">
+                  {DRIVE_CLASSES.filter((c) => c.crop === selectedCrop && c.sampleImages.length > 0)
+                    .slice(0, 4)
+                    .map((c) => (
+                      <button
+                        key={c.folderId}
+                        onClick={() => onCapture(getDriveImageUrl(c.sampleImages[0].id), selectedCrop)}
+                        className="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100/80 border border-emerald-200 text-emerald-950 text-[11px] font-semibold flex items-center space-x-1 transition-colors"
+                      >
+                        <Play className="w-2.5 h-2.5 fill-current text-amber-600" />
+                        <span>{c.className.replace(/^[0-9]\.\s*/, '')}</span>
+                      </button>
+                    ))}
+                </div>
+              </div>
+
               <input
                 ref={fileInputRef}
                 type="file"
-                accept="image"
+                accept="image/*"
                 onChange={handleFileUpload}
                 className="hidden"
               />
