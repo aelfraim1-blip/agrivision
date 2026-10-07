@@ -12,7 +12,7 @@ export const Chatbot: React.FC = () => {
   const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: t('Hello! I am PALA-IS. How can I help you with crop diseases today?') }
+    { role: 'assistant', content: t('Hello! I am AI-RIZE. How can I help you with crop diseases today?') }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -87,7 +87,7 @@ export const Chatbot: React.FC = () => {
               <Bot className="w-5 h-5 text-amber-300" />
             </div>
             <div>
-              <h3 className="font-extrabold text-white text-sm">PALA-IS</h3>
+              <h3 className="font-extrabold text-white text-sm">AI-RIZE</h3>
               <p className="text-xs text-emerald-100/90">{t('Crop Health Assistant')}</p>
             </div>
           </div>

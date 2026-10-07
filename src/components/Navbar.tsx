@@ -24,7 +24,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, savedLo
               </div>
               <div className="min-w-0">
                 <div className="flex items-center space-x-2">
-                  <span className="font-extrabold text-lg text-white tracking-tight whitespace-nowrap" translate="no">PAL<span className="text-amber-400">A-I</span>S</span>
+                  <span className="font-extrabold text-lg text-white tracking-tight whitespace-nowrap" translate="no">AI-<span className="text-amber-400">RIZE</span></span>
                   <div className="hidden lg:flex items-center flex-shrink-0 space-x-1.5 text-[10px] font-mono py-1 px-2.5 bg-[#033427] border border-amber-400/40 rounded-full text-amber-300 shadow-inner">
                     <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-amber-400 animate-pulse"></span>
                     <span className="whitespace-nowrap font-bold">DEEP LEARNING CALIBRATED • V2.4</span>

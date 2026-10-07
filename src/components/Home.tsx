@@ -32,7 +32,7 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white tracking-tight leading-tight"
           >
-            PAL<span className="text-amber-400">A-I</span>S
+            AI-<span className="text-amber-400">RIZE</span>
           </motion.h1>
 
           <motion.p
@@ -134,7 +134,7 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
               {t('From Raw Leaf to Confirmed Diagnosis.')}
             </h2>
             <p className="text-slate-600 leading-relaxed max-w-lg">
-              The PALA-IS architecture doesn't just classify—it pre-processes. CLAHE stabilizes lighting in field conditions, while U-Net semantic segmentation isolates chlorotic regions before the tri-model ensemble casts its vote.
+              The AI-RIZE architecture doesn't just classify—it pre-processes. CLAHE stabilizes lighting in field conditions, while U-Net semantic segmentation isolates chlorotic regions before the tri-model ensemble casts its vote.
             </p>
             <button
               onClick={() => setActiveTab('results')}

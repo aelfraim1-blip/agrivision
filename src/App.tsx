@@ -299,7 +299,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-2">
             <Sprout className="w-4 h-4 text-amber-400" />
-            <span className="font-semibold text-white" translate="no">PAL<span className="text-amber-400">A-I</span>S</span>
+            <span className="font-semibold text-white" translate="no">AI-<span className="text-amber-400">RIZE</span></span>
             <span className="text-emerald-100/90">— Rice & Corn Foliar Disease Deep Learning Diagnostic Platform</span>
           </div>
 
