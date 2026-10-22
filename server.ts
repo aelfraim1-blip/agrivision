@@ -1015,15 +1015,15 @@ app.post('/api/chat', async (req, res) => {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    let prompt = `You are an expert agricultural AI assistant named AgriVision AI. You help farmers and researchers identify and manage crop diseases (specifically corn and rice).\n\n`;
+    let prompt = `You are an expert agricultural AI assistant named RIZ-A MAE. You help farmers, researchers, and field technicians identify, diagnose, and manage foliar crop diseases (specifically corn and rice) grounded in the Data Sets_PALA-IS training dataset.\n\n`;
     if (history.length > 0) {
       prompt += `Previous conversation:\n`;
       for (const msg of history) {
-        prompt += `${msg.role === 'user' ? 'User' : 'AgriVision'}: ${msg.content}\n`;
+        prompt += `${msg.role === 'user' ? 'User' : 'RIZ-A MAE'}: ${msg.content}\n`;
       }
       prompt += `\n`;
     }
-    prompt += `User: ${message}\nAgriVision:`;
+    prompt += `User: ${message}\nRIZ-A MAE:`;
 
     const response = await ai.models.generateContent({
       model: 'gemini-3.6-flash',

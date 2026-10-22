@@ -1,6 +1,6 @@
 import { useLanguage } from '../contexts/LanguageContext';
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, X, Send, Bot, User, Loader2 } from 'lucide-react';
+import { X, Send, User, Loader2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 interface Message {
@@ -12,7 +12,7 @@ export const Chatbot: React.FC = () => {
   const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: t('Hello! I am AI-RIZE. How can I help you with crop diseases today?') }
+    { role: 'assistant', content: t('Hello! I am RIZ-A MAE. How can I help you with crop diseases today?') }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -68,9 +68,19 @@ export const Chatbot: React.FC = () => {
       {/* Floating Action Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 p-4 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 shadow-2xl hover:from-amber-300 hover:to-amber-400 transition-all z-50 ${isOpen ? 'scale-0' : 'scale-100'} ring-4 ring-amber-400/40`}
+        className={`fixed bottom-6 right-6 p-1 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 shadow-2xl hover:scale-105 transition-all z-50 ${isOpen ? 'scale-0' : 'scale-100'} ring-4 ring-amber-400/50 flex items-center justify-center group`}
+        aria-label="Chat with RIZ-A MAE"
       >
-        <MessageSquare className="w-6 h-6 text-emerald-950" />
+        <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-[#064e3b] bg-white flex items-center justify-center">
+          <img
+            src="/assets/aistudio/image_cd93a2e8.png"
+            alt="RIZ-A MAE"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+          />
+        </div>
+        <span className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center shadow">
+          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+        </span>
       </button>
 
       {/* Chat Window */}
@@ -81,19 +91,28 @@ export const Chatbot: React.FC = () => {
         style={{ height: '600px', maxHeight: 'calc(100vh - 3rem)' }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b-2 border-amber-500/40 bg-[#064e3b] text-white">
-          <div className="flex items-center space-x-2">
-            <div className="p-2 bg-amber-400/20 rounded-xl border border-amber-400/40">
-              <Bot className="w-5 h-5 text-amber-300" />
+        <div className="flex items-center justify-between p-3.5 border-b-2 border-amber-500/40 bg-[#064e3b] text-white">
+          <div className="flex items-center space-x-3">
+            <div className="relative">
+              <img
+                src="/assets/aistudio/image_cd93a2e8.png"
+                alt="RIZ-A MAE"
+                className="w-10 h-10 rounded-full object-cover border-2 border-amber-400 shadow-md bg-white"
+              />
+              <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-400 border-2 border-[#064e3b]" />
             </div>
             <div>
-              <h3 className="font-extrabold text-white text-sm">AI-RIZE</h3>
+              <h3 className="font-extrabold text-white text-sm flex items-center gap-1.5">
+                <span>RIZ-A MAE</span>
+                <span className="text-[10px] bg-amber-400/20 text-amber-300 border border-amber-400/30 font-mono px-1.5 py-0.5 rounded-full font-bold">AI</span>
+              </h3>
               <p className="text-xs text-emerald-100/90">{t('Crop Health Assistant')}</p>
             </div>
           </div>
           <button
             onClick={() => setIsOpen(false)}
             className="p-1.5 text-emerald-100 hover:text-white transition-colors rounded-lg hover:bg-emerald-800"
+            aria-label="Close chat"
           >
             <X className="w-5 h-5" />
           </button>
@@ -107,11 +126,19 @@ export const Chatbot: React.FC = () => {
               className={`flex items-start space-x-3 ${msg.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}
             >
               <div
-                className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${
-                  msg.role === 'user' ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950' : 'bg-[#064e3b] text-amber-300'
+                className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs overflow-hidden ${
+                  msg.role === 'user' ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950' : 'border border-amber-400/40 bg-white shadow-xs'
                 }`}
               >
-                {msg.role === 'user' ? <User className="w-4 h-4 text-emerald-950" /> : <Bot className="w-4 h-4 text-amber-300" />}
+                {msg.role === 'user' ? (
+                  <User className="w-4 h-4 text-emerald-950" />
+                ) : (
+                  <img
+                    src="/assets/aistudio/image_cd93a2e8.png"
+                    alt="RIZ-A MAE"
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </div>
               <div
                 className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-xs ${
@@ -138,8 +165,12 @@ export const Chatbot: React.FC = () => {
           ))}
           {isLoading && (
             <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#064e3b] flex items-center justify-center">
-                <Bot className="w-4 h-4 text-amber-300" />
+              <div className="flex-shrink-0 w-8 h-8 rounded-full border border-amber-400/40 bg-white shadow-xs overflow-hidden">
+                <img
+                  src="/assets/aistudio/image_cd93a2e8.png"
+                  alt="RIZ-A MAE"
+                  className="w-full h-full object-cover animate-pulse"
+                />
               </div>
               <div className="bg-white border border-emerald-900/10 rounded-2xl rounded-tl-sm px-4 py-3 shadow-xs">
                 <Loader2 className="w-4 h-4 text-amber-500 animate-spin" />
