@@ -310,6 +310,39 @@ export const DiagnosticReport: React.FC<DiagnosticReportProps> = ({
         </div>
       </div>
 
+      {/* Verified Google Drive Reference Specimens Comparison Strip */}
+      {analysis.datasetGroundTruth?.sampleImages && analysis.datasetGroundTruth.sampleImages.length > 0 && (
+        <div className="bg-slate-50 border border-emerald-900/10 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div className="flex items-center space-x-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="font-bold text-emerald-950">
+              Verified Ground Truth Specimens from Drive (<span className="text-amber-800">{analysis.datasetGroundTruth.folderName}</span>):
+            </span>
+          </div>
+          <div className="flex items-center gap-2 overflow-x-auto pb-0.5">
+            {analysis.datasetGroundTruth.sampleImages.slice(0, 4).map((img: any) => (
+              <a
+                key={img.id}
+                href={`https://drive.google.com/file/d/${img.id}/view`}
+                target="_blank"
+                rel="noreferrer"
+                className="group flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-[11px] font-medium text-slate-700 hover:border-emerald-500 hover:text-emerald-950 transition-all shadow-xs flex-shrink-0"
+                title={`Open "${img.name}" in Google Drive`}
+              >
+                <img
+                  src={`/api/drive-image?id=${img.id}`}
+                  alt={img.name}
+                  className="w-5 h-5 rounded object-cover border border-slate-200"
+                  loading="lazy"
+                />
+                <span className="truncate max-w-[110px]">{img.name}</span>
+                <ExternalLink className="w-2.5 h-2.5 text-slate-400 group-hover:text-amber-600" />
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Simplified Metrics Row with Layman Tooltips */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         

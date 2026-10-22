@@ -142,6 +142,7 @@ export interface AnalysisResult {
     verifiedClassMatch?: boolean;
     driveFileId?: string;
     sampleName?: string;
+    sampleImages?: Array<{ id: string; name: string }>;
   };
 }
 

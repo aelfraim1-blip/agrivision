@@ -3,9 +3,16 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Camera, SwitchCamera, Upload, Sparkles, AlertCircle, Brain, CheckCircle2, ShieldCheck, Zap, ArrowRight, Layers, Database, Play } from 'lucide-react';
 import { CropType } from '../types';
 import { DRIVE_CLASSES, getDriveImageUrl } from '../data/driveDataset';
+import { GROUND_TRUTH_CLASSES, GOOGLE_DRIVE_DATASET_CONFIG } from '../data/datasetMatcher';
 
 interface CameraCaptureProps {
-  onCapture: (imageDataUrl: string, selectedCrop: CropType) => void;
+  onCapture: (
+    imageDataUrl: string,
+    selectedCrop: CropType,
+    fileName?: string,
+    driveFileId?: string,
+    knownClass?: string
+  ) => void;
   selectedCrop: CropType;
   setSelectedCrop: (crop: CropType) => void;
   isAnalyzing: boolean;
@@ -96,7 +103,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({ onCapture, selecte
       const reader = new FileReader();
       reader.onload = (event) => {
         if (event.target?.result) {
-          onCapture(event.target.result as string, selectedCrop);
+          onCapture(event.target.result as string, selectedCrop, file.name);
         }
       };
       reader.readAsDataURL(file);
@@ -122,7 +129,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({ onCapture, selecte
       const reader = new FileReader();
       reader.onload = (event) => {
         if (event.target?.result) {
-          onCapture(event.target.result as string, selectedCrop);
+          onCapture(event.target.result as string, selectedCrop, file.name);
         }
       };
       reader.readAsDataURL(file);
@@ -264,29 +271,48 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({ onCapture, selecte
                 </button>
               </div>
 
-              {/* Quick Test Specimens from Connected Google Drive Dataset */}
-              <div className="pt-2 border-t border-emerald-900/10 space-y-2">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-slate-700 flex items-center space-x-1.5">
+              {/* Quick Test Specimens from Connected Google Drive Dataset (23 Classes) */}
+              <div className="pt-3 border-t border-emerald-900/10 space-y-2.5 w-full text-left">
+                <div className="flex items-center justify-between text-xs px-1">
+                  <span className="font-bold text-slate-800 flex items-center space-x-1.5">
                     <Database className="w-3.5 h-3.5 text-emerald-800" />
-                    <span>Or Test Real Specimen from Google Drive Dataset:</span>
+                    <span>Quick-Test Verified {selectedCrop} Classes (Google Drive):</span>
                   </span>
-                  <span className="text-[10px] text-emerald-800 font-semibold">Data Sets_PALA-IS</span>
+                  <a
+                    href={selectedCrop === 'Rice' ? GOOGLE_DRIVE_DATASET_CONFIG.riceDriveUrl : GOOGLE_DRIVE_DATASET_CONFIG.cornDriveUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[10px] text-emerald-800 hover:text-emerald-950 font-bold underline flex items-center space-x-1"
+                  >
+                    <span>Open in Drive ↗</span>
+                  </a>
                 </div>
 
-                <div className="flex flex-wrap gap-1.5 justify-center">
-                  {DRIVE_CLASSES.filter((c) => c.crop === selectedCrop && c.sampleImages.length > 0)
-                    .slice(0, 4)
-                    .map((c) => (
+                <div className="flex flex-wrap gap-1.5 justify-center max-h-36 overflow-y-auto p-1 bg-slate-50 rounded-xl border border-slate-200">
+                  {GROUND_TRUTH_CLASSES.filter((c) => c.crop === selectedCrop).map((c) => {
+                    const sampleImg = c.sampleImages[0];
+                    const testUrl = sampleImg ? getDriveImageUrl(sampleImg.id) : `/api/drive-image?id=${c.folderId}`;
+                    return (
                       <button
-                        key={c.folderId}
-                        onClick={() => onCapture(getDriveImageUrl(c.sampleImages[0].id), selectedCrop)}
-                        className="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100/80 border border-emerald-200 text-emerald-950 text-[11px] font-semibold flex items-center space-x-1 transition-colors"
+                        key={c.id}
+                        type="button"
+                        onClick={() =>
+                          onCapture(
+                            testUrl,
+                            selectedCrop,
+                            sampleImg?.name || `${c.driveFolderName}.jpg`,
+                            sampleImg?.id,
+                            c.diseaseName
+                          )
+                        }
+                        className="px-2.5 py-1.5 rounded-lg bg-white hover:bg-emerald-50 border border-slate-200 hover:border-emerald-400 text-slate-800 hover:text-emerald-950 text-[11px] font-semibold flex items-center space-x-1.5 transition-all shadow-xs active:scale-95"
+                        title={`Folder: ${c.driveFolderName} (Folder ID: ${c.folderId})`}
                       >
-                        <Play className="w-2.5 h-2.5 fill-current text-amber-600" />
-                        <span>{c.className.replace(/^[0-9]\.\s*/, '')}</span>
+                        <Play className="w-2.5 h-2.5 fill-current text-amber-500 flex-shrink-0" />
+                        <span className="truncate max-w-[130px]">{c.diseaseName.replace(/^(Rice|Corn)\s+/, '')}</span>
                       </button>
-                    ))}
+                    );
+                  })}
                 </div>
               </div>
 

@@ -58,14 +58,22 @@ export default function App() {
   }, [activeTab]);
 
   // Handle image capture / analysis execution
-  const handleCaptureAndAnalyze = async (imageDataUrl: string, crop: CropType) => {
+  const handleCaptureAndAnalyze = async (
+    imageDataUrl: string,
+    crop: CropType,
+    fileName?: string,
+    driveFileId?: string,
+    knownClass?: string
+  ) => {
     setCurrentImageUri(imageDataUrl);
     setIsAnalyzing(true);
     setAnalysisError(null);
     setIsSavedCurrent(false);
 
+    const effectiveDriveFileId = driveFileId || (imageDataUrl?.includes('id=') ? imageDataUrl.match(/id=([a-zA-Z0-9_-]+)/)?.[1] : undefined);
+
     // 1. Compute unique content hash for the uploaded image
-    const imgHash = `${getImageHash(imageDataUrl)}_${crop}`;
+    const imgHash = `${getImageHash(imageDataUrl)}_${crop}_${fileName || ''}_${effectiveDriveFileId || ''}_${knownClass || ''}`;
 
     // 2. Return cached result if this exact image was analyzed before
     if (clientScanCache.has(imgHash)) {
@@ -78,7 +86,6 @@ export default function App() {
     try {
       // 3. Compress image to fit payload limits (<300KB)
       const compressedImage = await compressImageDataUrl(imageDataUrl, 1024, 1024, 0.82);
-      const driveFileId = imageDataUrl?.match(/id=([a-zA-Z0-9_-]+)/)?.[1];
 
       let serverResultData = null;
 
@@ -86,7 +93,13 @@ export default function App() {
         const response = await fetch('/api/analyze', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: compressedImage, crop, driveFileId }),
+          body: JSON.stringify({
+            image: compressedImage,
+            crop,
+            driveFileId: effectiveDriveFileId,
+            fileName,
+            knownClass,
+          }),
         });
 
         if (response.ok) {
@@ -145,7 +158,7 @@ export default function App() {
         };
       } else {
         // Fallback to deterministic client-side analysis model
-        finalResult = analyzeImageClientSide(imageDataUrl, crop);
+        finalResult = analyzeImageClientSide(imageDataUrl, crop, fileName, effectiveDriveFileId, knownClass);
       }
 
       // Save to client cache so repeated scans of the exact same image remain 100% consistent
@@ -153,7 +166,7 @@ export default function App() {
       setAnalysisResult(finalResult);
     } catch (err: any) {
       console.error('Analysis error:', err);
-      const fallbackResult = analyzeImageClientSide(imageDataUrl, crop);
+      const fallbackResult = analyzeImageClientSide(imageDataUrl, crop, fileName, effectiveDriveFileId, knownClass);
       clientScanCache.set(imgHash, fallbackResult);
       setAnalysisResult(fallbackResult);
     } finally {
@@ -184,7 +197,14 @@ export default function App() {
   const handleSelectSampleFromBrowser = (item: SampleDatasetItem) => {
     setSelectedCrop(item.crop);
     setActiveTab('scanner');
-    handleCaptureAndAnalyze(item.sampleImageUrl, item.crop);
+    const extractedFileName = item.description?.includes('"') ? item.description.split('"')[1] : undefined;
+    handleCaptureAndAnalyze(
+      item.sampleImageUrl,
+      item.crop,
+      extractedFileName,
+      item.id,
+      item.diseaseName
+    );
   };
 
   return (
